@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as SigninIndexImport } from './routes/signin/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as DashboardCreateIndexImport } from './routes/dashboard/create/index'
 import { Route as DashboardTripsTripIdImport } from './routes/dashboard/trips/$tripId'
 
 // Create Virtual Routes
@@ -38,6 +39,12 @@ const SigninIndexRoute = SigninIndexImport.update({
 const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardCreateIndexRoute = DashboardCreateIndexImport.update({
+  id: '/dashboard/create/',
+  path: '/dashboard/create/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -79,6 +86,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTripsTripIdImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/create/': {
+      id: '/dashboard/create/'
+      path: '/dashboard/create'
+      fullPath: '/dashboard/create'
+      preLoaderRoute: typeof DashboardCreateIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -89,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
+  '/dashboard/create': typeof DashboardCreateIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -96,6 +111,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
+  '/dashboard/create': typeof DashboardCreateIndexRoute
 }
 
 export interface FileRoutesById {
@@ -104,14 +120,31 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/signin/': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
+  '/dashboard/create/': typeof DashboardCreateIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/signin' | '/dashboard/trips/$tripId'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/signin'
+    | '/dashboard/trips/$tripId'
+    | '/dashboard/create'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/signin' | '/dashboard/trips/$tripId'
-  id: '__root__' | '/' | '/dashboard/' | '/signin/' | '/dashboard/trips/$tripId'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/signin'
+    | '/dashboard/trips/$tripId'
+    | '/dashboard/create'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard/'
+    | '/signin/'
+    | '/dashboard/trips/$tripId'
+    | '/dashboard/create/'
   fileRoutesById: FileRoutesById
 }
 
@@ -120,6 +153,7 @@ export interface RootRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   SigninIndexRoute: typeof SigninIndexRoute
   DashboardTripsTripIdRoute: typeof DashboardTripsTripIdRoute
+  DashboardCreateIndexRoute: typeof DashboardCreateIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -127,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   SigninIndexRoute: SigninIndexRoute,
   DashboardTripsTripIdRoute: DashboardTripsTripIdRoute,
+  DashboardCreateIndexRoute: DashboardCreateIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -142,7 +177,8 @@ export const routeTree = rootRoute
         "/",
         "/dashboard/",
         "/signin/",
-        "/dashboard/trips/$tripId"
+        "/dashboard/trips/$tripId",
+        "/dashboard/create/"
       ]
     },
     "/": {
@@ -156,6 +192,9 @@ export const routeTree = rootRoute
     },
     "/dashboard/trips/$tripId": {
       "filePath": "dashboard/trips/$tripId.tsx"
+    },
+    "/dashboard/create/": {
+      "filePath": "dashboard/create/index.tsx"
     }
   }
 }
