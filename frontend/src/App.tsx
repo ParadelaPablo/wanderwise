@@ -1,10 +1,10 @@
-
+import { Map } from "./components/map/map"
 
 function App() {
 
   return (
     <>
-      HI 
+      <Map geoLocation={{ lat: 59.3467183, lng: 18.0097756 }} isFullScreen={false} />
     </>
   )
 }
