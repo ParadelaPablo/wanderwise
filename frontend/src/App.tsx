@@ -2,7 +2,7 @@ import { Providers } from "./utils/providers";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 import './index.css'
 import { routeTree } from "./routeTree.gen";
-import Footer from "./components/footer"; 
+
 
 const router = createRouter({ routeTree });
 declare module "@tanstack/react-router" {
@@ -12,12 +12,11 @@ declare module "@tanstack/react-router" {
 }
 function App() {
   return (
-    <>
+    <div>
       <Providers>
         <RouterProvider router={router} />
-        <Footer />
       </Providers>
-    </>
+    </div>
   );
 }
 
