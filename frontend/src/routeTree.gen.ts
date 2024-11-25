@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as SigninIndexImport } from './routes/signin/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as DashboardTripsTripIdImport } from './routes/dashboard/trips/$tripId'
 
 // Create Virtual Routes
 
@@ -37,6 +38,12 @@ const SigninIndexRoute = SigninIndexImport.update({
 const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardTripsTripIdRoute = DashboardTripsTripIdImport.update({
+  id: '/dashboard/trips/$tripId',
+  path: '/dashboard/trips/$tripId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -65,6 +72,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SigninIndexImport
       parentRoute: typeof rootRoute
     }
+    '/dashboard/trips/$tripId': {
+      id: '/dashboard/trips/$tripId'
+      path: '/dashboard/trips/$tripId'
+      fullPath: '/dashboard/trips/$tripId'
+      preLoaderRoute: typeof DashboardTripsTripIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -74,12 +88,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
+  '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
+  '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
 }
 
 export interface FileRoutesById {
@@ -87,14 +103,15 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/signin/': typeof SigninIndexRoute
+  '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/signin'
+  fullPaths: '/' | '/dashboard' | '/signin' | '/dashboard/trips/$tripId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/signin'
-  id: '__root__' | '/' | '/dashboard/' | '/signin/'
+  to: '/' | '/dashboard' | '/signin' | '/dashboard/trips/$tripId'
+  id: '__root__' | '/' | '/dashboard/' | '/signin/' | '/dashboard/trips/$tripId'
   fileRoutesById: FileRoutesById
 }
 
@@ -102,12 +119,14 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   SigninIndexRoute: typeof SigninIndexRoute
+  DashboardTripsTripIdRoute: typeof DashboardTripsTripIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   SigninIndexRoute: SigninIndexRoute,
+  DashboardTripsTripIdRoute: DashboardTripsTripIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -122,7 +141,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/dashboard/",
-        "/signin/"
+        "/signin/",
+        "/dashboard/trips/$tripId"
       ]
     },
     "/": {
@@ -133,6 +153,9 @@ export const routeTree = rootRoute
     },
     "/signin/": {
       "filePath": "signin/index.tsx"
+    },
+    "/dashboard/trips/$tripId": {
+      "filePath": "dashboard/trips/$tripId.tsx"
     }
   }
 }
