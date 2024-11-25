@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
         <h1>Sticky Footer Example</h1>
       </header>
 
-      <main className="flex-grow p-4">
+      <main className="flex-grow p-4 bg-slate-500">
         <p>
           Here will be something, maybe. 
         </p>

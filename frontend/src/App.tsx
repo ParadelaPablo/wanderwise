@@ -1,6 +1,6 @@
 import { Providers } from "./utils/providers";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-
+import './index.css'
 import { routeTree } from "./routeTree.gen";
 import Footer from "./components/footer"; 
 
