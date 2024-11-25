@@ -1,4 +1,5 @@
 import { createLazyFileRoute } from "@tanstack/react-router";
+import HomeBeforeLogIn from "../components/homeBeforeLogIn";
 
 export const Route = createLazyFileRoute("/")({
   component: Index,
@@ -7,7 +8,7 @@ export const Route = createLazyFileRoute("/")({
 function Index() {
   return (
     <div className="w-full h-screen">
-      <h3>This the landing page</h3>
+      <HomeBeforeLogIn />
     </div>
   );
 }

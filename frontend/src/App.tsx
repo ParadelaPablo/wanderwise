@@ -3,8 +3,6 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import './index.css'
 import { routeTree } from "./routeTree.gen";
 
-import Footer from "./components/footer"; 
-import HomeBeforeLogIn from "./components/homeBeforeLogIn";
 
 
 
@@ -19,8 +17,6 @@ function App() {
 
     <Providers>
       <RouterProvider router={router} />
-      <HomeBeforeLogIn />
-      <Footer />
     </Providers>
 
   );

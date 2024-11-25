@@ -1,4 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
+import Footer from "../../../components/footer";
 
 export const Route = createFileRoute("/dashboard/trips/$tripId")({
   component: RouteComponent,
@@ -9,7 +10,10 @@ function RouteComponent() {
     from: "/dashboard/trips/$tripId",
     select: (params) => params.tripId,
   });
-  return (<div>
-    {tripId}
-  </div>)
+  return (
+    <div className="h-screen flex flex-col justify-between">
+      <div>My trip N {tripId}</div>
+      <Footer />
+    </div>
+  );
 }

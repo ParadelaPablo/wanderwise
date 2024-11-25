@@ -1,7 +1,6 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import Footer from "../components/footer";
 
 export const Route = createRootRoute({
   component: () => (
@@ -24,7 +23,7 @@ export const Route = createRootRoute({
       </div>
       <hr />
       <Outlet />
-      <Footer />
+
       <TanStackRouterDevtools />
     </>
   ),
