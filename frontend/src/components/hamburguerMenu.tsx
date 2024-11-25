@@ -1,7 +1,11 @@
 
 
 
-<div className="navbar bg-base-100">
+
+const HamburguerMenu: React.FC = () => {
+
+    return (
+        <div className="navbar bg-base-100">
     <div className="navbar-start">
         <div className="dropdown">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -21,10 +25,19 @@
         <ul
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            <li><a>Homepage</a></li>
-            <li><a>Portfolio</a></li>
-            <li><a>About</a></li>
+            <li><a>Dashboard</a></li>
+            <li><a>Current trip / Recent trip</a></li>
+            <li><a>Add trip</a></li>
+            <li><a>Settings</a></li>
+            <li><a>My account</a></li>
+            <li><a>Help</a></li>
+            <li><a>Contact</a></li>
+            <li><a>Sign out</a></li>
         </ul>
         </div>
-    </div>
-</div>
+            </div>
+        </div>
+    );
+}
+
+export default HamburguerMenu;
