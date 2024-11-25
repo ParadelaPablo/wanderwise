@@ -3,6 +3,8 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import './index.css'
 import { routeTree } from "./routeTree.gen";
 import Footer from "./components/footer"; 
+import HomeBeforeLogIn from "./components/homeBeforeLogIn";
+
 
 const router = createRouter({ routeTree });
 declare module "@tanstack/react-router" {
@@ -12,12 +14,11 @@ declare module "@tanstack/react-router" {
 }
 function App() {
   return (
-    <>
-      <Providers>
-        <RouterProvider router={router} />
-        <Footer />
-      </Providers>
-    </>
+    <Providers>
+      <RouterProvider router={router} />
+      <HomeBeforeLogIn />
+      <Footer />
+    </Providers>
   );
 }
 
