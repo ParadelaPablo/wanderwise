@@ -1,6 +1,26 @@
+import { ReactNode } from "react";
 import DynamicInputForm from "./dynamicInputForm";
+import { Stat } from "../map/stat";
+type Day = {
+  id: number;
+  date: Date;
+  stops: Stop[];
+};
+interface Stop {
+  type: string;
+  name: string;
+  icon: ReactNode;
+}
 
-export const Drawer = () => {
+type DrawerProps = {
+  days: Day[];
+  setDays: React.Dispatch<React.SetStateAction<Day[]>>;
+  totalTravelTime: string;
+};
+
+//{ days, setDays }: DrawerProps
+
+export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
   return (
     <div className="drawer text-center">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -16,12 +36,9 @@ export const Drawer = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4">
-          <h1>My Trip to Kiruna 2025</h1>
-          <li>
-            <a>Sidebar Item 1</a>
-          </li>
-          <DynamicInputForm/>
+        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-2">
+          <Stat text={"Total time"} info={totalTravelTime} title={"My trip to Kiruna"}/>
+          <DynamicInputForm days={days} setDays={setDays}/>
         </ul>
       </div>
     </div>
