@@ -22,12 +22,12 @@ type DrawerProps = {
 
 export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
   return (
-    <div className="drawer text-center">
+    <div className="drawer text-center mb-4">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         {/* Page content here */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-          See the route
+          Navigate
         </label>
       </div>
       <div className="drawer-side">

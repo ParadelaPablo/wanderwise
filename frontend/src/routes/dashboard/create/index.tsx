@@ -40,7 +40,7 @@ function RouteComponent() {
           setTotalTravelTime={setTotalTravelTime}
         />
       </div>
-      <div>
+      <div className="absolute bottom-0 m-auto left-0 right-0">
         <Drawer
           days={days}
           setDays={setDays}
