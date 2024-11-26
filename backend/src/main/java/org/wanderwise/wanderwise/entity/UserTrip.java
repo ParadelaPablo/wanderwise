@@ -3,6 +3,7 @@ package org.wanderwise.wanderwise.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ public class UserTrip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String userId;
 
     @OneToMany(mappedBy = "userTrip", fetch = FetchType.LAZY)
@@ -29,5 +31,9 @@ public class UserTrip {
     @PastOrPresent
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime updatedAt;
 
 }

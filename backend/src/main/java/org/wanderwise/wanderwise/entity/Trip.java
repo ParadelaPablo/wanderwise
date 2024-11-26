@@ -2,6 +2,7 @@ package org.wanderwise.wanderwise.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -9,6 +10,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "trips")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Trip {
 
     @Id
