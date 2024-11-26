@@ -1,16 +1,6 @@
-import { ReactNode } from "react";
 import DynamicInputForm from "./dynamicInputForm";
 import { Stat } from "../map/stat";
-type Day = {
-  id: number;
-  date: Date;
-  stops: Stop[];
-};
-interface Stop {
-  type: string;
-  name: string;
-  icon: ReactNode;
-}
+import { Day } from "@/lib/types";
 
 type DrawerProps = {
   days: Day[];
@@ -37,8 +27,12 @@ export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
           className="drawer-overlay"
         ></label>
         <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-2">
-          <Stat text={"Total time"} info={totalTravelTime} title={"My trip to Kiruna"}/>
-          <DynamicInputForm days={days} setDays={setDays}/>
+          <Stat
+            text={"Total time"}
+            info={totalTravelTime}
+            title={"My trip to Kiruna"}
+          />
+          <DynamicInputForm days={days} setDays={setDays} />
         </ul>
       </div>
     </div>

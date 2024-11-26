@@ -1,24 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Drawer } from "../../../components/drawer/drawer";
 import { Map } from "../../../components/map/map";
-import { ReactNode, useState } from "react";
+import { useMemo, useState } from "react";
 import { getMapData } from "@/lib/utils";
+import { Day } from "@/lib/types";
 
 export const Route = createFileRoute("/dashboard/create/")({
   component: RouteComponent,
 });
 
-type Day = {
-  id: number;
-  date: Date;
-  stops: Stop[];
-};
 
-interface Stop {
-  type: string;
-  name: string;
-  icon: ReactNode;
-}
 
 function RouteComponent() {
   const [days, setDays] = useState<Day[]>([
@@ -27,16 +18,21 @@ function RouteComponent() {
 
   const [totalTravelTime, setTotalTravelTime] = useState<string>("");
 
-  const mapData = getMapData(days);
+  const mapData = useMemo(() => getMapData(days), [days]);
+  const geoLocationMemo = useMemo(() => ({ lat: 59.3467183, lng: 18.0097756 }), []);
+const originMemo = useMemo(() => mapData?.origin || "", [mapData]);
+const destinationMemo = useMemo(() => mapData?.destination || "", [mapData]);
+const waypointsMemo = useMemo(() => mapData?.waypoints || [], [mapData]);
+
   return (
     <div className="h-full w-full flex flex-col  justify-between">
       <div className="p-2">
         <Map
-          geoLocation={{ lat: 59.3467183, lng: 18.0097756 }}
+          geoLocation={geoLocationMemo}
           isFullScreen={false}
-          origin={mapData.origin}
-          destination={mapData.destination}
-          waypoints={mapData.waypoints}
+          origin={originMemo}
+          destination={destinationMemo}
+          waypoints={waypointsMemo}
           setTotalTravelTime={setTotalTravelTime}
         />
       </div>
