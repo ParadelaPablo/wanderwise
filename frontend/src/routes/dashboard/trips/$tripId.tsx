@@ -1,5 +1,5 @@
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import Footer from "../../../components/footer";
+import Footer from "../../../components/footer/footer";
 
 export const Route = createFileRoute("/dashboard/trips/$tripId")({
   component: RouteComponent,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GoogleMap, LoadScript, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
-
+// Removed TravelMode import as it is not exported by "@react-google-maps/api"
 type MapProps = {
     geoLocation: {
         lat: number;
@@ -17,7 +17,7 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
         height: isFullScreen ? "100vh" : "90vh",
     };
 
-    const [directionsResponse, setDirectionsResponse] = useState<any>(null);
+    const [directionsResponse, setDirectionsResponse] = useState<google.maps.DirectionsResult | null>(null);
     const [travelTimes, setTravelTimes] = useState<string[]>([]);
     const [totalTravelTime, setTotalTravelTime] = useState<string>("");
 
@@ -49,20 +49,20 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
         }
     ];
 
-    const handleDirectionsCallback = (response: any, status: string) => {
-        if (status === "OK") {
-            setDirectionsResponse(response);
+    const handleDirectionsCallback = (result: google.maps.DirectionsResult | null, status: string) => {
+        if (status === "OK" && result) {
+            setDirectionsResponse(result);
 
 
-            const legs = response.routes[0].legs; // Each leg corresponds to a segment (A->B, B->C)
+            const legs = result.routes[0].legs; // Each leg corresponds to a segment (A->B, B->C)
             const times = legs.map(
-                (leg: any, index: number) =>
-                    `Leg ${index + 1}: ${leg.duration.text} (${leg.distance.text})`
+                (leg: google.maps.DirectionsLeg, index: number) =>
+                    `Leg ${index + 1}: ${leg.duration?.text} (${leg.distance?.text})`
             );
 
             // Calculate total travel time
             const totalDurationSeconds = legs.reduce(
-                (sum: number, leg: any) => sum + leg.duration.value,
+                (sum: number, leg: google.maps.DirectionsLeg) => sum + (leg.duration?.value || 0),
                 0
             );
             const totalDurationText = secondsToTimeString(totalDurationSeconds);
@@ -99,7 +99,7 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
                         options={{
                             origin: origin,
                             destination: destination,
-                            travelMode: "DRIVING",
+                            travelMode: google.maps.TravelMode.DRIVING,
                             waypoints: waypoints,
                         }}
                         callback={handleDirectionsCallback}

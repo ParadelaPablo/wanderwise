@@ -12,6 +12,8 @@ function RouteComponent() {
         <Map
           geoLocation={{ lat: 59.3467183, lng: 18.0097756 }}
           isFullScreen={false}
+          origin="Stockholm"
+          destination="Gothenburg"
         />
       </div>
       <div>
