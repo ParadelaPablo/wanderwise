@@ -13,6 +13,8 @@ import java.util.List;
 @RequestMapping("/api/trips")
 public class TripController {
 
+    List<TripResponse> trips = List.of(new TripResponse(1L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()), new TripResponse(2L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()));
+
     private TripService tripService;
 
     public TripController(TripService tripService) {
@@ -21,17 +23,25 @@ public class TripController {
 
     @GetMapping
     public ResponseEntity<List<TripResponse>> getAllTrips() {
-        List<TripResponse> trips = List.of(new TripResponse(1L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()), new TripResponse(1L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()));
+
         return ResponseEntity.ok(trips);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<String> getTripById(@PathVariable Long id) {
-        return ResponseEntity.ok("getTripById() called: " + id);
+    public ResponseEntity<TripResponse> getTripById(@PathVariable Long id) {
+        if (id < 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        for (TripResponse trip : trips) {
+            if (trip.getId().equals(id)) {
+                return ResponseEntity.ok(trip);
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<String> getTripsByUserId(@PathVariable Long userId) {
+    public ResponseEntity<TripResponse> getTripsByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok("getTripsByUserId() called: " + userId);
     }
 
