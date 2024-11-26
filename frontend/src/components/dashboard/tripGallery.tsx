@@ -19,3 +19,4 @@ const TripGallery = () => {
 };
 
 export default TripGallery;
+

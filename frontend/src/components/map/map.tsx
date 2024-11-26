@@ -11,6 +11,14 @@ type MapProps = {
     destination: string; // Destination location
 };
 
+/**
+ * Map component that displays a route from the origin to the destination.
+ * @param geoLocation: The center of the map (latitude and longitude)
+ * @param isFullScreen: Whether the map should take up the full screen
+ * @param origin: The starting location
+ * @param destination: The destination location
+ * @returns A Google Map component that displays the route from the origin to the destination
+ */
 function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
     const containerStyle = {
         width: "100%",
@@ -23,16 +31,13 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
 
     // Waypoints are intermediate stops between the origin and destination
     const waypoints = [
+
         {
-            location: "Jönköping",
+            location: "Nyköping",
             stopover: true,
         },
         {
             location: "Norrköping",
-            stopover: true,
-        },
-        {
-            location: "Nyköping",
             stopover: true,
         },
         {
@@ -44,7 +49,7 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
             stopover: true,
         },
         {
-            location: "Visby",
+            location: "Jönköping",
             stopover: true,
         }
     ];
@@ -87,7 +92,7 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
                 <GoogleMap
                     mapContainerStyle={containerStyle}
                     center={geoLocation}
-                    zoom={10}
+                    zoom={6}
                     options={{
                         streetViewControl: false,
                         mapTypeControl: false,

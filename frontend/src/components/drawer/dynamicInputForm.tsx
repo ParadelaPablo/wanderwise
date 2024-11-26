@@ -70,9 +70,9 @@ const DynamicInputForm = () => {
       days.map((day) =>
         day.id === dayId
           ? {
-              ...day,
-              stops: day.stops.filter((_, index) => index !== stopIndex),
-            }
+            ...day,
+            stops: day.stops.filter((_, index) => index !== stopIndex),
+          }
           : day
       )
     );
