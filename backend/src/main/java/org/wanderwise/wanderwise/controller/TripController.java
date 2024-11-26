@@ -7,6 +7,7 @@ import org.wanderwise.wanderwise.DTO.response.TripResponse;
 import org.wanderwise.wanderwise.service.TripService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -41,8 +42,14 @@ public class TripController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<TripResponse> getTripsByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok("getTripsByUserId() called: " + userId);
+    public ResponseEntity<List<TripResponse>> getTripsByUserId(@PathVariable Long userId) {
+        List<TripResponse> userTrips = new ArrayList<>();
+        for (TripResponse trip : trips) {
+            if (trip.getUserTripId().equals(userId)) {
+                userTrips.add(trip);
+            }
+        }
+        return ResponseEntity.ok(userTrips);
     }
 
     @PostMapping
