@@ -1,5 +1,11 @@
 import { ReactNode, useState } from "react";
 import { IoFastFoodSharp, IoCarSportSharp, IoHomeSharp } from "react-icons/io5";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 
 interface Stop {
   type: string;
@@ -7,11 +13,12 @@ interface Stop {
   icon: ReactNode;
 }
 
-interface Day {
+type Day = {
   id: number;
-  date: string;
+  date: Date;
   stops: Stop[];
-}
+};
+
 const stopTypes: { id: string; label: string; icon: ReactNode }[] = [
   { id: "pitstop", label: "Pitstop", icon: <IoFastFoodSharp /> },
   { id: "startpoint", label: "Start Point", icon: <IoCarSportSharp /> },
@@ -22,23 +29,15 @@ const stopTypes: { id: string; label: string; icon: ReactNode }[] = [
   { id: "rest", label: "Rest", icon: <IoHomeSharp /> },
 ];
 
-const DynamicInputForm = () => {
-  const [days, setDays] = useState<Day[]>([
-    { id: 1, date: "Mon, 25 Nov", stops: [] },
-  ]);
+const DynamicInputForm = ({ days, setDays }) => {
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
 
   const addNewDay = () => {
     const newDayId = days.length + 1;
-    const today = new Date();
-    today.setDate(today.getDate() + newDayId - 1);
+
     const newDay = {
       id: newDayId,
-      date: today.toLocaleDateString("en-US", {
-        weekday: "short",
-        day: "2-digit",
-        month: "short",
-      }),
+      date: new Date(),
       stops: [],
     };
     setDays([...days, newDay]);
@@ -78,8 +77,16 @@ const DynamicInputForm = () => {
     );
   };
 
+  const updateDate = (dayId: number, newDate: Date | undefined) => {
+    if (!newDate) return;
+    setDays(
+      days.map((day) => (day.id === dayId ? { ...day, date: newDate } : day))
+    );
+  };
+
   return (
-    <div className="flex flex-col items-center space-y-4">
+    <div className="flex flex-col gap-4 items-center ">
+      <div>
       {days.map((day) => (
         <div
           key={day.id}
@@ -88,7 +95,26 @@ const DynamicInputForm = () => {
           <div className="flex justify-between items-center mb-2">
             <h3 className="font-bold text-lg">
               Day {day.id}{" "}
-              <span className="text-sm text-gray-500">{day.date}</span>
+              <Popover>
+                <PopoverTrigger>
+                  <button className="btn btn-sm btn-primary ml-2">
+                    {day.date.toLocaleDateString("en-US", {
+                      weekday: "short",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent className="z-50">
+                  <Calendar
+                    mode="single"
+                    onSelect={(date) => {
+                      if (date) updateDate(day.id, date);
+                    }}
+                    selected={day.date}
+                  />
+                </PopoverContent>
+              </Popover>
             </h3>
             <button
               className="btn btn-sm btn-circle btn-ghost text-gray-400"
@@ -98,9 +124,9 @@ const DynamicInputForm = () => {
             </button>
           </div>
           <div className="flex flex-col space-y-2">
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <div className="badge badge-outline">0 km (SEK 0, 0 min)</div>
-            </div>
+            </div> */}
             <div className="form-control">
               <div className="input-group flex flex-row gap-1 items-center">
                 <select
@@ -154,6 +180,10 @@ const DynamicInputForm = () => {
       <button className="btn btn-primary mt-4" onClick={addNewDay}>
         Add New Day
       </button>
+      </div>
+      <div>
+        <button className="btn btn-primary mt-4">DONE 🎉</button>
+      </div>
     </div>
   );
 };
