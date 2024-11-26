@@ -2,6 +2,7 @@ package org.wanderwise.wanderwise.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -27,6 +28,7 @@ public class Trip {
 
 
     @Column(nullable = false)
+    @Size(min = 3, max = 255, message = "Title must be between 3 and 255 characters")
     private String title;
 
     @Column(nullable = false)
