@@ -6,6 +6,7 @@ import org.wanderwise.wanderwise.DTO.request.TripRequest;
 import org.wanderwise.wanderwise.DTO.response.TripResponse;
 import org.wanderwise.wanderwise.service.TripService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -19,8 +20,9 @@ public class TripController {
     }
 
     @GetMapping
-    public ResponseEntity<String> getAllTrips() {
-        return ResponseEntity.ok("getAllTrips() called");
+    public ResponseEntity<List<TripResponse>> getAllTrips() {
+        List<TripResponse> trips = List.of(new TripResponse(1L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()), new TripResponse(1L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()));
+        return ResponseEntity.ok(trips);
     }
 
     @GetMapping("/{id}")
