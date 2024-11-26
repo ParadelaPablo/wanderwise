@@ -17,7 +17,7 @@ public class TripController {
   }
 
   @GetMapping
-  public ResponseEntity<String> getTrip(){
+  public ResponseEntity<String> getTrip() {
     String response = "Hello World";
     return ResponseEntity.ok(response);
   }

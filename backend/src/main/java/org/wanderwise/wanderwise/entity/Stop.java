@@ -36,6 +36,10 @@ public class Stop {
     private Double longitude;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StopType stopType;
+
+    @Column(nullable = false)
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @PastOrPresent

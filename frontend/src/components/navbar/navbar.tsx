@@ -1,20 +1,19 @@
-import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
+import { SignedIn, UserButton } from "@clerk/clerk-react";
 import { Link } from "@tanstack/react-router";
+
+const routes = [
+  { to: "/", label: "Home", className: "btn btn-ghost text-xl" },
+  { to: "/signin", label: "Sign In", className: "btn btn-ghost text-xl" },
+];
 
 export const Navbar = () => {
   return (
     <div className="p-2 flex gap-2 justify-between items-center">
-      <Link to="/" className="btn btn-ghost text-xl [&.active]:text-amber-300">
-        Home
-      </Link>{" "}
-      <SignedOut>
-        <Link
-          className="btn btn-ghost text-xl [&.active]:text-amber-300"
-          to="/signin"
-        >
-          Sign In
+      {routes.map((route) => (
+        <Link key={route.to} to={route.to} className={`${route.className} [&.active]:text-amber-300`}>
+          {route.label}
         </Link>
-      </SignedOut>
+      ))}
       <SignedIn>
         <UserButton />
       </SignedIn>

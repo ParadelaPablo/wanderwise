@@ -1,4 +1,8 @@
-const Contact = () => {
+
+
+
+
+const Contact: React.FC = () => {
 return (
     <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center p-6">
     <main className="text-center mb-4">
