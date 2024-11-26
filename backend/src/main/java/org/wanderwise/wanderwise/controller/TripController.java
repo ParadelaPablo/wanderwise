@@ -4,8 +4,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wanderwise.wanderwise.DTO.request.TripRequest;
 import org.wanderwise.wanderwise.DTO.response.TripResponse;
+import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.service.TripService;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,58 +16,72 @@ import java.util.List;
 @RequestMapping("/api/trips")
 public class TripController {
 
-    List<TripResponse> trips = List.of(new TripResponse(1L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()), new TripResponse(2L, 1L, "Hello world", LocalDateTime.now(), LocalDateTime.now()));
-
     private TripService tripService;
 
     public TripController(TripService tripService) {
         this.tripService = tripService;
     }
 
+    public TripResponse mapToResponse(Trip trip) {
+        return TripResponse.builder()
+                .id(trip.getId())
+                .userTripId(trip.getUserTrip().getId())
+                .title(trip.getTitle())
+                .createdAt(trip.getCreatedAt())
+                .updatedAt(trip.getUpdatedAt())
+                .build();
+    }
+
+    public Trip mapToEntity(TripRequest tripRequest) {
+        return Trip.builder()
+                .title(tripRequest.getTitle())
+                .createdAt(LocalDateTime.now())
+                .build();
+    }
+
     @GetMapping
     public ResponseEntity<List<TripResponse>> getAllTrips() {
-
-        return ResponseEntity.ok(trips);
+        List<TripResponse> tripResponses = tripService.getAllTrips().stream()
+                .map(this::mapToResponse)
+                .toList();
+        return ResponseEntity.ok(tripResponses);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<TripResponse> getTripById(@PathVariable Long id) {
-        if (id < 0) {
-            return ResponseEntity.badRequest().build();
-        }
-        for (TripResponse trip : trips) {
-            if (trip.getId().equals(id)) {
-                return ResponseEntity.ok(trip);
-            }
-        }
-        return ResponseEntity.notFound().build();
+        Trip trip = tripService.getTripById(id);
+        return ResponseEntity.ok(mapToResponse(trip));
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<TripResponse>> getTripsByUserId(@PathVariable Long userId) {
-        List<TripResponse> userTrips = new ArrayList<>();
-        for (TripResponse trip : trips) {
-            if (trip.getUserTripId().equals(userId)) {
-                userTrips.add(trip);
-            }
-        }
-        return ResponseEntity.ok(userTrips);
+    public ResponseEntity<List<TripResponse>> getTripsByUserId(@PathVariable String userId) {
+        List<TripResponse> tripResponses = tripService.getTripsByUserId(userId).stream()
+                .map(this::mapToResponse)
+                .toList();
+        return ResponseEntity.ok(tripResponses);
     }
 
     @PostMapping
-    public ResponseEntity<String> createTrip(@RequestBody TripRequest tripRequest) {
-        return ResponseEntity.ok("A new trip has been created");
+    public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest tripRequest) {
+        Trip trip = tripService.createTrip(mapToEntity(tripRequest));
+        URI location = URI.create("/api/trips/" + tripRequest);
+        return ResponseEntity.created(location).body(mapToResponse(trip));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateTrip(@PathVariable Long id, @RequestBody TripRequest tripRequest) {
-        return ResponseEntity.ok("Trip has been updated");
+    public ResponseEntity<TripResponse> updateTrip(@PathVariable Long id, @RequestBody TripRequest tripRequest) {
+        Trip trip = tripService.updateTrip(id, mapToEntity(tripRequest));
+        return ResponseEntity.ok(mapToResponse(trip));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteTrip(@PathVariable Long id) {
-
-        return ResponseEntity.ok("Trip has been deleted");
+        try {
+            tripService.deleteTrip(id);
+            return ResponseEntity.ok("Trip deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }
