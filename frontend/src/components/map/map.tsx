@@ -11,12 +11,6 @@ type MapProps = {
     destination: string; // Destination location
 };
 
-/**
- * Map component that displays a Google Map with a route from origin to destination and travel times.
- * @param geoLocation :  geoLocation: Current location of the user (latitude and longitude) 
- * @param isFullScreen : isFullScreen: Boolean to determine if the map should be displayed in full screen
- * @returns : Returns a Google Map with a route from origin to destination and travel times
- */
 function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
     const containerStyle = {
         width: "100%",
