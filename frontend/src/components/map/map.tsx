@@ -131,3 +131,4 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
 }
 
 export { Map };
+
