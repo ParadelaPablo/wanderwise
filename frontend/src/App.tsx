@@ -23,7 +23,6 @@ function App() {
       destination="Stockholm, Sweden" // Ending location
     />
   </>
-  )
 }
 
 export default App;
