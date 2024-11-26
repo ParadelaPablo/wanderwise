@@ -22,7 +22,7 @@ public class TripController {
         this.tripService = tripService;
     }
 
-    public TripResponse mapToResponse(Trip trip) {
+    private TripResponse mapToResponse(Trip trip) {
         return TripResponse.builder()
                 .id(trip.getId())
                 .userTripId(trip.getUserTrip().getId())
@@ -32,7 +32,7 @@ public class TripController {
                 .build();
     }
 
-    public Trip mapToEntity(TripRequest tripRequest) {
+    private Trip mapToEntity(TripRequest tripRequest) {
         return Trip.builder()
                 .title(tripRequest.getTitle())
                 .createdAt(LocalDateTime.now())
