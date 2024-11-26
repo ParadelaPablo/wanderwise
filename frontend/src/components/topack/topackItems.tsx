@@ -1,10 +1,10 @@
 const ToPackItems = () => {
   return (
-    <div>
-      <div className="flex">
-        <input type="checkbox" />
-        <p className="ml-2" >Packing item</p>
-      </div>
+    <div className="form-control">
+      <label className="label cursor-pointer">
+        <input type="checkbox" defaultChecked className="checkbox" />
+        <span className="label-text ml-2">Pack item</span>
+      </label>
     </div>
   );
 };
