@@ -70,7 +70,7 @@ function Map({ geoLocation, isFullScreen, origin, destination, waypoints, setTot
                         options={{
                             origin: origin,
                             destination: destination,
-                            travelMode: google.maps.TravelMode.DRIVING,
+                            travelMode: "DRIVING",
                             waypoints: waypoints,
                         }}
                         callback={handleDirectionsCallback}

@@ -25,7 +25,6 @@ function RouteComponent() {
     { id: 1, date: new Date(), stops: [] },
   ]);
 
-  
   const [totalTravelTime, setTotalTravelTime] = useState<string>("");
 
   const mapData = getMapData(days);
@@ -42,8 +41,11 @@ function RouteComponent() {
         />
       </div>
       <div>
-        <Drawer days={days} setDays={setDays}
-        totalTravelTime={totalTravelTime} />
+        <Drawer
+          days={days}
+          setDays={setDays}
+          totalTravelTime={totalTravelTime}
+        />
       </div>
     </div>
   );
