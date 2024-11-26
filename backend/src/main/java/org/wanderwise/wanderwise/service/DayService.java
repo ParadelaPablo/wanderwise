@@ -10,5 +10,4 @@ public class DayService {
     public DayService(DayRepository dayRepository) {
         this.dayRepository = dayRepository;
     }
-    
 }
