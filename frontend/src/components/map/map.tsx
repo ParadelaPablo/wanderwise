@@ -27,6 +27,26 @@ function Map({ geoLocation, isFullScreen, origin, destination }: MapProps) {
             location: "Jönköping",
             stopover: true,
         },
+        {
+            location: "Norrköping",
+            stopover: true,
+        },
+        {
+            location: "Nyköping",
+            stopover: true,
+        },
+        {
+            location: "Västervik",
+            stopover: true,
+        },
+        {
+            location: "Kalmar",
+            stopover: true,
+        },
+        {
+            location: "Visby",
+            stopover: true,
+        }
     ];
 
     const handleDirectionsCallback = (response: any, status: string) => {
