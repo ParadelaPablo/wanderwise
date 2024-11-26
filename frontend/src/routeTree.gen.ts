@@ -93,12 +93,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCreateIndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/contact/': {
-      id: '/dashboard/contact/'
-      path: '/dashboard/contact/'
-      fullPath: '/dashboard/contact'
-      parentRoute: typeof rootRoute
-    }
   }
 }
 
