@@ -1,9 +1,9 @@
 const ToPackItems = () => {
   return (
     <div className="form-control">
-      <label className="label cursor-pointer">
-        <input type="checkbox" defaultChecked className="checkbox" />
-        <span className="label-text ml-2">Pack item</span>
+      <label className="label cursor-pointer justify-start">
+        <input type="checkbox" className="checkbox" />
+        <input type="text" placeholder="Item..." className="input input-bordered w-full max-w-xs h-8 ml-2" />
       </label>
     </div>
   );

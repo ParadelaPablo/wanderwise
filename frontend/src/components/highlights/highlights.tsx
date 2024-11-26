@@ -1,6 +1,6 @@
 const Highlights = () => {
     return (
-        <div>Here are the Highlights</div>
+        <div className="text-2xl" >Here are the Highlights</div>
     );
 };
 
