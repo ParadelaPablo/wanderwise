@@ -8,27 +8,22 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
-
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as IndexImport } from './routes/index'
 import { Route as SigninIndexImport } from './routes/signin/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as DashboardCreateIndexImport } from './routes/dashboard/create/index'
 import { Route as DashboardTripsTripIdImport } from './routes/dashboard/trips/$tripId'
 
-// Create Virtual Routes
-
-const IndexLazyImport = createFileRoute('/')()
-
 // Create/Update Routes
 
-const IndexLazyRoute = IndexLazyImport.update({
+const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+} as any)
 
 const SigninIndexRoute = SigninIndexImport.update({
   id: '/signin/',
@@ -62,7 +57,7 @@ declare module '@tanstack/react-router' {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
+      preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/': {
@@ -99,7 +94,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
@@ -107,7 +102,7 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
@@ -116,7 +111,7 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
+  '/': typeof IndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/signin/': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
@@ -149,7 +144,7 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
+  IndexRoute: typeof IndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   SigninIndexRoute: typeof SigninIndexRoute
   DashboardTripsTripIdRoute: typeof DashboardTripsTripIdRoute
@@ -157,7 +152,7 @@ export interface RootRouteChildren {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
+  IndexRoute: IndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   SigninIndexRoute: SigninIndexRoute,
   DashboardTripsTripIdRoute: DashboardTripsTripIdRoute,
@@ -182,7 +177,7 @@ export const routeTree = rootRoute
       ]
     },
     "/": {
-      "filePath": "index.lazy.tsx"
+      "filePath": "index.tsx"
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
