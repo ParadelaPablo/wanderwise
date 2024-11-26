@@ -12,6 +12,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
+/**
+ * The Day entity represents a day in a trip. It contains the date of the day, the order of the day in the trip, the trip
+ * it belongs to and the stops that are in the day.
+ * The day order is used to determine the order of the days in the trip. The date is used to determine the date of the day.
+ *
+ * @see Trip
+ * @see Stop
+ * @see StopType
+ */
 @Entity
 @Table(name = "days")
 @Getter
