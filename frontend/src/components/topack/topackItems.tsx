@@ -3,7 +3,7 @@ const ToPackItems = () => {
     <div>
       <div className="flex">
         <input type="checkbox" />
-        <p>Packing item</p>
+        <p className="ml-2" >Packing item</p>
       </div>
     </div>
   );

@@ -17,15 +17,13 @@ function RouteComponent() {
   const [visibleComponent, setVisibleComponent] = useState("Todo");
 
   return (
-    <div className="h-screen flex flex-col justify-between">
+    <div className="h-screen flex flex-col">
       <div>My trip N {tripId}</div>
-
-      <div>
+      <div className="flex justify-center items-start flex-grow" >
         {visibleComponent === "Todo" && <Todo />}
         {visibleComponent === "ToPack" && <ToPack />}
       </div>
-      <Footer setVisibleComponent={setVisibleComponent}
-        />
+      <Footer setVisibleComponent={setVisibleComponent} />
     </div>
   );
 }

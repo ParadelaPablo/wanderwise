@@ -2,7 +2,7 @@ const TodoItem = () => {
     return (
         <div className="flex">
             <input type="checkbox" />
-            <p>To do item</p>
+            <p className="ml-2">To do item</p>
         </div>
     );
 };

@@ -2,7 +2,7 @@ import TodoItem from "./todoItem";
 
 const Todo = () => {
     return (
-        <div>
+        <div >
             <TodoItem/>
             <TodoItem/>
             <TodoItem/>
