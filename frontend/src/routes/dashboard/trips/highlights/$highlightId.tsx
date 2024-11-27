@@ -18,22 +18,24 @@ function RouteComponent() {
   });
   return (
     <div className="">
-      <div className="btn" onClick={() => window.history.back()}>
+      <div className="btn ml-2" onClick={() => window.history.back()}>
         Back
       </div>
-      <p>My note {highlightId}</p>
-      <div className="w-full flex flex-col justify-center items-center gap-2">
-        <p className="text-2xl">Title</p>
-        <input
-          type="text"
-          placeholder="Type here"
-          className="input input-bordered w-full max-w-xs"
-        />
+      <p  className="ml-2">Note id: {highlightId}</p>
+      <div className="w-full flex flex-col justify-center items-center gap-2 mt-10 border p-3">
+        <div className="flex w-screen gap-x-5">
+          <input
+            type="text"
+            placeholder="Title..."
+            className="input input-bordered w-full ml-4"
+          />
+          <button className="btn btn-outline btn-success mr-4">Spotify</button>
+        </div>
 
         <div className="w-screen p-3 flex flex-col justify-center items-center relative">
           <div className="relative w-full">
             <textarea
-              className="textarea textarea-bordered w-full resize-none h-72"
+              className="textarea textarea-bordered w-full resize-none h-52"
               placeholder="Enter text..."
             ></textarea>
             <div className="absolute bottom-2 right-2 flex gap-2 items-end">
@@ -41,7 +43,7 @@ function RouteComponent() {
                 ♫
               </button>
               <button className="btn btn-outline min-h-10 h-10 w-10 text-2xl">
-                ⊛
+                ⌅
               </button>
               <button className="btn btn-success min-h-10 h-10">Success</button>
             </div>

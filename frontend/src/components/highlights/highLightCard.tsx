@@ -13,11 +13,11 @@ const HighlightCard = ({ url }) => {
         </div>
         
         <p className="text-center h-20 pt-1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora eius
+          On our trip to the place we saw this amazing thing and could not believe our eyes how beautiful!
         </p>
         <label className="input input-bordered flex items-center gap-2 bg-opacity-20 bg-slate-400 rounded-2xl">
           <input type="text" className="grow" placeholder="Thu, Sep 20" />
-          <button className="btn btn-outline min-w-8 w-8 min-h-8 h-8">⌘</button>
+          <button className="btn btn-outline min-w-8 w-8 min-h-8 h-8">⌅</button>
           <button className="btn btn-outline min-w-8 w-8 min-h-8 h-8">✎</button>
         </label>
       </div>
