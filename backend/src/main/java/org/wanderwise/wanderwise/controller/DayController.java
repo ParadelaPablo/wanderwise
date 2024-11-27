@@ -27,7 +27,6 @@ public class DayController {
                 .map(stop -> StopResponse.builder()
                         .id(stop.getId())
                         .dayId(stop.getDay().getId())
-                        .tripId(stop.getDay().getTrip().getId())
                         .latitude(stop.getLatitude())
                         .longitude(stop.getLongitude())
                         .createdAt(stop.getCreatedAt())

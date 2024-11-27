@@ -14,7 +14,7 @@ public class StopResponse {
 
     private Long dayId;
 
-    private Long tripId;
+    private String stopType;
 
     private Double latitude;
 

@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class TripRequest {
     @NotNull
-    private Long userTripId;
+    private String userId;
 
     @NotNull
     @Size(min = 3, max = 255, message = "Title must be between 3 and 255 characters")
