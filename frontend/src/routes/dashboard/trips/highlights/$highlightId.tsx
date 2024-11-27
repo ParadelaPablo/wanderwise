@@ -1,4 +1,8 @@
-import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useParams,
+} from "@tanstack/react-router";
 import { Button } from "react-day-picker";
 
 export const Route = createFileRoute(
@@ -15,13 +19,7 @@ function RouteComponent() {
   });
   return (
     <div className="">
-      <div
-        className="btn"
-        onClick={() =>
-          navigate({ to: `/dashboard/trips/highlights` })
-        }
-        
-      >
+      <div className="btn" onClick={() => window.history.back()}>
         Back
       </div>
       <p>My note {highlightId}</p>
@@ -37,7 +35,7 @@ function RouteComponent() {
           <div className="relative w-full">
             <textarea
               className="textarea textarea-bordered w-full resize-none h-72"
-              placeholder="Bio"
+              placeholder="Enter text..."
             ></textarea>
             <div className="absolute bottom-2 right-2 flex gap-2 items-end">
               <button className="btn btn-outline min-h-10 h-10 w-10 text-2xl">
