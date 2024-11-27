@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface TripRepository extends JpaRepository<Trip, Long> {
 
-    List<Trip> findByUserTrip_Id(String userId);
+    List<Trip> findByUserId(String userId);
 }

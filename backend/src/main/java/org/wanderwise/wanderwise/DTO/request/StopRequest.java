@@ -13,7 +13,7 @@ public class StopRequest {
     private Long dayId;
 
     @NotNull
-    private Long tripId;
+    private String stopType;
 
     @NotNull
     private Double latitude;

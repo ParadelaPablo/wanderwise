@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import TodoItem from "./todoItem";
 
 const Todo = () => {
-  const [items, setItems] = useState<number[]>([]); 
+  const [items, setItems] = useState<number[]>([]);
 
   const addNewItem = () => {
     setItems((prevItems) => [...prevItems, prevItems.length + 1]);
+  };
+
+  const removeItem = (itemNumber: number) => {
+    setItems((prevItems) => prevItems.filter((item) => item !== itemNumber));
   };
 
   return (
@@ -13,19 +17,18 @@ const Todo = () => {
       <div className="flex items-start justify-between">
         <p className="text-2xl">To Do</p>
 
-        <button className="btn btn-active btn-ghost" onClick={addNewItem}>
-          New Note
+        <button className="btn btn-active btn-ghost mr-2" onClick={addNewItem}>
+          New Item
         </button>
       </div>
 
       <div className="divider"></div>
 
       <div>
-        {items.map((item, index) => (
-          <TodoItem key={index} itemNumber={item} />
+        {items.map((item) => (
+          <TodoItem key={item} itemNumber={item} removeItem={removeItem} />
         ))}
       </div>
-
     </div>
   );
 };

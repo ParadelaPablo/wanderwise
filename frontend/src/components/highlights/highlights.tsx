@@ -16,7 +16,7 @@ const Highlights = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const highlightId = date?.getMilliseconds();
   return (
-    <div className="flex flex-col justify-center items-center gap-2">
+    <div className="w-full flex flex-col justify-center items-center gap-2">
       <h1>Journal</h1>
       <Popover>
         <PopoverTrigger asChild>

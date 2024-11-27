@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class TripResponse {
     private Long id;
 
-    private Long userTripId;
+    private String userId;
 
     private String title;
 
