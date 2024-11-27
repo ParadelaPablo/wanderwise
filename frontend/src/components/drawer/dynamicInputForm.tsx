@@ -6,23 +6,28 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Day, Stop } from "@/lib/types";
+import { useAuth } from "@clerk/clerk-react";
+import { useMutation } from "@tanstack/react-query";
+import { createTrip } from "@/lib/api";
 
 const stopTypes: { id: string; label: string }[] = [
-  { id: "pitstop", label: "Pitstop" },
-  { id: "startpoint", label: "Start Point" },
-  { id: "endpoint", label: "End Point" },
-  { id: "gas", label: "Gas Station" },
+  { id: "fika", label: "Fika" },
+  { id: "activity", label: "Activity" },
+  { id: "fuel", label: "Fuel" },
+  { id: "food", label: "Food and drink" },
   { id: "sightseeing", label: "Sightseeing" },
-  { id: "overnight", label: "Overnight" },
   { id: "rest", label: "Rest" },
+  { id: "overnight", label: "Overnight" },
 ];
 
 type Props = {
   days: Day[];
   setDays: React.Dispatch<React.SetStateAction<Day[]>>;
+  title: string;
 };
 
-const DynamicInputForm = ({ days, setDays }: Props) => {
+const DynamicInputForm = ({ days, setDays, title }: Props) => {
+  const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
 
   const addNewDay = () => {
@@ -75,6 +80,12 @@ const DynamicInputForm = ({ days, setDays }: Props) => {
       days.map((day) => (day.id === dayId ? { ...day, date: newDate } : day))
     );
   };
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return createTrip({ userId: userId!, title: title });
+    },
+  });
 
   return (
     <div className="flex flex-col gap-4 items-center ">
@@ -148,7 +159,7 @@ const DynamicInputForm = ({ days, setDays }: Props) => {
                     key={index}
                     className="flex justify-between items-center border p-2 rounded-md"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 capitalize">
                       <p>
                         {stop.type}: {stop.name}
                       </p>
@@ -170,7 +181,12 @@ const DynamicInputForm = ({ days, setDays }: Props) => {
         </button>
       </div>
       <div>
-        <button className="btn btn-primary mt-4">DONE 🎉</button>
+        <button
+          onClick={() => mutation.mutate()}
+          className="btn btn-primary mt-4"
+        >
+          DONE 🎉
+        </button>
       </div>
     </div>
   );

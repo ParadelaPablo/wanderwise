@@ -25,7 +25,7 @@ export function getMapData(days: Day[]) {
       .filter(
         (_, stopIndex) =>
           !(dayIndex === 0 && stopIndex === 0) &&
-          !(dayIndex === days.length - 1 && stopIndex === day.stops.length - 1) // Exclude destination
+          !(dayIndex === days.length - 1 && stopIndex === day.stops.length - 1) 
       )
       .map((stop) => ({
         location: stop.name,
