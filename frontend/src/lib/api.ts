@@ -149,3 +149,5 @@ async function createStop(stopRequest: {
 
     return await response.json(); // Return the full Stop object
 }
+
+export { createTripWithDaysAndStops, createTrip, createDay, createStop };
