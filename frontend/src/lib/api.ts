@@ -18,5 +18,6 @@ export async function createTrip(tripRequest: TripRequest) {
     );
   }
   const json = await response.json();
-  console.log("json", json);
+  console.log(json.id);
+  return json.id;
 }

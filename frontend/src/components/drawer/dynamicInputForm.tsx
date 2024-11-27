@@ -18,17 +18,16 @@ const stopTypes: { id: string; label: string }[] = [
   { id: "sightseeing", label: "Sightseeing" },
   { id: "rest", label: "Rest" },
   { id: "overnight", label: "Overnight" },
- 
 ];
 
 type Props = {
   days: Day[];
   setDays: React.Dispatch<React.SetStateAction<Day[]>>;
-  title: string
+  title: string;
 };
 
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
-  const {userId} = useAuth()
+  const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
 
   const addNewDay = () => {
@@ -82,13 +81,12 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     );
   };
 
-
   const mutation = useMutation({
     mutationFn: () => {
-      return createTrip({userId: "bla" , title: "New title"})
+      return createTrip({ userId: userId!, title: title });
     },
-  })
-  
+  });
+
   return (
     <div className="flex flex-col gap-4 items-center ">
       <div>
@@ -183,7 +181,12 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
         </button>
       </div>
       <div>
-        <button onClick={() => console.log(days, userId, title)} className="btn btn-primary mt-4">DONE 🎉</button>
+        <button
+          onClick={() => mutation.mutate()}
+          className="btn btn-primary mt-4"
+        >
+          DONE 🎉
+        </button>
       </div>
     </div>
   );

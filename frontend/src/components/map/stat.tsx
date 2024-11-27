@@ -9,6 +9,7 @@ export const Stat = ({ text, info, title, setTitle }: Props) => {
     <div className="stats shadow">
       <div className="stat flex flex-col gap-2">
         <input
+          required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           type="text"
