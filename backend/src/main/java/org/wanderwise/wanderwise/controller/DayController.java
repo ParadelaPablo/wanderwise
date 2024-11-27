@@ -10,6 +10,7 @@ import org.wanderwise.wanderwise.entity.Stop;
 import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.service.DayService;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -69,7 +70,8 @@ public class DayController {
                 .date(dayRequest.getDate())
                 .build();
         Day createdDay = dayService.createDay(tripId, day);
-        return ResponseEntity.ok(mapToResponse(createdDay));
+        URI location = URI.create(String.format("/api/trips/%d/days/%d", tripId, createdDay.getId()));
+        return ResponseEntity.created(location).body(mapToResponse(createdDay));
     }
 
     @PutMapping("/{dayId}")
