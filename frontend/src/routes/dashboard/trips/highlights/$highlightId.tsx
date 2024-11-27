@@ -1,8 +1,10 @@
+import { SpotifyModal } from "@/components/highlights/spotifyModal";
 import {
   createFileRoute,
   useNavigate,
   useParams,
 } from "@tanstack/react-router";
+import { useState } from "react";
 import { Button } from "react-day-picker";
 
 export const Route = createFileRoute(
@@ -16,12 +18,14 @@ function RouteComponent() {
     from: "/dashboard/trips/highlights/$highlightId",
     select: (params) => params.highlightId,
   });
+
+
   return (
     <div className="">
       <div className="btn ml-2" onClick={() => window.history.back()}>
         Back
       </div>
-      <p  className="ml-2">Note id: {highlightId}</p>
+      <p className="ml-2">Note id: {highlightId}</p>
       <div className="w-full flex flex-col justify-center items-center gap-2 mt-10 border p-3">
         <div className="flex w-screen gap-x-5">
           <input
@@ -29,7 +33,13 @@ function RouteComponent() {
             placeholder="Title..."
             className="input input-bordered w-full ml-4"
           />
-          <button className="btn btn-outline btn-success mr-4">Spotify</button>
+          <button
+            onClick={() => document.getElementById("my_modal_1").showModal()}
+            className="btn btn-outline btn-success mr-4"
+          >
+            Spotify
+          </button>
+          <SpotifyModal  />
         </div>
 
         <div className="w-screen p-3 flex flex-col justify-center items-center relative">

@@ -123,6 +123,8 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     },
   });
 
+
+
   return (
     <div className="flex flex-col gap-4 items-center ">
       <div>

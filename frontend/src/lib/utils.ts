@@ -25,7 +25,7 @@ export function getMapData(days: Day[]) {
       .filter(
         (_, stopIndex) =>
           !(dayIndex === 0 && stopIndex === 0) &&
-          !(dayIndex === days.length - 1 && stopIndex === day.stops.length - 1) 
+          !(dayIndex === days.length - 1 && stopIndex === day.stops.length - 1)
       )
       .map((stop) => ({
         location: stop.name,
@@ -38,4 +38,9 @@ export function getMapData(days: Day[]) {
     destination,
     waypoints,
   };
+}
+
+export function millisToMinutesAndSeconds(millis: string) {
+  const date = new Date(millis);
+  return `${date.getMinutes()}:${date.getSeconds()}`;
 }
