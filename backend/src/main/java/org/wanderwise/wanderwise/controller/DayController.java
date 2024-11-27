@@ -15,6 +15,4 @@ public class DayController {
         this.dayService = dayService;
     }
 
-    @GetMapping
-    
 }
