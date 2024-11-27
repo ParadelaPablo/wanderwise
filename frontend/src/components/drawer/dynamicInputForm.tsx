@@ -107,7 +107,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
         date: "2024-12-01",
         stops: [
           {
-            dayId: 1,
+          
             stopType: "FIKA",
             name: "Stockholm",
           },
@@ -115,7 +115,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       },
     ],
   };
-  console.log(data);
+
   const mutation = useMutation({
     mutationFn: () => {
       return createFullTrip(data);
