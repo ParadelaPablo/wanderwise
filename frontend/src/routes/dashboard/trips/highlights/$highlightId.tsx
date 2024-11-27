@@ -12,7 +12,6 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
-  const navigate = useNavigate();
   const highlightId = useParams({
     from: "/dashboard/trips/highlights/$highlightId",
     select: (params) => params.highlightId,
