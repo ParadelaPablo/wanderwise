@@ -28,6 +28,7 @@ public class StopService {
     }
 
     public Stop createStop(Stop stop) {
+        System.err.println("createStop() called, and dayId is: " + stop.getDay().getId());
         if (stop.getDay() == null) {
             throw new IllegalArgumentException("Day is required");
         }

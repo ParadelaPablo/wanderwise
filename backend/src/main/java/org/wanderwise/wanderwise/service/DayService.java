@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.wanderwise.wanderwise.entity.Day;
 import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.repository.DayRepository;
+import org.wanderwise.wanderwise.repository.TripRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -11,9 +12,12 @@ import java.util.NoSuchElementException;
 @Service
 public class DayService {
     private final DayRepository dayRepository;
+    private final TripRepository tripRepository;
 
-    public DayService(DayRepository dayRepository) {
+    public DayService(DayRepository dayRepository,
+                      TripRepository tripRepository) {
         this.dayRepository = dayRepository;
+        this.tripRepository = tripRepository;
     }
 
     /**
@@ -62,13 +66,21 @@ public class DayService {
      * @throws IllegalArgumentException if trip id is invalid or day data is invalid
      */
     public Day createDay(Long tripId, Day day) {
+        System.err.println("createDay() has been called, and tripId is: " + tripId);
         if (tripId < 1) {
             throw new IllegalArgumentException("Invalid trip id");
         }
         try {
-            day.setTrip(Trip.builder().id(tripId).build());
+            System.err.println(day.getDayOrder());
+            System.err.println(day.getDate());
+            System.err.println(day.getTrip().getId());
+            Trip trip = tripRepository.findById(tripId)
+                    .orElseThrow(() -> new IllegalArgumentException("Trip not found with id: " + tripId));
+            day.setTrip(trip);
+
             return dayRepository.save(day);
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             throw new IllegalArgumentException("Invalid day data");
         }
     }
