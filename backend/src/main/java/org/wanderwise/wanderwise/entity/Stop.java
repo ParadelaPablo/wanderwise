@@ -25,12 +25,8 @@ public class Stop {
     @JoinColumn(name = "day_id")
     private Day day;
 
-
     @Column(nullable = false)
-    private Double latitude;
-
-    @Column(nullable = false)
-    private Double longitude;
+    private String name;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

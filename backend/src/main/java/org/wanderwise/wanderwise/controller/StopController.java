@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trips/{tripId}/days/{dayId}/stops")
+@CrossOrigin
 public class StopController {
     private final StopService stopService;
 
@@ -25,8 +26,7 @@ public class StopController {
                 .id(stop.getId())
                 .dayId(stop.getDay().getId())
                 .stopType(stop.getStopType().toString())
-                .latitude(stop.getLatitude())
-                .longitude(stop.getLongitude())
+                .name(stop.getName())
                 .createdAt(stop.getCreatedAt())
                 .updatedAt(stop.getUpdatedAt())
                 .build();
@@ -34,8 +34,7 @@ public class StopController {
 
     private Stop mapToEntity (StopRequest stopRequest) {
         return  Stop.builder()
-                .latitude(stopRequest.getLatitude())
-                .longitude(stopRequest.getLongitude())
+                .name(stopRequest.getName())
                 .stopType(StopType.valueOf(stopRequest.getStopType()))
                 .build();
     }

@@ -16,8 +16,5 @@ public class StopRequest {
     private String stopType;
 
     @NotNull
-    private Double latitude;
-
-    @NotNull
-    private Double longitude;
+    private String name;
 }
