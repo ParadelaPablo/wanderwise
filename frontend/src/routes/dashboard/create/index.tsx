@@ -11,7 +11,7 @@ export const Route = createFileRoute("/dashboard/create/")({
 
 function RouteComponent() {
   const [days, setDays] = useState<Day[]>([
-    { id: 1, date: new Date(), stops: [] },
+    { order: 1, date: new Date(), stops: [] },
   ]);
 
   const [totalTravelTime, setTotalTravelTime] = useState<string>("");
