@@ -23,12 +23,11 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_trip_id")
-    private UserTrip userTrip;
+    @Column(nullable = false)
+    private String userId;
 
-    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)
-    private List<Stop> stops;
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL)
+    private List<Day> days;
 
 
     @Column(nullable = false)

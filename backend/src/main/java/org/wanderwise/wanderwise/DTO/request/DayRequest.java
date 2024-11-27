@@ -13,14 +13,13 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class DayRequest {
-    @NotNull
-    private Long tripId; // Reference to the associated trip
 
-    @NotNull
-    @Min(1)
-    private Integer dayOrder;
+        @NotNull
+        private Long tripId;
 
-    @NotNull
-    @Future
-    private LocalDateTime date;
+        @Min(1)
+        private Integer dayOrder;
+
+        @Future
+        private LocalDateTime date;
 }
