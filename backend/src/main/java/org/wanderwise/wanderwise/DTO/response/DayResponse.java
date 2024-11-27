@@ -19,9 +19,11 @@ public class DayResponse {
 
     private LocalDateTime date;
 
+    private List<StopResponse> stops;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    private List<StopResponse> stops;
+
 }
