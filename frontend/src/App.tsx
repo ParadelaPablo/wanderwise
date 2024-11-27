@@ -11,6 +11,8 @@ declare module "@tanstack/react-router" {
   }
 }
 
+
+
 function App() {
   return (
     <LoadScript

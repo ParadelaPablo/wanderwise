@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trips/{tripId}/days")
+@CrossOrigin
 public class DayController {
 
     private final DayService dayService;
@@ -28,8 +29,8 @@ public class DayController {
                 .map(stop -> StopResponse.builder()
                         .id(stop.getId())
                         .dayId(stop.getDay().getId())
-                        .latitude(stop.getLatitude())
-                        .longitude(stop.getLongitude())
+                        .stopType(stop.getStopType().toString())
+                        .name(stop.getName())
                         .createdAt(stop.getCreatedAt())
                         .updatedAt(stop.getUpdatedAt())
                         .build())

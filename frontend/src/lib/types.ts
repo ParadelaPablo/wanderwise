@@ -1,16 +1,33 @@
-export type Day = {
-  order: number;
-  date: Date;
-  stops: Stop[];
+enum StopType {
+    FIKA = "FIKA",
+    ACTIVITY = "ACTIVITY",
+    FUEL = "FUEL",
+    FOOD_AND_DRINK = "FOOD_AND_DRINK",
+    SIGHTSEEING = "SIGHTSEEING",
+    REST = "REST",
+    OVERNIGHT = "OVERNIGHT",
+}
+
+type Day = {
+    id: number;
+    date: Date;
+    stops: Stop[];
 };
 
-export interface Stop {
-  type: string;
-  name: string;
+interface Stop {
+    stopType: StopType;
+    name: string;
+}
+interface Trip {
+    userId: string;
+    title: string;
+    days: Day[];
 }
 
-export interface TripPostRequest {
-  userId: string;
-  title: string;
-  days: Day[];
+interface TripRequest {
+    userId: string;
+    title: string;
 }
+
+export { StopType };
+export type { Day, Stop, TripRequest, Trip };

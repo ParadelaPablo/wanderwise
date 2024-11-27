@@ -6,19 +6,37 @@ const TodoItem = ({
   removeItem: (itemNumber: number) => void;
 }) => {
   return (
-    <div className="form-control">
-      <label className="label cursor-pointer justify-start">
-        <input type="checkbox" className="checkbox" />
+    <div className="form-control bg-white shadow-xl rounded-lg p-3 mb-4">
+      <label className="label cursor-pointer justify-between items-center space-x-3">
+        <input type="checkbox" className="peer hidden" />
+        <div className="w-5 h-5 border-2 border-gray-400 rounded-md flex items-center justify-center peer-checked:border-green-500 peer-checked:bg-green-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+
         <input
           type="text"
           placeholder="Item..."
-          className="input input-bordered w-full max-w-xs h-8 ml-2"
+          className="input input-bordered w-full max-w-xs h-8 px-2 text-sm rounded-md focus:ring-2 focus:ring-green-400"
         />
+
         <button
-          className="btn btn-xs w-6 ml-3"
+          className="btn btn-xs w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
           onClick={() => removeItem(itemNumber)}
         >
-          x
+          ✖
         </button>
       </label>
     </div>

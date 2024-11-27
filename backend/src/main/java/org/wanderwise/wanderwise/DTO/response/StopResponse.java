@@ -16,9 +16,7 @@ public class StopResponse {
 
     private String stopType;
 
-    private Double latitude;
-
-    private Double longitude;
+    private String name;
 
     private LocalDateTime createdAt; 
 
