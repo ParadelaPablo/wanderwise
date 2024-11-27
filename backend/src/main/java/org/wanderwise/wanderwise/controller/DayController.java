@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trips/{tripId}/days")
+@CrossOrigin
 public class DayController {
 
     private final DayService dayService;
@@ -28,8 +29,8 @@ public class DayController {
                 .map(stop -> StopResponse.builder()
                         .id(stop.getId())
                         .dayId(stop.getDay().getId())
-                        .latitude(stop.getLatitude())
-                        .longitude(stop.getLongitude())
+                        .stopType(stop.getStopType().toString())
+                        .name(stop.getName())
                         .createdAt(stop.getCreatedAt())
                         .updatedAt(stop.getUpdatedAt())
                         .build())
@@ -63,7 +64,17 @@ public class DayController {
     }
 
     @PostMapping
+    public ResponseEntity<DayResponse>   @PostMapping
     public ResponseEntity<DayResponse> createDay(@PathVariable Long tripId, @RequestBody DayRequest dayRequest) {
+        Day day = Day.builder()
+                .trip(Trip.builder().id(tripId).build())
+                .dayOrder(dayRequest.getDayOrder())
+                .date(dayRequest.getDate())
+                .build();
+        Day createdDay = dayService.createDay(tripId, day);
+        URI location = URI.create(String.format("/api/trips/%d/days/%d", tripId, createdDay.getId()));
+        return ResponseEntity.created(location).body(mapToResponse(createdDay));
+    }createDay(@PathVariable Long tripId, @RequestBody DayRequest dayRequest) {
         Day day = Day.builder()
                 .trip(Trip.builder().id(tripId).build())
                 .dayOrder(dayRequest.getDayOrder())

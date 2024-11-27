@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import {
   GoogleMap,
-  LoadScript,
   DirectionsService,
   DirectionsRenderer,
 } from "@react-google-maps/api";
@@ -33,8 +32,6 @@ function Map({
 
   const [directionsResponse, setDirectionsResponse] =
     useState<google.maps.DirectionsResult | null>(null);
-
-  const VITE_GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   const handleDirectionsCallback = useCallback(
     (
@@ -79,31 +76,29 @@ function Map({
 
   return (
     <div>
-      <LoadScript googleMapsApiKey={VITE_GOOGLE_MAPS_API_KEY}>
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={geoLocation}
-          zoom={6}
-          options={{
-            streetViewControl: false,
-            mapTypeControl: false,
-            fullscreenControl: false,
-          }}
-        >
-          <DirectionsService
-            options={directionsOptions}
-            callback={handleDirectionsCallback}
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={geoLocation}
+        zoom={6}
+        options={{
+          streetViewControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+        }}
+      >
+        <DirectionsService
+          options={directionsOptions}
+          callback={handleDirectionsCallback}
+        />
+        {/* DirectionsRenderer displays the route */}
+        {directionsResponse && (
+          <DirectionsRenderer
+            options={{
+              directions: directionsResponse,
+            }}
           />
-          {/* DirectionsRenderer displays the route */}
-          {directionsResponse && (
-            <DirectionsRenderer
-              options={{
-                directions: directionsResponse,
-              }}
-            />
-          )}
-        </GoogleMap>
-      </LoadScript>
+        )}
+      </GoogleMap>
     </div>
   );
 }

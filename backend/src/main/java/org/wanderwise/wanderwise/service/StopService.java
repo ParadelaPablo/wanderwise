@@ -28,6 +28,7 @@ public class StopService {
     }
 
     public Stop createStop(Stop stop) {
+        System.err.println("createStop() called, and dayId is: " + stop.getDay().getId());
         if (stop.getDay() == null) {
             throw new IllegalArgumentException("Day is required");
         }
@@ -42,8 +43,7 @@ public class StopService {
             throw new IllegalArgumentException("Invalid stop id");
         }
         Stop existingStop = getStopById(id);
-        existingStop.setLatitude(stop.getLatitude());
-        existingStop.setLongitude(stop.getLongitude());
+        existingStop.setName(stop.getName());
         return stopRepository.save(existingStop);
     }
 
