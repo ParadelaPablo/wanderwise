@@ -9,7 +9,7 @@ enum StopType {
 }
 
 type Day = {
-    id: number;
+    order: number;
     date: Date;
     stops: Stop[];
 };

@@ -5,20 +5,20 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
-import { Day, Stop } from "@/lib/types";
+import { Day, Stop, StopType } from "@/lib/types";
 import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 
 const stopTypes: { id: string; label: string }[] = [
-  { id: "fika", label: "Fika" },
-  { id: "activity", label: "Activity" },
-  { id: "fuel", label: "Fuel" },
-  { id: "food", label: "Food and drink" },
-  { id: "sightseeing", label: "Sightseeing" },
-  { id: "rest", label: "Rest" },
-  { id: "overnight", label: "Overnight" },
+  { id: "FIKA", label: "Fika" },
+  { id: "ACTIVITY", label: "Activity" },
+  { id: "FUEL", label: "Fuel" },
+  { id: "FOOD", label: "Food and drink" },
+  { id: "SIGHTSEEING", label: "Sightseeing" },
+  { id: "REST", label: "Rest" },
+  { id: "OVERNIGHT", label: "Overnight" },
 ];
 
 type Props = {
@@ -28,7 +28,7 @@ type Props = {
 };
 
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
-  const { userId } = useAuth();
+  const { userId } =  useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
   const mapRef = useRef();
   const autocompleteRef = useRef();
@@ -68,7 +68,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     if (!stopType) return;
 
     const newStop: Stop = {
-      type: stopType.label,
+      stopType: stopType.id as StopType,
       name: stopName,
     };
 
@@ -98,6 +98,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       days.map((day) => (day.order === dayId ? { ...day, date: newDate } : day))
     );
   };
+
   const data = {
     userId: "12345bn",
     title: title,
@@ -205,7 +206,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                   >
                     <div className="flex items-center gap-2 capitalize">
                       <p>
-                        {stop.type}: {stop.name}
+                        {stop.stopType}: {stop.name}
                       </p>
                     </div>
                     <button
