@@ -8,7 +8,7 @@ import {
 import { Day, Stop } from "@/lib/types";
 import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
-import { createTrip } from "@/lib/api";
+import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 
 const stopTypes: { id: string; label: string }[] = [
@@ -36,7 +36,6 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const onLoadAutocomplete = (autocomplete) => {
     autocompleteRef.current = autocomplete;
   };
-
 
   const handlePlaceChanged = () => {
     const { geometry } = autocompleteRef.current.getPlace();
@@ -99,20 +98,27 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       days.map((day) => (day.order === dayId ? { ...day, date: newDate } : day))
     );
   };
-
-  const mutation = useMutation({
-    mutationFn: () => {
-      return createTrip({
-        userId: userId!,
-        title: title,
-        days: [
+  const data = {
+    userId: "12345bn",
+    title: title,
+    days: [
+      {
+        dayOrder: 1,
+        date: "2024-12-01",
+        stops: [
           {
-            order: 1,
-            date: new Date(),
-            stops: [{ name: "Paris", type: "Fika" }],
+            dayId: 1,
+            stopType: "FIKA",
+            name: "Stockholm",
           },
         ],
-      });
+      },
+    ],
+  };
+  console.log(data);
+  const mutation = useMutation({
+    mutationFn: () => {
+      return createFullTrip(data);
     },
   });
 
