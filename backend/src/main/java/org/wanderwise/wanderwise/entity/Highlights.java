@@ -20,7 +20,7 @@ public class Highlights {
 
     @ManyToOne
     @JoinColumn(name = "trip_id", nullable = false)
-    private Trip tripId;
+    private Trip trip;
 
     @Column(nullable = false, length = 400)
     private String text;

@@ -64,17 +64,7 @@ public class DayController {
     }
 
     @PostMapping
-    public ResponseEntity<DayResponse>   @PostMapping
     public ResponseEntity<DayResponse> createDay(@PathVariable Long tripId, @RequestBody DayRequest dayRequest) {
-        Day day = Day.builder()
-                .trip(Trip.builder().id(tripId).build())
-                .dayOrder(dayRequest.getDayOrder())
-                .date(dayRequest.getDate())
-                .build();
-        Day createdDay = dayService.createDay(tripId, day);
-        URI location = URI.create(String.format("/api/trips/%d/days/%d", tripId, createdDay.getId()));
-        return ResponseEntity.created(location).body(mapToResponse(createdDay));
-    }createDay(@PathVariable Long tripId, @RequestBody DayRequest dayRequest) {
         Day day = Day.builder()
                 .trip(Trip.builder().id(tripId).build())
                 .dayOrder(dayRequest.getDayOrder())

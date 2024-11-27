@@ -41,7 +41,7 @@ public class HighlightsService {
 
     public List<Highlights> getHighlightsByTripId(Long tripId) {
         return highlightsRepository.findAll().stream()
-                .filter(highlights -> highlights.getTripId().getId().equals(tripId))
+                .filter(highlights -> highlights.getTrip().getId().equals(tripId))
                 .toList();
     }
 }

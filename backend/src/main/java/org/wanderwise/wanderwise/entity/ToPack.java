@@ -19,7 +19,7 @@ public class ToPack {
 
     @ManyToOne
     @JoinColumn(name = "trip_id")
-    private Trip tripId;
+    private Trip trip;
 
     @Column(nullable = false)
     String toPack;

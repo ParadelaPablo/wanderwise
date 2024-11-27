@@ -17,7 +17,7 @@ public class ToDo {
 
     @ManyToOne
     @JoinColumn(name = "trip_id")
-    private Trip tripId;
+    private Trip trip;
 
     @Column(nullable = false, length = 200)
     private String toDo;
