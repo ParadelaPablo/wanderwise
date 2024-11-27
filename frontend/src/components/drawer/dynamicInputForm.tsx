@@ -22,9 +22,10 @@ const stopTypes: { id: string; label: string }[] = [
 type Props = {
   days: Day[];
   setDays: React.Dispatch<React.SetStateAction<Day[]>>;
+  title: string
 };
 
-const DynamicInputForm = ({ days, setDays }: Props) => {
+const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const {userId} = useAuth()
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
 
@@ -173,7 +174,7 @@ const DynamicInputForm = ({ days, setDays }: Props) => {
         </button>
       </div>
       <div>
-        <button onClick={() => console.log(days, userId)} className="btn btn-primary mt-4">DONE 🎉</button>
+        <button onClick={() => console.log(days, userId, title)} className="btn btn-primary mt-4">DONE 🎉</button>
       </div>
     </div>
   );

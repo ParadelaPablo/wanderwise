@@ -12,8 +12,8 @@ type MapProps = {
     lng: number;
   };
   isFullScreen: boolean;
-  origin: string; 
-  destination: string; 
+  origin: string;
+  destination: string;
   waypoints: Array<{ location: string; stopover: boolean }>;
   setTotalTravelTime: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -30,13 +30,17 @@ function Map({
     width: "100%",
     height: isFullScreen ? "100vh" : "90vh",
   };
-  
-  const [directionsResponse, setDirectionsResponse] = useState<google.maps.DirectionsResult | null>(null);
+
+  const [directionsResponse, setDirectionsResponse] =
+    useState<google.maps.DirectionsResult | null>(null);
 
   const VITE_GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-console.log("Hi there")
+
   const handleDirectionsCallback = useCallback(
-    (response: google.maps.DirectionsResult, status: google.maps.DirectionsStatus) => {
+    (
+      response: google.maps.DirectionsResult,
+      status: google.maps.DirectionsStatus
+    ) => {
       if (status === "OK") {
         setDirectionsResponse(response);
 
@@ -86,11 +90,10 @@ console.log("Hi there")
             fullscreenControl: false,
           }}
         >
-          
           <DirectionsService
-              options={directionsOptions}
-              callback={handleDirectionsCallback}
-            />
+            options={directionsOptions}
+            callback={handleDirectionsCallback}
+          />
           {/* DirectionsRenderer displays the route */}
           {directionsResponse && (
             <DirectionsRenderer
