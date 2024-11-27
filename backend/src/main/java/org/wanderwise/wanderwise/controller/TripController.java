@@ -25,7 +25,7 @@ public class TripController {
     private TripResponse mapToResponse(Trip trip) {
         return TripResponse.builder()
                 .id(trip.getId())
-                .userTripId(trip.getUserTrip().getId())
+                .userId(trip.getUserId())
                 .title(trip.getTitle())
                 .createdAt(trip.getCreatedAt())
                 .updatedAt(trip.getUpdatedAt())

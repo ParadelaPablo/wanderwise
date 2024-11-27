@@ -25,9 +25,6 @@ public class Stop {
     @JoinColumn(name = "day_id")
     private Day day;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trip_id")
-    private Trip trip;
 
     @Column(nullable = false)
     private Double latitude;
