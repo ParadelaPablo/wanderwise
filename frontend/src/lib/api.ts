@@ -41,6 +41,6 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
     );
   }
   const json = await response.json();
-  console.log("json", json);
+  console.log("data have been sent!!! Here is the response", json);
   return json;
 }
