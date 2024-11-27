@@ -9,8 +9,6 @@ export const Route = createFileRoute("/dashboard/create/")({
   component: RouteComponent,
 });
 
-
-
 function RouteComponent() {
   const [days, setDays] = useState<Day[]>([
     { id: 1, date: new Date(), stops: [] },
@@ -19,10 +17,13 @@ function RouteComponent() {
   const [totalTravelTime, setTotalTravelTime] = useState<string>("");
 
   const mapData = useMemo(() => getMapData(days), [days]);
-  const geoLocationMemo = useMemo(() => ({ lat: 59.3467183, lng: 18.0097756 }), []);
-const originMemo = useMemo(() => mapData?.origin || "", [mapData]);
-const destinationMemo = useMemo(() => mapData?.destination || "", [mapData]);
-const waypointsMemo = useMemo(() => mapData?.waypoints || [], [mapData]);
+  const geoLocationMemo = useMemo(
+    () => ({ lat: 59.3467183, lng: 18.0097756 }),
+    []
+  );
+  const originMemo = useMemo(() => mapData?.origin || "", [mapData]);
+  const destinationMemo = useMemo(() => mapData?.destination || "", [mapData]);
+  const waypointsMemo = useMemo(() => mapData?.waypoints || [], [mapData]);
 
   return (
     <div className="h-full w-full flex flex-col  justify-between">
