@@ -10,6 +10,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import { createTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
+
 const stopTypes: { id: string; label: string }[] = [
   { id: "fika", label: "Fika" },
   { id: "activity", label: "Activity" },
@@ -35,6 +36,8 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const onLoadAutocomplete = (autocomplete) => {
     autocompleteRef.current = autocomplete;
   };
+
+
   const handlePlaceChanged = () => {
     const { geometry } = autocompleteRef.current.getPlace();
     const bounds = new window.google.maps.LatLngBounds();
