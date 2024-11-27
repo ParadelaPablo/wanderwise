@@ -1,5 +1,9 @@
 import { useAuth } from "@clerk/clerk-react";
 import { useRouter } from "@tanstack/react-router";
+import logo from "../../assets/logofinalmaybe.png";
+
+<img src={logo} alt="Logo" />
+
 
 const HamburguerMenu: React.FC = () => {
 const { signOut } = useAuth();
@@ -7,11 +11,11 @@ const router = useRouter();
 
 const handleSignOut = async () => {
 await signOut();
-router.navigate({ to: "/" }); 
+router.navigate({ to: "/" });
 };
 
 return (
-<div className="navbar bg-base-100">
+<div className="navbar bg-base-100 flex justify-between items-center px-4">
     <div className="navbar-start">
     <div className="dropdown">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -35,61 +39,48 @@ return (
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
         <li>
-            <button
-            onClick={() => router.navigate({ to: "/dashboard" })}
-            >
+            <button onClick={() => router.navigate({ to: "/dashboard" })}>
             Dashboard
             </button>
         </li>
         <li>
-            <button
-
-            >
-            Current trip / Recent trip
-            </button>
+            <button>Current trip / Recent trip</button>
         </li>
         <li>
-            <button
-
-            >
+            <button onClick={() => router.navigate({ to: "/dashboard/create" })}>
             Add trip
             </button>
         </li>
         <li>
-            <button
-
-            >
+            <button onClick={() => router.navigate({ to: "/settings" })}>
             Settings
             </button>
         </li>
         <li>
-            <button
-
-            >
-            My account
-            </button>
+            <button>My account</button>
         </li>
         <li>
-            <button
-            onClick={() => router.navigate({ to: "/contact" })}
-            >
+            <button onClick={() => router.navigate({ to: "/contact" })}>
             Help
             </button>
         </li>
         <li>
-            <button
-            onClick={() => router.navigate({ to: "/contact" })}
-            >
+            <button onClick={() => router.navigate({ to: "/contact" })}>
             Contact
             </button>
         </li>
         <li>
-            <button onClick={handleSignOut}>
-            Sign out
-            </button>
+            <button onClick={handleSignOut}>Sign out</button>
         </li>
         </ul>
     </div>
+    </div>
+    <div className="navbar-end">
+    <img
+        src={logo}
+        alt="Logo"
+        className="h-8 w-8 object-contain"
+    />
     </div>
 </div>
 );
