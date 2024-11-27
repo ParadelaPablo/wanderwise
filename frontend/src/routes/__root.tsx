@@ -15,7 +15,6 @@ export const Route = createRootRoute({
         <HamburguerMenu />
       </SignedIn>
 
-
       <Outlet />
 
       <TanStackRouterDevtools />

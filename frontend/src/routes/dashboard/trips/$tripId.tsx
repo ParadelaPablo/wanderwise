@@ -19,8 +19,9 @@ function RouteComponent() {
 
   return (
     <div className="h-screen flex flex-col">
-      <div>My trip N {tripId}</div>
-      <div className="flex justify-left items-start flex-grow my-8 border p-1" >
+      <div >My trip N {tripId}</div>
+      <div className="divider"></div>
+      <div className="flex justify-left items-start flex-grow my-2 p-1">
         {visibleComponent === "Todo" && <Todo />}
         {visibleComponent === "ToPack" && <ToPack />}
         {visibleComponent === "Highlights" && <Highlights />}

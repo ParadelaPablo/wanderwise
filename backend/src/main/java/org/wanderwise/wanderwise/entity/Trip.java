@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "trips")
@@ -25,6 +26,9 @@ public class Trip {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_trip_id")
     private UserTrip userTrip;
+
+    @OneToMany(mappedBy = "trip", fetch = FetchType.LAZY)
+    private List<Stop> stops;
 
 
     @Column(nullable = false)

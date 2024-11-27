@@ -7,7 +7,7 @@ const router = useRouter();
 
 const handleSignOut = async () => {
 await signOut();
-router.navigate({ to: "/" }); // Usamos TanStack React Router para navegar
+router.navigate({ to: "/" }); 
 };
 
 return (
@@ -50,7 +50,7 @@ return (
         </li>
         <li>
             <button
-            onClick={() => router.navigate({ to: "/dashboard/create" })}
+
             >
             Add trip
             </button>
