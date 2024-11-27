@@ -1,4 +1,4 @@
-import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import HomeBeforeLogin from "../components/homeBeforeLogin/homeBeforeLogIn";
 import { useAuth } from "@clerk/clerk-react";
 
