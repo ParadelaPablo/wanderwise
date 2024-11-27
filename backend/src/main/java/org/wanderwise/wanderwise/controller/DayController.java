@@ -1,14 +1,13 @@
 package org.wanderwise.wanderwise.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.wanderwise.wanderwise.DTO.request.DayRequest;
 import org.wanderwise.wanderwise.DTO.response.DayResponse;
 import org.wanderwise.wanderwise.DTO.response.StopResponse;
 import org.wanderwise.wanderwise.entity.Day;
 import org.wanderwise.wanderwise.entity.Stop;
+import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.service.DayService;
 
 import java.util.List;
@@ -57,6 +56,38 @@ public class DayController {
         return ResponseEntity.ok(dayResponses);
     }
 
+    @GetMapping("/{dayId}")
+    public ResponseEntity<DayResponse> getDayById(@PathVariable Long tripId, @PathVariable Long dayId) {
+        DayResponse dayResponse = mapToResponse(dayService.getDayById(tripId, dayId));
+        return ResponseEntity.ok(dayResponse);
+    }
 
+    @PostMapping
+    public ResponseEntity<DayResponse> createDay(@PathVariable Long tripId, @RequestBody DayRequest dayRequest) {
+        Day day = Day.builder()
+                .trip(Trip.builder().id(tripId).build())
+                .dayOrder(dayRequest.getDayOrder())
+                .date(dayRequest.getDate())
+                .build();
+        Day createdDay = dayService.createDay(tripId, day);
+        return ResponseEntity.ok(mapToResponse(createdDay));
+    }
 
+    @PutMapping("/{dayId}")
+    public ResponseEntity<DayResponse> updateDay(@PathVariable Long tripId, @PathVariable Long dayId, @RequestBody DayRequest dayRequest) {
+        Day day = Day.builder()
+                .id(dayId)
+                .trip(Trip.builder().id(tripId).build())
+                .dayOrder(dayRequest.getDayOrder())
+                .date(dayRequest.getDate())
+                .build();
+        Day updatedDay = dayService.updateDay(tripId, day);
+        return ResponseEntity.ok(mapToResponse(updatedDay));
+    }
+
+    @DeleteMapping("/{dayId}")
+    public ResponseEntity<Void> deleteDay(@PathVariable Long tripId, @PathVariable Long dayId) {
+        dayService.deleteDay(tripId, dayId);
+        return ResponseEntity.noContent().build();
+    }
 }
