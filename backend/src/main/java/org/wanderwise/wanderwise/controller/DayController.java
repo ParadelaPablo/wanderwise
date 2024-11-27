@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trips/{tripId}/days")
+@CrossOrigin
 public class DayController {
 
     private final DayService dayService;

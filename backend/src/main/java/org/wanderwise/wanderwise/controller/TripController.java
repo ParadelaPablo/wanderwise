@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trips")
+@CrossOrigin
 public class TripController {
 
     private TripService tripService;
@@ -35,6 +36,7 @@ public class TripController {
     private Trip mapToEntity(TripRequest tripRequest) {
         return Trip.builder()
                 .title(tripRequest.getTitle())
+                .userId(tripRequest.getUserId())
                 .createdAt(LocalDateTime.now())
                 .build();
     }
@@ -63,6 +65,7 @@ public class TripController {
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest tripRequest) {
+        System.err.println(tripRequest.getUserId() + " " + tripRequest.getTitle());
         Trip trip = tripService.createTrip(mapToEntity(tripRequest));
         URI location = URI.create("/api/trips/" + tripRequest);
         return ResponseEntity.created(location).body(mapToResponse(trip));

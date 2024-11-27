@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trips/{tripId}/days/{dayId}/stops")
+@CrossOrigin
 public class StopController {
     private final StopService stopService;
 
