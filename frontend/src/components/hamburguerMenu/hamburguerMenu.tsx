@@ -1,14 +1,13 @@
 import { useAuth } from "@clerk/clerk-react";
-import { useNavigate } from "@tanstack/react-router";
-import Contact from "../contact/contact";
+import { useRouter } from "@tanstack/react-router";
 
 const HamburguerMenu: React.FC = () => {
-const { signOut } = useAuth(); 
-const navigate = useNavigate(); 
+const { signOut } = useAuth();
+const router = useRouter();
 
 const handleSignOut = async () => {
-await signOut(); 
-navigate({ to: "/" }); 
+await signOut();
+router.navigate({ to: "/" }); // Usamos TanStack React Router para navegar
 };
 
 return (
@@ -36,32 +35,58 @@ return (
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
         <li>
-            <a href="/dashboard">Dashboard</a>
+            <button
+            onClick={() => router.navigate({ to: "/dashboard" })}
+            >
+            Dashboard
+            </button>
         </li>
         <li>
-            <a href="/current-trip">Current trip / Recent trip</a>
+            <button
+
+            >
+            Current trip / Recent trip
+            </button>
         </li>
         <li>
-            <a href="/add-trip">Add trip</a>
+            <button
+            onClick={() => router.navigate({ to: "/dashboard/create" })}
+            >
+            Add trip
+            </button>
         </li>
         <li>
-            <a href="/settings">Settings</a>
+            <button
+
+            >
+            Settings
+            </button>
         </li>
         <li>
-            <a href="/account">My account</a>
+            <button
+
+            >
+            My account
+            </button>
         </li>
         <li>
-            <a href="/help">Help</a>
+            <button
+            onClick={() => router.navigate({ to: "/contact" })}
+            >
+            Help
+            </button>
         </li>
         <li>
-            <a href="/contact" onClick={Contact}>
+            <button
+            onClick={() => router.navigate({ to: "/contact" })}
+            >
             Contact
-            </a>
+            </button>
         </li>
         <li>
-            <a role="button" onClick={handleSignOut}>
+            <button onClick={handleSignOut}>
             Sign out
-            </a>
+            </button>
         </li>
         </ul>
     </div>
