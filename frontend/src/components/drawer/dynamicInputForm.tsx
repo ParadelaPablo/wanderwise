@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -9,7 +9,7 @@ import { Day, Stop } from "@/lib/types";
 import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import { createTrip } from "@/lib/api";
-
+import { Autocomplete } from "@react-google-maps/api";
 const stopTypes: { id: string; label: string }[] = [
   { id: "fika", label: "Fika" },
   { id: "activity", label: "Activity" },
@@ -29,6 +29,22 @@ type Props = {
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
+  const mapRef = useRef();
+  const autocompleteRef = useRef();
+
+  const onLoadAutocomplete = (autocomplete) => {
+    autocompleteRef.current = autocomplete;
+  };
+  const handlePlaceChanged = () => {
+    const { geometry } = autocompleteRef.current.getPlace();
+    const bounds = new window.google.maps.LatLngBounds();
+    if (geometry.viewport) {
+      bounds.union(geometry.viewport);
+    } else {
+      bounds.extend(geometry.location);
+    }
+    mapRef.current.fitBounds(bounds);
+  };
 
   const addNewDay = () => {
     const newDayId = days.length + 1;
@@ -150,21 +166,26 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                       </option>
                     ))}
                   </select>
-                  <input
-                    type="text"
-                    placeholder="Add stop"
-                    className="input input-bordered w-full rounded-r-lg"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && e.currentTarget.value) {
-                        updateStop(
-                          day.order,
-                          selectedType,
-                          e.currentTarget.value
-                        );
-                        e.currentTarget.value = "";
-                      }
-                    }}
-                  />
+                  <Autocomplete
+                    onLoad={onLoadAutocomplete}
+                    onPlaceChanged={handlePlaceChanged}
+                  >
+                    <input
+                      type="text"
+                      placeholder="Add stop"
+                      className="input input-bordered w-full rounded-r-lg"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && e.currentTarget.value) {
+                          updateStop(
+                            day.order,
+                            selectedType,
+                            e.currentTarget.value
+                          );
+                          e.currentTarget.value = "";
+                        }
+                      }}
+                    />
+                  </Autocomplete>
                 </div>
               </div>
               <div className="space-y-1">
