@@ -18,8 +18,8 @@ function RouteComponent() {
   const [visibleComponent, setVisibleComponent] = useState("Todo");
 
   return (
-    <div className="h-screen flex flex-col">
-      <div >My trip N {tripId}</div>
+    <div className="h-screen flex flex-col mr-5 ml-5">
+      <div >When we connect with backend we should put the name of the endpoint {tripId}</div>
       <div className="divider"></div>
       <div className="flex justify-left items-start flex-grow my-2 p-1">
         {visibleComponent === "Todo" && <Todo />}
