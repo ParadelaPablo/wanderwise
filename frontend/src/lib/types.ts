@@ -1,5 +1,5 @@
 export type Day = {
-  id: number;
+  order: number;
   date: Date;
   stops: Stop[];
 };
@@ -9,7 +9,8 @@ export interface Stop {
   name: string;
 }
 
-export interface TripRequest {
+export interface TripPostRequest {
   userId: string;
   title: string;
+  days: Day[];
 }

@@ -34,7 +34,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     const newDayId = days.length + 1;
 
     const newDay = {
-      id: newDayId,
+      order: newDayId,
       date: new Date(),
       stops: [],
     };
@@ -42,7 +42,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   };
 
   const removeDay = (id: number) => {
-    setDays(days.filter((day) => day.id !== id));
+    setDays(days.filter((day) => day.order !== id));
   };
 
   const updateStop = (dayId: number, typeId: string, stopName: string) => {
@@ -56,7 +56,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
 
     setDays(
       days.map((day) =>
-        day.id === dayId ? { ...day, stops: [...day.stops, newStop] } : day
+        day.order === dayId ? { ...day, stops: [...day.stops, newStop] } : day
       )
     );
   };
@@ -64,7 +64,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const removeStop = (dayId: number, stopIndex: number) => {
     setDays(
       days.map((day) =>
-        day.id === dayId
+        day.order === dayId
           ? {
               ...day,
               stops: day.stops.filter((_, index) => index !== stopIndex),
@@ -77,13 +77,23 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const updateDate = (dayId: number, newDate: Date | undefined) => {
     if (!newDate) return;
     setDays(
-      days.map((day) => (day.id === dayId ? { ...day, date: newDate } : day))
+      days.map((day) => (day.order === dayId ? { ...day, date: newDate } : day))
     );
   };
 
   const mutation = useMutation({
     mutationFn: () => {
-      return createTrip({ userId: userId!, title: title });
+      return createTrip({
+        userId: userId!,
+        title: title,
+        days: [
+          {
+            order: 1,
+            date: new Date(),
+            stops: [{ name: "Paris", type: "Fika" }],
+          },
+        ],
+      });
     },
   });
 
@@ -92,12 +102,12 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       <div>
         {days.map((day) => (
           <div
-            key={day.id}
+            key={day.order}
             className="card w-full bg-base-100 shadow-md p-4 border border-gray-200"
           >
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-bold text-lg">
-                Day {day.id}{" "}
+                Day {day.order}{" "}
                 <Popover>
                   <PopoverTrigger>
                     <button className="btn btn-sm btn-primary ml-2">
@@ -112,7 +122,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     <Calendar
                       mode="single"
                       onSelect={(date) => {
-                        if (date) updateDate(day.id, date);
+                        if (date) updateDate(day.order, date);
                       }}
                       selected={day.date}
                     />
@@ -121,7 +131,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
               </h3>
               <button
                 className="btn btn-sm btn-circle btn-ghost text-gray-400"
-                onClick={() => removeDay(day.id)}
+                onClick={() => removeDay(day.order)}
               >
                 ✖
               </button>
@@ -146,7 +156,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     className="input input-bordered w-full rounded-r-lg"
                     onKeyDown={(e) => {
                       if (e.key === "Enter" && e.currentTarget.value) {
-                        updateStop(day.id, selectedType, e.currentTarget.value);
+                        updateStop(
+                          day.order,
+                          selectedType,
+                          e.currentTarget.value
+                        );
                         e.currentTarget.value = "";
                       }
                     }}
@@ -166,7 +180,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     </div>
                     <button
                       className="btn btn-circle btn-xs btn-ghost"
-                      onClick={() => removeStop(day.id, index)}
+                      onClick={() => removeStop(day.order, index)}
                     >
                       ✖
                     </button>
