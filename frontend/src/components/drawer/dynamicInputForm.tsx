@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/popover";
 import { Day, Stop } from "@/lib/types";
 import { useAuth } from "@clerk/clerk-react";
+import { useMutation } from "@tanstack/react-query";
+import { createTrip } from "@/lib/api";
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "fika", label: "Fika" },
@@ -80,6 +82,13 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     );
   };
 
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return createTrip({userId: "bla" , title: "New title"})
+    },
+  })
+  
   return (
     <div className="flex flex-col gap-4 items-center ">
       <div>

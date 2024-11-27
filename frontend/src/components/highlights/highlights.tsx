@@ -11,7 +11,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useNavigate } from "@tanstack/react-router";
 
-export const Highlights = () => {
+const Highlights = () => {
   const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
   const highlightId = date?.getMilliseconds();
@@ -52,3 +52,4 @@ export const Highlights = () => {
     </div>
   );
 };
+export default Highlights

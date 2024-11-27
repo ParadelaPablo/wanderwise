@@ -14,6 +14,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as SigninIndexImport } from './routes/signin/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as ContactIndexImport } from './routes/contact/index'
 import { Route as DashboardCreateIndexImport } from './routes/dashboard/create/index'
 import { Route as DashboardTripsTripIdImport } from './routes/dashboard/trips/$tripId'
 import { Route as DashboardTripsHighlightsHighlightIdImport } from './routes/dashboard/trips/highlights/$highlightId'
@@ -35,6 +36,12 @@ const SigninIndexRoute = SigninIndexImport.update({
 const DashboardIndexRoute = DashboardIndexImport.update({
   id: '/dashboard/',
   path: '/dashboard/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ContactIndexRoute = ContactIndexImport.update({
+  id: '/contact/',
+  path: '/contact/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -66,6 +73,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact/': {
+      id: '/contact/'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactIndexImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/': {
@@ -110,6 +124,7 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
@@ -119,6 +134,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
@@ -129,6 +145,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/contact/': typeof ContactIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/signin/': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
@@ -140,6 +157,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/contact'
     | '/dashboard'
     | '/signin'
     | '/dashboard/trips/$tripId'
@@ -148,6 +166,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/contact'
     | '/dashboard'
     | '/signin'
     | '/dashboard/trips/$tripId'
@@ -156,6 +175,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/contact/'
     | '/dashboard/'
     | '/signin/'
     | '/dashboard/trips/$tripId'
@@ -166,6 +186,7 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactIndexRoute: typeof ContactIndexRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   SigninIndexRoute: typeof SigninIndexRoute
   DashboardTripsTripIdRoute: typeof DashboardTripsTripIdRoute
@@ -175,6 +196,7 @@ export interface RootRouteChildren {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactIndexRoute: ContactIndexRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   SigninIndexRoute: SigninIndexRoute,
   DashboardTripsTripIdRoute: DashboardTripsTripIdRoute,
@@ -194,6 +216,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/contact/",
         "/dashboard/",
         "/signin/",
         "/dashboard/trips/$tripId",
@@ -203,6 +226,9 @@ export const routeTree = rootRoute
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/contact/": {
+      "filePath": "contact/index.tsx"
     },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx"
