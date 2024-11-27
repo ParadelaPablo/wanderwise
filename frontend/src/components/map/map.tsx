@@ -35,7 +35,7 @@ function Map({
     useState<google.maps.DirectionsResult | null>(null);
 
   const VITE_GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-  console.log("Hi there");
+
   const handleDirectionsCallback = useCallback(
     (
       response: google.maps.DirectionsResult,
