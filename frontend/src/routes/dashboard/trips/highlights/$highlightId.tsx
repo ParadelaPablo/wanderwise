@@ -1,4 +1,4 @@
-import { createFileRoute, useParams } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useParams } from "@tanstack/react-router";
 import { Button } from "react-day-picker";
 
 export const Route = createFileRoute(
@@ -8,13 +8,22 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
+  const navigate = useNavigate();
   const highlightId = useParams({
     from: "/dashboard/trips/highlights/$highlightId",
     select: (params) => params.highlightId,
   });
   return (
     <div className="">
-      <div className="btn">Back</div>
+      <div
+        className="btn"
+        onClick={() =>
+          navigate({ to: `/dashboard/trips/highlights` })
+        }
+        
+      >
+        Back
+      </div>
       <p>My note {highlightId}</p>
       <div className="w-full flex flex-col justify-center items-center gap-2">
         <p className="text-2xl">Title</p>
@@ -30,10 +39,14 @@ function RouteComponent() {
               className="textarea textarea-bordered w-full resize-none h-72"
               placeholder="Bio"
             ></textarea>
-            <div className="absolute bottom-2 right-2 flex gap-2">
-              <button className="border w-6 h-6 border-black rounded"></button>
-              <button className="border w-6 h-6 border-black rounded"></button>
-              <button className="border w-6 h-6 border-black rounded"></button>
+            <div className="absolute bottom-2 right-2 flex gap-2 items-end">
+              <button className="btn btn-outline min-h-10 h-10 w-10 text-2xl">
+                ♫
+              </button>
+              <button className="btn btn-outline min-h-10 h-10 w-10 text-2xl">
+                ⊛
+              </button>
+              <button className="btn btn-success min-h-10 h-10">Success</button>
             </div>
           </div>
         </div>

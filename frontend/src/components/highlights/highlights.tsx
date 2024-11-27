@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useNavigate } from "@tanstack/react-router";
+import HighlightCard from "./highLightCard";
 
 const Highlights = () => {
   const navigate = useNavigate();
@@ -48,8 +49,15 @@ const Highlights = () => {
       >
         Add notes
       </button>
-      <div>You dont have any notes for this trip</div>
+      <div className="flex flex-col justify-center" >
+        <HighlightCard/>
+        <HighlightCard/>
+        <HighlightCard/>
+        <HighlightCard/>
+        <HighlightCard/>
+        You dont have any notes for this trip
+        </div>
     </div>
   );
 };
-export default Highlights
+export default Highlights;
