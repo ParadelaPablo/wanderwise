@@ -6,15 +6,17 @@ import {
   PopoverContent,
 } from "@/components/ui/popover";
 import { Day, Stop } from "@/lib/types";
+import { useAuth } from "@clerk/clerk-react";
 
 const stopTypes: { id: string; label: string }[] = [
-  { id: "pitstop", label: "Pitstop" },
-  { id: "startpoint", label: "Start Point" },
-  { id: "endpoint", label: "End Point" },
-  { id: "gas", label: "Gas Station" },
+  { id: "fika", label: "Fika" },
+  { id: "activity", label: "Activity" },
+  { id: "fuel", label: "Fuel" },
+  { id: "food", label: "Food and drink" },
   { id: "sightseeing", label: "Sightseeing" },
-  { id: "overnight", label: "Overnight" },
   { id: "rest", label: "Rest" },
+  { id: "overnight", label: "Overnight" },
+ 
 ];
 
 type Props = {
@@ -23,6 +25,7 @@ type Props = {
 };
 
 const DynamicInputForm = ({ days, setDays }: Props) => {
+  const {userId} = useAuth()
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
 
   const addNewDay = () => {
@@ -148,7 +151,7 @@ const DynamicInputForm = ({ days, setDays }: Props) => {
                     key={index}
                     className="flex justify-between items-center border p-2 rounded-md"
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 capitalize">
                       <p>
                         {stop.type}: {stop.name}
                       </p>
@@ -170,7 +173,7 @@ const DynamicInputForm = ({ days, setDays }: Props) => {
         </button>
       </div>
       <div>
-        <button className="btn btn-primary mt-4">DONE 🎉</button>
+        <button onClick={() => console.log(days, userId)} className="btn btn-primary mt-4">DONE 🎉</button>
       </div>
     </div>
   );
