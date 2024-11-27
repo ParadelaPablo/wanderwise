@@ -16,30 +16,35 @@ public class ToDoService {
         this.toDoRepository = toDoRepository;
     }
 
-    public List<ToDo> getAllToDos() {
-        return toDoRepository.findAll();
+    public List<ToDo> getToDosByTripId(Long tripId) {
+        return toDoRepository.findByTrip_Id(tripId);
     }
 
     public ToDo getToDoById(Long id) {
         return toDoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("ToDo not found"));
+                .orElseThrow(() -> new NoSuchElementException("ToDo not found with ID: " + id));
     }
 
-    public ToDo createToDo(ToDo toDo) {
+    public ToDo createToDoForTrip(Long tripId, ToDo toDo) {
+        toDo.getTrip().setId(tripId);
         return toDoRepository.save(toDo);
     }
 
-    public void deleteToDoById(Long id) {
-        toDoRepository.deleteById(id);
-    }
-
-    public ToDo updateToDo(Long id, ToDo updatedToDo) {
-        return toDoRepository.findById(id)
+    public ToDo updateToDoForTrip(Long tripId, Long toDoId, ToDo updatedToDo) {
+        return toDoRepository.findById(toDoId)
+                .filter(todo -> todo.getTrip().getId().equals(tripId))
                 .map(todo -> {
                     todo.setToDo(updatedToDo.getToDo());
                     todo.setDone(updatedToDo.getDone());
                     return toDoRepository.save(todo);
                 })
-                .orElseThrow(() -> new RuntimeException("Todo not found"));
+                .orElseThrow(() -> new RuntimeException("ToDo not found for Trip ID: " + tripId + " and ToDo ID: " + toDoId));
+    }
+
+    public void deleteToDoById(Long toDoId) {
+        if (!toDoRepository.existsById(toDoId)) {
+            throw new RuntimeException("ToDo not found with ID: " + toDoId);
+        }
+        toDoRepository.deleteById(toDoId);
     }
 }

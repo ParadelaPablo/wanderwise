@@ -9,7 +9,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/dashboard/trips/{tripId}/todos")
+@RequestMapping("/api/trips/{tripId}/todos")
 public class ToDoController {
 
     private final ToDoService toDoService;
@@ -19,32 +19,41 @@ public class ToDoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ToDo>> getAllToDos(@PathVariable Long tripId) {
-        List<ToDo> toDos = toDoService.getAllToDos();
+    public ResponseEntity<List<ToDo>> getAllToDosByTrip(@PathVariable Long tripId) {
+        List<ToDo> toDos = toDoService.getToDosByTripId(tripId);
         return ResponseEntity.ok(toDos);
     }
 
-    @GetMapping("/{todoId}")
-    public ResponseEntity<ToDo> getToDoById(@PathVariable Long tripId, @PathVariable Long toDoId) {
+    @GetMapping("/{toDoId}")
+    public ResponseEntity<ToDo> getToDoById(
+            @PathVariable Long tripId,
+            @PathVariable Long toDoId) {
         ToDo toDo = toDoService.getToDoById(toDoId);
         return ResponseEntity.ok(toDo);
     }
 
     @PostMapping
-    public ResponseEntity<ToDo> createToDo(@PathVariable Long tripId, @RequestBody ToDo toDo) {
-        ToDo createdToDo = toDoService.createToDo(toDo);
-        URI location = URI.create(String.format("/api/dashboard/trips/%d/todos/%d", tripId, createdToDo.getId()));
+    public ResponseEntity<ToDo> createToDo(
+            @PathVariable Long tripId,
+            @RequestBody ToDo toDo) {
+        ToDo createdToDo = toDoService.createToDoForTrip(tripId, toDo);
+        URI location = URI.create(String.format("/api/trips/%d/todos/%d", tripId, createdToDo.getId()));
         return ResponseEntity.created(location).body(createdToDo);
     }
 
-    @PutMapping("/{todoId}")
-    public ResponseEntity<ToDo> updateToDo(@PathVariable Long tripId, @PathVariable Long toDoId, @RequestBody ToDo updatedToDo) {
-        ToDo toDo = toDoService.updateToDo(toDoId, updatedToDo);
+    @PutMapping("/{toDoId}")
+    public ResponseEntity<ToDo> updateToDo(
+            @PathVariable Long tripId,
+            @PathVariable Long toDoId,
+            @RequestBody ToDo updatedToDo) {
+        ToDo toDo = toDoService.updateToDoForTrip(tripId, toDoId, updatedToDo);
         return ResponseEntity.ok(toDo);
     }
 
-    @DeleteMapping("/{todoId}")
-    public ResponseEntity<Void> deleteToDo(@PathVariable Long tripId, @PathVariable Long toDoId) {
+    @DeleteMapping("/{toDoId}")
+    public ResponseEntity<Void> deleteToDo(
+            @PathVariable Long tripId,
+            @PathVariable Long toDoId) {
         toDoService.deleteToDoById(toDoId);
         return ResponseEntity.noContent().build();
     }
