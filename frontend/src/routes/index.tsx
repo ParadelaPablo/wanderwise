@@ -1,10 +1,22 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { SignIn } from '@clerk/clerk-react'
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import HomeBeforeLogin from "../components/homeBeforeLogin/homeBeforeLogIn";
+import { useAuth } from "@clerk/clerk-react";
 
-export const Route = createFileRoute('/')({
-  component: SignInPage,
-})
+export const Route = createFileRoute("/")({
+  component: Index,
+});
 
-function SignInPage() {
-  return <SignIn />;
+function Index() {
+  const { isSignedIn } = useAuth();
+  const navigate = useNavigate();
+
+  if (isSignedIn) {
+    navigate({ to: `/dashboard` });
+  }
+
+  return (
+    <div className="w-full h-screen">
+      <HomeBeforeLogin />
+    </div>
+  );
 }

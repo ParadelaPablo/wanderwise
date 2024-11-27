@@ -1,18 +1,21 @@
 import { useAuth } from "@clerk/clerk-react";
-import { useNavigate } from "@tanstack/react-router";
-import Contact from "../contact/contact";
+import { useRouter } from "@tanstack/react-router";
+import logo from "../../assets/logofinalmaybe.png";
+
+<img src={logo} alt="Logo" />
+
 
 const HamburguerMenu: React.FC = () => {
-const { signOut } = useAuth(); 
-const navigate = useNavigate(); 
+const { signOut } = useAuth();
+const router = useRouter();
 
 const handleSignOut = async () => {
-await signOut(); 
-navigate({ to: "/" }); 
+await signOut();
+router.navigate({ to: "/" });
 };
 
 return (
-<div className="navbar bg-base-100">
+<div className="navbar bg-base-100 flex justify-between items-center px-4">
     <div className="navbar-start">
     <div className="dropdown">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -36,35 +39,48 @@ return (
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
         <li>
-            <a href="/dashboard">Dashboard</a>
+            <button onClick={() => router.navigate({ to: "/dashboard" })}>
+            Dashboard
+            </button>
         </li>
         <li>
-            <a href="/current-trip">Current trip / Recent trip</a>
+            <button>Current trip / Recent trip</button>
         </li>
         <li>
-            <a href="/add-trip">Add trip</a>
+            <button onClick={() => router.navigate({ to: "/dashboard/create" })}>
+            Add trip
+            </button>
         </li>
         <li>
-            <a href="/settings">Settings</a>
+            <button onClick={() => router.navigate({ to: "/settings" })}>
+            Settings
+            </button>
         </li>
         <li>
-            <a href="/account">My account</a>
+            <button>My account</button>
         </li>
         <li>
-            <a href="/help">Help</a>
+            <button onClick={() => router.navigate({ to: "/contact" })}>
+            Help
+            </button>
         </li>
         <li>
-            <a href="/contact" onClick={Contact}>
+            <button onClick={() => router.navigate({ to: "/contact" })}>
             Contact
-            </a>
+            </button>
         </li>
         <li>
-            <a role="button" onClick={handleSignOut}>
-            Sign out
-            </a>
+            <button onClick={handleSignOut}>Sign out</button>
         </li>
         </ul>
     </div>
+    </div>
+    <div className="navbar-end">
+    <img
+        src={logo}
+        alt="Logo"
+        className="h-8 w-8 object-contain"
+    />
     </div>
 </div>
 );
