@@ -9,8 +9,6 @@ type DrawerProps = {
   totalTravelTime: string;
 };
 
-
-
 export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
   const [title, setTitle] = useState("");
 
