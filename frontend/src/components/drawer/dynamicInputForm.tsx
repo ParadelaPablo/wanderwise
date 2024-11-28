@@ -10,6 +10,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
+import { getStopTypeIcon } from "@/lib/icons";
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
@@ -32,7 +33,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
   const mapRef = useRef<google.maps.Map | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const onLoadAutocomplete = (
     autocomplete: google.maps.places.Autocomplete
   ) => {
@@ -66,6 +67,9 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     }
     if (formatted_address) {
       updateStop(dayId, selectedType, formatted_address);
+    }
+    if (inputRef.current) {
+      inputRef.current.value = "";
     }
   };
 
@@ -193,10 +197,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     onLoad={onLoadAutocomplete}
                     onPlaceChanged={() => handlePlaceChanged(day.dayOrder)}
                     options={{
-                      fields: ["geometry", "formatted_address"], 
+                      fields: ["geometry", "formatted_address"],
                     }}
                   >
                     <input
+                    ref={inputRef} 
                       type="text"
                       placeholder="Add stop"
                       className="input input-bordered w-full rounded-r-lg"
@@ -211,9 +216,8 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     className="flex justify-between items-center border p-2 rounded-md"
                   >
                     <div className="flex items-center gap-2 capitalize">
-                      <p>
-                        {stop.stopType}: {stop.name}
-                      </p>
+                      {getStopTypeIcon(stop.stopType)}
+                      <p>{stop.name}</p>
                     </div>
                     <button
                       className="btn btn-circle btn-xs btn-ghost"

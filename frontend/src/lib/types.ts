@@ -1,4 +1,4 @@
-enum StopType {
+export enum StopType {
   FIKA = "FIKA",
   ACTIVITY = "ACTIVITY",
   FUEL = "FUEL",
@@ -35,7 +35,7 @@ export interface FullTripRequest {
   days: Day[];
 }
 
-export { StopType };
+
 export type { Day, Stop, TripRequest, Trip };
 
 export type SpotifyTrack = {
