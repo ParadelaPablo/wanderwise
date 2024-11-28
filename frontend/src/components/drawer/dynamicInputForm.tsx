@@ -11,12 +11,11 @@ import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 
-
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
   { id: "ACTIVITY", label: "Activity" },
   { id: "FUEL", label: "Fuel" },
-  { id: "FOOD", label: "Food and drink" },
+  { id: "FOOD_AND_DRINK", label: "Food and drink" },
   { id: "SIGHTSEEING", label: "Sightseeing" },
   { id: "REST", label: "Rest" },
   { id: "OVERNIGHT", label: "Overnight" },
@@ -29,24 +28,45 @@ type Props = {
 };
 
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
-  const { userId } =  useAuth();
+  const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
-  const mapRef = useRef();
-  const autocompleteRef = useRef();
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-  const onLoadAutocomplete = (autocomplete) => {
+  const onLoadAutocomplete = (
+    autocomplete: google.maps.places.Autocomplete
+  ) => {
     autocompleteRef.current = autocomplete;
   };
 
-  const handlePlaceChanged = () => {
-    const { geometry } = autocompleteRef.current.getPlace();
+  const handlePlaceChanged = (dayId: number) => {
+    if (!autocompleteRef.current) {
+      console.error("Autocomplete instance is not initialized.");
+      return;
+    }
+
+    const place = autocompleteRef.current.getPlace();
+    if (!place || !place.geometry) {
+      console.error("Place geometry is not available.");
+      return;
+    }
+
+    const { geometry, formatted_address } = place;
     const bounds = new window.google.maps.LatLngBounds();
     if (geometry.viewport) {
       bounds.union(geometry.viewport);
-    } else {
+    } else if (geometry.location) {
       bounds.extend(geometry.location);
     }
-    mapRef.current.fitBounds(bounds);
+
+    if (mapRef.current) {
+      mapRef.current.fitBounds(bounds);
+    } else {
+      console.error("Map reference is not initialized.");
+    }
+    if (formatted_address) {
+      updateStop(dayId, selectedType, formatted_address);
+    }
   };
 
   const addNewDay = () => {
@@ -73,9 +93,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       name: stopName,
     };
 
-    setDays(
-      days.map((day) =>
-        day.dayOrder === dayId ? { ...day, stops: [...day.stops, newStop] } : day
+    setDays((prevDays) =>
+      prevDays.map((day) =>
+        day.dayOrder === dayId
+          ? { ...day, stops: [...day.stops, newStop] }
+          : day
       )
     );
   };
@@ -96,26 +118,16 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const updateDate = (dayId: number, newDate: Date | undefined) => {
     if (!newDate) return;
     setDays(
-      days.map((day) => (day.dayOrder === dayId ? { ...day, date: newDate } : day))
+      days.map((day) =>
+        day.dayOrder === dayId ? { ...day, date: newDate } : day
+      )
     );
   };
 
   const data = {
-    userId: "12345bn",
+    userId: userId,
     title: title,
-    days: [
-      {
-        dayOrder: 1,
-        date: new Date("2024-12-01"),
-        stops: [
-          {
-          
-           stopType: StopType.FIKA,
-            name: "Stockholm",
-          },
-        ],
-      },
-    ],
+    days: days,
   };
 
   const mutation = useMutation({
@@ -123,8 +135,6 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       return createFullTrip(data);
     },
   });
-
-
 
   return (
     <div className="flex flex-col gap-4 items-center ">
@@ -181,22 +191,15 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                   </select>
                   <Autocomplete
                     onLoad={onLoadAutocomplete}
-                    onPlaceChanged={handlePlaceChanged}
+                    onPlaceChanged={() => handlePlaceChanged(day.dayOrder)}
+                    options={{
+                      fields: ["geometry", "formatted_address"], 
+                    }}
                   >
                     <input
                       type="text"
                       placeholder="Add stop"
                       className="input input-bordered w-full rounded-r-lg"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && e.currentTarget.value) {
-                          updateStop(
-                            day.dayOrder,
-                            selectedType,
-                            e.currentTarget.value
-                          );
-                          e.currentTarget.value = "";
-                        }
-                      }}
                     />
                   </Autocomplete>
                 </div>
