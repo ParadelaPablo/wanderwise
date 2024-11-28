@@ -8,7 +8,7 @@ jobs:
     build:
         runs-on: ubuntu-latest
         env:
-            IMAGE_URL: ${{ secrets.GCP_REGION}}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID}}/wander-wise:${{ github.sha }}
+            IMAGE_URL: ${{ secrets.GCP_REGION}}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID}}/cloud-run-source-deploy/wander-wise/wander-wise:${{ github.sha }}
         steps:
             - uses: actions/checkout@v3
             - id: "auth"
@@ -39,5 +39,5 @@ jobs:
                       DB_USERNAME=${{secrets.DB_USERNAME}}
                       DB_PASSWORD=${{secrets.DB_PASSWORD}}
                   region: ${{ secrets.GCP_REGION}}
-                  service: WanderWiseBackend
+                  service: wander-wise-backend
                   image: ${{ env.IMAGE_URL }}
