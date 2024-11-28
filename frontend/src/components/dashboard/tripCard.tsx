@@ -15,7 +15,8 @@ const TripCard = ({ id, title }: TripCardProps) => {
           className="btn glass p-0 w-80 h-40 relative"
           onClick={() => router.navigate({ to: `/dashboard/trips/${id}` })}
         >
-          <img className="w-full h-full rounded-2xl object-cover"
+          <img
+            className="w-full h-full rounded-2xl object-cover"
             src="https://t3.ftcdn.net/jpg/03/04/88/18/360_F_304881889_yJ1S3butl9gVs0kMptYTU2N1EVmEJbz8.jpg"
             alt=""
           />
@@ -23,7 +24,6 @@ const TripCard = ({ id, title }: TripCardProps) => {
             {title}
           </p>
         </button>
-
       </div>
     </div>
   );
