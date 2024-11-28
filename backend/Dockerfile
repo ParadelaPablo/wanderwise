@@ -1,6 +1,43 @@
-FROM openjdk:17-jdk-alpine
+# Use a base image with Java installed
+FROM maven:3.9.4-eclipse-temurin-17
+
+# Set the working directory in the container
 WORKDIR /app
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+
+COPY lib/core-0.0.2.jar ./libs/
+
+
+COPY pom.xml .
+
+# Install the local dependency in the Docker image 
+RUN mvn install:install-file \
+    -Dfile=/app/libs/core-0.0.2.jar \
+    -DgroupId=com.harium.supabase \
+    -DartifactId=core \
+    -Dversion=0.0.2 \
+    -Dpackaging=jar
+
+
+COPY src src
+
+# Accept build arguments for PostgreSQL environment variables
+ARG DB_URL
+ARG DB_USERNAME
+ARG DB_PASSWORD
+
+
+# Set PostgreSQL environment variables
+ENV DB_URL=${DB_URL}
+ENV DB_USERNAME=${DB_USERNAME}
+ENV DB_PASSWORD=${DB_PASSWORD}
+
+# Building a package
+RUN mvn clean package
+
+
+
+# Expose the port on which the application will run
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "./target/Canine-Cloud-0.0.1-SNAPSHOT.jar"]
