@@ -16,7 +16,7 @@ const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
   { id: "ACTIVITY", label: "Activity" },
   { id: "FUEL", label: "Fuel" },
-  { id: "FOOD", label: "Food and drink" },
+  { id: "FOOD_AND_DRINK", label: "Food and drink" },
   { id: "SIGHTSEEING", label: "Sightseeing" },
   { id: "REST", label: "Rest" },
   { id: "OVERNIGHT", label: "Overnight" },
@@ -101,21 +101,9 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   };
 
   const data = {
-    userId: "12345bn",
+    userId: userId,
     title: title,
-    days: [
-      {
-        dayOrder: 1,
-        date: new Date("2024-12-01"),
-        stops: [
-          {
-          
-           stopType: StopType.FIKA,
-            name: "Stockholm",
-          },
-        ],
-      },
-    ],
+    days: days
   };
 
   const mutation = useMutation({

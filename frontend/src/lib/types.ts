@@ -30,7 +30,7 @@ interface TripRequest {
 }
 
 export interface FullTripRequest {
-  userId: string;
+  userId: string | null | undefined;
   title: string;
   days: Day[];
 }
