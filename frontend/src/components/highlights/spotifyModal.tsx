@@ -5,9 +5,9 @@ import { millisToMinutesAndSeconds } from "@/lib/utils";
 import { SpotifyTrack } from "@/lib/types";
 
 export const SpotifyModal = ({
-  func,
+  trackFetch 
 }: {
-  func: (trackDetails: {
+  trackFetch: (trackDetails: {
     name: string;
     artist: string;
     coverArt: string;
@@ -26,7 +26,7 @@ export const SpotifyModal = ({
     artist: string;
     coverArt: string;
   }) => {
-    func(trackDetails);
+    trackFetch(trackDetails);
     const modalCheckbox = document.getElementById(
       "my_modal_7"
     ) as HTMLInputElement;

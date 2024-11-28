@@ -9,7 +9,7 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
-  const [someState, setSomeState] = useState<{
+  const [trackData, setTrackData] = useState<{
     name: string;
     artist: string;
     coverArt: string;
@@ -40,7 +40,7 @@ function RouteComponent() {
             Spotify
           </label>
           <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-          <SpotifyModal func={setSomeState} />
+          <SpotifyModal trackFetch={setTrackData} />
         </div>
 
         <div className="w-screen p-3 flex flex-col justify-center items-center relative">
@@ -62,20 +62,20 @@ function RouteComponent() {
         </div>
 
         <div className="card h-32 w-full max-w-md image-full  shadow-xl relative">
-          {someState?.coverArt && (
+          {trackData?.coverArt && (
             <figure className="w-full h-full">
               <img
                 className="w-full h-full object-cover"
-                src={someState.coverArt}
-                alt={someState.name}
+                src={trackData.coverArt}
+                alt={trackData.name}
               />
             </figure>
           )}
           <div className="card-body">
             <h2 className="card-title">
-              {someState?.name || "No track selected"}
+              {trackData?.name || "No track selected"}
             </h2>
-            <p>{someState?.artist}</p>
+            <p>{trackData?.artist}</p>
             <div className="card-actions justify-end">
               <button className="btn btn-primary">Go To Spotify</button>
             </div>
