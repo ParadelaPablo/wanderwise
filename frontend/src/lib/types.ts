@@ -9,7 +9,7 @@ enum StopType {
 }
 
 type Day = {
-  order: number;
+  dayOrder: number;
   date: Date;
   stops: Stop[];
 };
@@ -29,8 +29,15 @@ interface TripRequest {
   title: string;
 }
 
+export interface FullTripRequest {
+  userId: string;
+  title: string;
+  days: Day[];
+}
+
 export { StopType };
 export type { Day, Stop, TripRequest, Trip };
+
 export type SpotifyTrack = {
   data: {
     id: string;
