@@ -24,14 +24,6 @@ public class ToDoController {
         return ResponseEntity.ok(toDos);
     }
 
-    @GetMapping("/{toDoId}")
-    public ResponseEntity<ToDo> getToDoById(
-            @PathVariable Long tripId,
-            @PathVariable Long toDoId) {
-        ToDo toDo = toDoService.getToDoById(toDoId);
-        return ResponseEntity.ok(toDo);
-    }
-
     @PostMapping
     public ResponseEntity<ToDo> createToDo(
             @PathVariable Long tripId,

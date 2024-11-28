@@ -25,7 +25,9 @@ function RouteComponent() {
         </div>
         <div className="divider"></div>
         <div className="flex justify-left items-start my-2 p-1">
-          {visibleComponent === "Todo" && <Todo />}
+          {visibleComponent === "Todo" && (
+            <Todo tripId={tripId} />
+          )}
           {visibleComponent === "ToPack" && <ToPack />}
           {visibleComponent === "Highlights" && <Highlights />}
         </div>

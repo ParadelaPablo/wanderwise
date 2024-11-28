@@ -1,4 +1,9 @@
 import TripCard from "./tripCard";
+
+type Trip = {
+  id: number;
+  title: string;
+};
 import ButtonCircle from "../buttons/buttonAddNewTripCircle";
 import { useRouter } from "@tanstack/react-router";
 import { useUser } from "@clerk/clerk-react";
@@ -44,7 +49,7 @@ const TripGallery = () => {
       </div>
 
       <div className="flex flex-col w-80 items-center justify-center gap-5 mt-8 mb-20 border p-5">
-        {trips.map((trip) => (
+        {trips.map((trip: Trip) => (
           <TripCard key={trip.id} id={trip.id} title={trip.title} />
         ))}
       </div>

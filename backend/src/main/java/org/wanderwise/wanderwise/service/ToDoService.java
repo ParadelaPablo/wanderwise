@@ -2,39 +2,40 @@ package org.wanderwise.wanderwise.service;
 
 import org.springframework.stereotype.Service;
 import org.wanderwise.wanderwise.entity.ToDo;
+import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.repository.ToDoRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ToDoService {
 
     private final ToDoRepository toDoRepository;
+    private final TripService tripService;
 
-    public ToDoService(ToDoRepository toDoRepository) {
+    public ToDoService(ToDoRepository toDoRepository, TripService tripService) {
         this.toDoRepository = toDoRepository;
+        this.tripService = tripService;
     }
 
     public List<ToDo> getToDosByTripId(Long tripId) {
         return toDoRepository.findByTrip_Id(tripId);
     }
 
-    public ToDo getToDoById(Long id) {
-        return toDoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("ToDo not found with ID: " + id));
-    }
-
     public ToDo createToDoForTrip(Long tripId, ToDo toDo) {
-        toDo.getTrip().setId(tripId);
+        System.out.println("Received ToDo: " + toDo);
+        Trip trip = tripService.getTripById(tripId);
+        System.out.println("Found Trip: " + trip);
+        toDo.setTrip(trip);
         return toDoRepository.save(toDo);
     }
+
 
     public ToDo updateToDoForTrip(Long tripId, Long toDoId, ToDo updatedToDo) {
         return toDoRepository.findById(toDoId)
                 .filter(todo -> todo.getTrip().getId().equals(tripId))
                 .map(todo -> {
-                    todo.setToDo(updatedToDo.getToDo());
+                    todo.setText(updatedToDo.getText());
                     todo.setDone(updatedToDo.getDone());
                     return toDoRepository.save(todo);
                 })

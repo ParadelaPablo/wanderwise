@@ -1,14 +1,43 @@
-const TodoItem = ({
-  itemNumber,
-  removeItem,
-}: {
-  itemNumber: number;
-  removeItem: (itemNumber: number) => void;
-}) => {
+import React, { useState } from "react";
+
+interface TodoItemProps {
+  id: string;
+  text: string;
+  done: boolean;
+  updateItem: (updatedTodo: { text: string; done: boolean }) => void;
+  removeItem: () => void;
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({ text, done, updateItem, removeItem }) => {
+  const [taskText, setTaskText] = useState(text);
+  const [isChecked, setIsChecked] = useState(done);
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const updatedText = e.target.value.trim(); 
+    setTaskText(updatedText);
+
+    if (updatedText.length > 0) {
+      updateItem({ text: updatedText, done: isChecked }); 
+    } else {
+      console.error("El texto no puede estar vacío."); 
+    }
+  };
+
+  const handleCheckboxChange = () => {
+    const updatedDone = !isChecked;
+    setIsChecked(updatedDone);
+    updateItem({ text: taskText, done: updatedDone });
+  };
+
   return (
     <div className="form-control bg-white shadow-xl rounded-lg p-3 mb-4">
       <label className="label cursor-pointer justify-between items-center space-x-3">
-        <input type="checkbox" className="peer hidden" />
+        <input
+          type="checkbox"
+          className="peer hidden"
+          checked={isChecked}
+          onChange={handleCheckboxChange}
+        />
         <div className="w-5 h-5 border-2 border-gray-400 rounded-md flex items-center justify-center peer-checked:border-green-500 peer-checked:bg-green-500">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -28,13 +57,15 @@ const TodoItem = ({
 
         <input
           type="text"
+          value={taskText}
+          onChange={handleTextChange}
           placeholder="Item..."
           className="input input-bordered w-full max-w-xs h-8 px-2 text-sm rounded-md focus:ring-2 focus:ring-green-400"
         />
 
         <button
           className="btn btn-xs w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
-          onClick={() => removeItem(itemNumber)}
+          onClick={removeItem}
         >
           ✖
         </button>
