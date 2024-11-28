@@ -37,7 +37,7 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
     console.log("Here is the response", data);
   }
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 justify-center items-center">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}

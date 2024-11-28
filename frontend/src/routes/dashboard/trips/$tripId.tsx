@@ -19,7 +19,7 @@ function RouteComponent() {
   const [visibleComponent, setVisibleComponent] = useState("Todo");
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col justify-center w-full items-center">
       <div className="flex-grow mr-5 ml-5">
         <div>
           When we connect with backend we should put the name of the endpoint{" "}
