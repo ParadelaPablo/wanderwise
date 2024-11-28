@@ -3,7 +3,7 @@ name: Build and deploy to GCP
 on:
     push:
         branches:
-            - main
+            - habib
     workflow_dispatch:
 
 jobs:
