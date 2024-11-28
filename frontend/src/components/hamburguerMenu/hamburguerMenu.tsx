@@ -7,7 +7,6 @@ const HamburguerMenu: React.FC = () => {
 const { signOut } = useAuth();
 const router = useRouter();
 
-// Estado para controlar la visibilidad del menú desplegable
 const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 const toggleMenu = () => {
@@ -16,7 +15,13 @@ setIsMenuOpen((prev) => !prev);
 
 const handleSignOut = async () => {
 await signOut();
+setIsMenuOpen(false); // Cerrar el menú
 router.navigate({ to: "/" });
+};
+
+const handleNavigation = (path: string) => {
+setIsMenuOpen(false); // Cerrar el menú
+router.navigate({ to: path });
 };
 
 return (
@@ -51,33 +56,27 @@ return (
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
             <li>
-            <button onClick={() => router.navigate({ to: "/dashboard" })}>
+            <button onClick={() => handleNavigation("/dashboard")}>
                 Dashboard
             </button>
             </li>
             <li>
-            <button>Current trip / Recent trip</button>
-            </li>
-            <li>
-            <button onClick={() => router.navigate({ to: "/dashboard/create" })}>
+            <button onClick={() => handleNavigation("/dashboard/create")}>
                 Add trip
             </button>
             </li>
             <li>
-            <button onClick={() => router.navigate({ to: "/settings" })}>
+            <button onClick={() => handleNavigation("/settings")}>
                 Settings
             </button>
             </li>
             <li>
-            <button>My account</button>
-            </li>
-            <li>
-            <button onClick={() => router.navigate({ to: "/contact" })}>
+            <button onClick={() => handleNavigation("/contact")}>
                 Help
             </button>
             </li>
             <li>
-            <button onClick={() => router.navigate({ to: "/contact" })}>
+            <button onClick={() => handleNavigation("/contact")}>
                 Contact
             </button>
             </li>
