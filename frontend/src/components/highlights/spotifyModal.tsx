@@ -4,7 +4,16 @@ import { getSpotifyTracks } from "@/lib/spotifyApi";
 import { millisToMinutesAndSeconds } from "@/lib/utils";
 import { SpotifyTrack } from "@/lib/types";
 
-export const SpotifyModal = () => {
+export const SpotifyModal = ({
+  trackFetch 
+}: {
+  trackFetch: (trackDetails: {
+    id: string;
+    name: string;
+    artist: string;
+    coverArt: string;
+  }) => void;
+}) => {
   const [query, setQuery] = useState("");
 
   const { isLoading, isError, data, error } = useQuery<SpotifyTrack[]>({
@@ -12,6 +21,21 @@ export const SpotifyModal = () => {
     queryFn: () => getSpotifyTracks(query),
     enabled: !!query,
   });
+
+  const handleTrackSelect = (trackDetails: {
+    id: string;
+    name: string;
+    artist: string;
+    coverArt: string;
+  }) => {
+    trackFetch(trackDetails);
+    const modalCheckbox = document.getElementById(
+      "my_modal_7"
+    ) as HTMLInputElement;
+    if (modalCheckbox) {
+      modalCheckbox.checked = false;
+    }
+  };
 
   return (
     <div className="modal" role="dialog">
@@ -35,44 +59,47 @@ export const SpotifyModal = () => {
           {isError && <span>Error: {error.message}</span>}
           {data && (
             <div className="space-y-2">
-              {data.map((track) => (
-                <div
-                  key={track.data.id}
-                  onClick={() =>
-                    window.open(
-                      `https://open.spotify.com/track/${track.data.id}`,
-                      "_blank"
-                    )
-                  }
-                  className="hover:bg-slate-200 p-4 bg-gray-100 rounded-md shadow-sm flex items-center justify-between gap-4"
-                >
-                  <div className="flex-shrink-0">
-                    <img
-                      src={track.data.albumOfTrack.coverArt.sources[0].url}
-                      alt={track.data.name}
-                      className="w-16 h-16 rounded-md"
-                    />
-                  </div>
+              {data.map((track) => {
+                const trackDetails = {
+                  id: track.data.id,
+                  name: track.data.name,
+                  artist: track.data.artists.items
+                    .map((artist) => artist.profile.name)
+                    .join(", "),
+                  coverArt: track.data.albumOfTrack.coverArt.sources[0].url,
+                };
 
-                  <div className="flex-grow min-w-0">
-                    {" "}
-                    <h3 className="font-semibold capitalize truncate overflow-hidden">
-                      {track.data.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 truncate overflow-hidden">
-                      {track.data.artists.items
-                        .map((artist) => artist.profile.name)
-                        .join(", ")}
-                    </p>
-                  </div>
+                return (
+                  <div
+                    key={track.data.id}
+                    onClick={() => handleTrackSelect(trackDetails)}
+                    className="hover:bg-slate-200 p-4 bg-gray-100 rounded-md shadow-sm flex items-center justify-between gap-4"
+                  >
+                    <div className="flex-shrink-0">
+                      <img
+                        src={trackDetails.coverArt}
+                        alt={trackDetails.name}
+                        className="w-16 h-16 rounded-md"
+                      />
+                    </div>
 
-                  <div className="flex-shrink-0 text-sm text-gray-500 text-right">
-                    {millisToMinutesAndSeconds(
-                      track.data.duration.totalMilliseconds
-                    )}
+                    <div className="flex-grow min-w-0">
+                      <h3 className="font-semibold capitalize truncate overflow-hidden">
+                        {trackDetails.name}
+                      </h3>
+                      <p className="text-sm text-gray-500 truncate overflow-hidden">
+                        {trackDetails.artist}
+                      </p>
+                    </div>
+
+                    <div className="flex-shrink-0 text-sm text-gray-500 text-right">
+                      {millisToMinutesAndSeconds(
+                        track.data.duration.totalMilliseconds
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

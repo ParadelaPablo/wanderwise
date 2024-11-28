@@ -30,7 +30,7 @@ interface TripRequest {
 }
 
 export interface FullTripRequest {
-  userId: string;
+  userId: string | null | undefined;
   title: string;
   days: Day[];
 }
@@ -56,4 +56,32 @@ export type SpotifyTrack = {
       totalMilliseconds: string;
     };
   };
+};
+
+type StopResponse = {
+  id: number | null;
+  dayId: number | null;
+  stopType: string | null;
+  name: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+type DayResponse = {
+  id: number | null;
+  tripId: number | null;
+  dayOrder: number | null;
+  date: string | number | Date;
+  stops: StopResponse[];
+  createdAt: string | null;
+  updatedAt: string | null;
+};
+
+export type TripData = {
+  id: number;
+  userId: string;
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  days: DayResponse[];
 };

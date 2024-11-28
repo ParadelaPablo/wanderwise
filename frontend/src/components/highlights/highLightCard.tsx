@@ -20,6 +20,39 @@ const HighlightCard = ({ url }) => {
           <button className="btn btn-outline min-w-8 w-8 min-h-8 h-8">⌅</button>
           <button className="btn btn-outline min-w-8 w-8 min-h-8 h-8">✎</button>
         </label>
+
+
+        <div
+          key={1}
+          className="hover:bg-slate-200 p-4 bg-gray-100 rounded-md shadow-sm flex items-center justify-between gap-4"
+        >
+          <div className="flex-shrink-0">
+            <img
+              src="https://cdns-images.dzcdn.net/images/cover/b8b70d474b7a8f27799e0d665e9b737e/1900x1900-000000-80-0-0.jpg"
+              className="w-16 h-16 rounded-md"
+            />
+          </div>
+
+          <div className="flex-grow min-w-0">
+            <h3 className="font-semibold capitalize truncate overflow-hidden">
+              Lay your love on me
+            </h3>
+            <p className="text-sm text-gray-500 truncate overflow-hidden">
+              ABBA
+            </p>
+          </div>
+
+          <div className="flex-shrink-0 text-sm text-gray-500 text-right">
+            {(() => {
+              const millisToMinutesAndSeconds = (milliseconds: number) => {
+                const minutes = Math.floor(milliseconds / 60000);
+                const seconds = Math.floor((milliseconds % 60000) / 1000);
+                return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+              };
+              return millisToMinutesAndSeconds(235000); // Mock 3 minutes 55 seconds
+            })()}
+          </div>
+        </div>
       </div>
     </div>
   );

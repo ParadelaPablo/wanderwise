@@ -6,7 +6,9 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
   return (
     <footer className="bg-gray-800 text-white py-3 sticky bottom-0 w-full">
       <div className="flex justify-around items-center gap-x-1">
-        <button className="flex-1 text-center px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+        <button 
+        onClick={() => setVisibleComponent("Map")}
+        className="flex-1 text-center px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
           Map
         </button>
         <button

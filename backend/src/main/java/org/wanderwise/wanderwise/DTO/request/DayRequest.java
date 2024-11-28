@@ -21,5 +21,5 @@ public class DayRequest {
         private Integer dayOrder;
 
         @Future
-        private LocalDateTime date;
+        private String date;
 }

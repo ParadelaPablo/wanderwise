@@ -1,11 +1,8 @@
 import { SpotifyModal } from "@/components/highlights/spotifyModal";
-import {
-  createFileRoute,
-  useNavigate,
-  useParams,
-} from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useState } from "react";
-import { Button } from "react-day-picker";
+
+const SPOTIFY_BASE_URL =  "https://open.spotify.com/track/"
 
 export const Route = createFileRoute(
   "/dashboard/trips/highlights/$highlightId"
@@ -14,34 +11,39 @@ export const Route = createFileRoute(
 });
 
 function RouteComponent() {
+  const [trackData, setTrackData] = useState<{
+    id: string;
+    name: string;
+    artist: string;
+    coverArt: string;
+  } | null>(null);
+
   const highlightId = useParams({
     from: "/dashboard/trips/highlights/$highlightId",
     select: (params) => params.highlightId,
   });
 
-
   return (
-    <div className="">
+    <div className="mb-16">
       <div className="btn ml-2" onClick={() => window.history.back()}>
         Back
       </div>
       <p className="ml-2">Note id: {highlightId}</p>
-      <div className="w-full flex flex-col justify-center items-center gap-2 mt-10 border p-3">
+      <div className="w-full flex flex-col justify-center items-center gap-2 mt-10 p-3">
         <div className="flex w-screen gap-x-5">
           <input
             type="text"
             placeholder="Title..."
             className="input input-bordered w-full ml-4"
           />
-          <label htmlFor="my_modal_7" className="btn btn-outline btn-success mr-4">Spotify</label>
-          {/* <button
-            onClick={() => document.getElementById("my_modal_1")?.showModal()}
+          <label
+            htmlFor="my_modal_7"
             className="btn btn-outline btn-success mr-4"
           >
             Spotify
-          </button> */}
-           <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-          <SpotifyModal  />
+          </label>
+          <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+          <SpotifyModal trackFetch={setTrackData} />
         </div>
 
         <div className="w-screen p-3 flex flex-col justify-center items-center relative">
@@ -61,7 +63,30 @@ function RouteComponent() {
             </div>
           </div>
         </div>
+
+        <div className="card h-32 w-full max-w-md image-full  shadow-xl relative">
+          {trackData?.coverArt && (
+            <figure className="w-full h-full">
+              <img
+                className="w-full h-full object-cover"
+                src={trackData.coverArt}
+                alt={trackData.name}
+              />
+            </figure>
+          )}
+          <div className="card-body">
+            <h2 className="card-title">
+              {trackData?.name || "No track selected"}
+            </h2>
+            <p>{trackData?.artist}</p>
+            <div className="card-actions justify-end">
+              <button onClick={()=> window.open(SPOTIFY_BASE_URL+trackData?.id, "_blank")}
+              className="btn btn-primary">Go To Spotify</button>
+            </div>
+          </div>
+        </div>
       </div>
+      <div className="divider mt-24"></div>
     </div>
   );
 }
