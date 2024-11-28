@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 
+
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
   { id: "ACTIVITY", label: "Activity" },
@@ -52,7 +53,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     const newDayId = days.length + 1;
 
     const newDay = {
-      order: newDayId,
+      dayOrder: newDayId,
       date: new Date(),
       stops: [],
     };
@@ -60,7 +61,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   };
 
   const removeDay = (id: number) => {
-    setDays(days.filter((day) => day.order !== id));
+    setDays(days.filter((day) => day.dayOrder !== id));
   };
 
   const updateStop = (dayId: number, typeId: string, stopName: string) => {
@@ -74,7 +75,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
 
     setDays(
       days.map((day) =>
-        day.order === dayId ? { ...day, stops: [...day.stops, newStop] } : day
+        day.dayOrder === dayId ? { ...day, stops: [...day.stops, newStop] } : day
       )
     );
   };
@@ -82,7 +83,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const removeStop = (dayId: number, stopIndex: number) => {
     setDays(
       days.map((day) =>
-        day.order === dayId
+        day.dayOrder === dayId
           ? {
               ...day,
               stops: day.stops.filter((_, index) => index !== stopIndex),
@@ -95,7 +96,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const updateDate = (dayId: number, newDate: Date | undefined) => {
     if (!newDate) return;
     setDays(
-      days.map((day) => (day.order === dayId ? { ...day, date: newDate } : day))
+      days.map((day) => (day.dayOrder === dayId ? { ...day, date: newDate } : day))
     );
   };
 
@@ -105,11 +106,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     days: [
       {
         dayOrder: 1,
-        date: "2024-12-01",
+        date: new Date("2024-12-01"),
         stops: [
           {
           
-            stopType: "FIKA",
+           stopType: StopType.FIKA,
             name: "Stockholm",
           },
         ],
@@ -130,12 +131,12 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       <div>
         {days.map((day) => (
           <div
-            key={day.order}
+            key={day.dayOrder}
             className="card w-full bg-base-100 shadow-md p-4 border border-gray-200"
           >
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-bold text-lg">
-                Day {day.order}{" "}
+                Day {day.dayOrder}{" "}
                 <Popover>
                   <PopoverTrigger>
                     <button className="btn btn-sm btn-primary ml-2">
@@ -150,7 +151,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     <Calendar
                       mode="single"
                       onSelect={(date) => {
-                        if (date) updateDate(day.order, date);
+                        if (date) updateDate(day.dayOrder, date);
                       }}
                       selected={day.date}
                     />
@@ -159,7 +160,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
               </h3>
               <button
                 className="btn btn-sm btn-circle btn-ghost text-gray-400"
-                onClick={() => removeDay(day.order)}
+                onClick={() => removeDay(day.dayOrder)}
               >
                 ✖
               </button>
@@ -189,7 +190,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                       onKeyDown={(e) => {
                         if (e.key === "Enter" && e.currentTarget.value) {
                           updateStop(
-                            day.order,
+                            day.dayOrder,
                             selectedType,
                             e.currentTarget.value
                           );
@@ -213,7 +214,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     </div>
                     <button
                       className="btn btn-circle btn-xs btn-ghost"
-                      onClick={() => removeStop(day.order, index)}
+                      onClick={() => removeStop(day.dayOrder, index)}
                     >
                       ✖
                     </button>

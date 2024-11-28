@@ -2,18 +2,19 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getSpotifyTracks } from "@/lib/spotifyApi";
 import { millisToMinutesAndSeconds } from "@/lib/utils";
+import { SpotifyTrack } from "@/lib/types";
 
 export const SpotifyModal = () => {
   const [query, setQuery] = useState("");
 
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ["tracks"],
+  const { isLoading, isError, data, error } = useQuery<SpotifyTrack[]>({
+    queryKey: ["tracks", query],
     queryFn: () => getSpotifyTracks(query),
     enabled: !!query,
   });
 
   return (
-    <dialog id="my_modal_1" className="modal">
+    <div className="modal" role="dialog">
       <div className="modal-box">
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -29,9 +30,8 @@ export const SpotifyModal = () => {
             className="input input-bordered w-full max-w-xs"
           />
         </label>
-
         <div className="mt-4">
-          {isPending && <span>Loading...</span>}
+          {isLoading && <span>Loading...</span>}
           {isError && <span>Error: {error.message}</span>}
           {data && (
             <div className="space-y-2">
@@ -76,15 +76,10 @@ export const SpotifyModal = () => {
             </div>
           )}
         </div>
-
-        <div className="modal-action">
-          <form method="dialog" className="flex gap-4">
-            {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-primary">Save</button>
-            <button className="btn">Close</button>
-          </form>
-        </div>
       </div>
-    </dialog>
+      <label className="modal-backdrop" htmlFor="my_modal_7">
+        Close
+      </label>
+    </div>
   );
 };

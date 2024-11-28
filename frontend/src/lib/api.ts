@@ -1,27 +1,4 @@
-type StopType = "START" | "INTERMEDIATE" | "END"; // Example StopType enum
-
-interface Stop {
-  stopType: StopType;
-  name: string;
-}
-
-type Day = {
-  order?: number; // Optional because it will be assigned by the backend
-  date: Date; // Use `Date` for JavaScript date objects
-  stops: Stop[];
-};
-
-interface Trip {
-  userId: string;
-  title: string;
-  days: Day[];
-}
-
-interface FullTripRequest {
-  userId: string;
-  title: string;
-  days: Day[];
-}
+import { FullTripRequest } from "./types";
 
 const BASE_DEV_URL = "http://localhost:8080/api/trips";
 
