@@ -14,7 +14,7 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
       date: new Date(day.date).toISOString() 
     })),
   };
-
+  console.log(updatedFullTrip)
   const response = await fetch(`${BASE_DEV_URL}/full-trip`, {
     method: "POST",
     headers: {
@@ -31,5 +31,24 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
   }
   const json = await response.json();
   console.log("data have been sent!!! Here is the response", json);
+  return json;
+}
+
+export async function getTripById(tripId: number) {
+  const response = await fetch(`${BASE_DEV_URL}/${tripId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  });
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(
+      errorData.message ||
+        `Oops! Our system is taking a little nap, ${response.statusText}`
+    );
+  }
+  const json = await response.json();
+  console.log("Here is the response", json);
   return json;
 }
