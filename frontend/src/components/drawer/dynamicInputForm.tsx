@@ -148,13 +148,19 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       });
     },
     onError: (error) => {
-      console.error("Error creating trip:", error); 
+      console.error("Error creating trip:", error);
     },
   });
 
   return (
     <div className="flex flex-col gap-4 items-center ">
-      <div>
+      {mutation.isPending && (
+        <div className="flex justify-center items-center">
+          Loading...
+        </div>
+      )}
+      {!mutation.isPending && (<>
+        <div>
         {days.map((day) => (
           <div
             key={day.dayOrder}
@@ -213,7 +219,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     }}
                   >
                     <input
-                    ref={inputRef} 
+                      ref={inputRef}
                       type="text"
                       placeholder="Add stop"
                       className="input input-bordered w-full rounded-r-lg"
@@ -249,12 +255,14 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       </div>
       <div>
         <button
+          disabled={mutation.isPending}
           onClick={() => mutation.mutate()}
           className="btn btn-primary mt-4"
         >
-          DONE 🎉
+          {mutation.isPending ? "Building your trip..." : "DONE 🎉"}
         </button>
-      </div>
+      </div></>)}
+     
     </div>
   );
 };
