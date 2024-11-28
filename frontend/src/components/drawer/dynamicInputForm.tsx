@@ -11,7 +11,6 @@ import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 
-
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
   { id: "ACTIVITY", label: "Activity" },
@@ -29,23 +28,42 @@ type Props = {
 };
 
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
-  const { userId } =  useAuth();
+  const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
-  const mapRef = useRef();
-  const autocompleteRef = useRef();
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-  const onLoadAutocomplete = (autocomplete) => {
+  const onLoadAutocomplete = (
+    autocomplete: google.maps.places.Autocomplete
+  ) => {
     autocompleteRef.current = autocomplete;
   };
 
   const handlePlaceChanged = () => {
-    const { geometry } = autocompleteRef.current.getPlace();
+    if (!autocompleteRef.current) {
+      console.error("Autocomplete instance is not initialized.");
+      return;
+    }
+
+    const place = autocompleteRef.current.getPlace();
+    if (!place || !place.geometry) {
+      console.error("Place geometry is not available.");
+      return;
+    }
+
+    const { geometry } = place;
     const bounds = new window.google.maps.LatLngBounds();
     if (geometry.viewport) {
       bounds.union(geometry.viewport);
-    } else {
+    } else if (geometry.location) {
       bounds.extend(geometry.location);
     }
+
+    if (!mapRef.current) {
+      console.error("Map reference is not initialized.");
+      return;
+    }
+
     mapRef.current.fitBounds(bounds);
   };
 
@@ -75,7 +93,9 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
 
     setDays(
       days.map((day) =>
-        day.dayOrder === dayId ? { ...day, stops: [...day.stops, newStop] } : day
+        day.dayOrder === dayId
+          ? { ...day, stops: [...day.stops, newStop] }
+          : day
       )
     );
   };
@@ -96,14 +116,16 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const updateDate = (dayId: number, newDate: Date | undefined) => {
     if (!newDate) return;
     setDays(
-      days.map((day) => (day.dayOrder === dayId ? { ...day, date: newDate } : day))
+      days.map((day) =>
+        day.dayOrder === dayId ? { ...day, date: newDate } : day
+      )
     );
   };
 
   const data = {
     userId: userId,
     title: title,
-    days: days
+    days: days,
   };
 
   const mutation = useMutation({
@@ -111,8 +133,6 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       return createFullTrip(data);
     },
   });
-
-
 
   return (
     <div className="flex flex-col gap-4 items-center ">
