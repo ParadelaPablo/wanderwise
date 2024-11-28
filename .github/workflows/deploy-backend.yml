@@ -15,26 +15,38 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            # Step 2: Set up Google Cloud SDK
+            # Step 2: Set up JDK for Maven build
+            - name: Set up JDK 17
+              uses: actions/setup-java@v3
+              with:
+                  java-version: 17
+                  distribution: temurin
+
+            # Step 3: Build the Spring Boot JAR using Maven
+            - name: Build with Maven
+              run: mvn clean package -DskipTests
+              working-directory: ./backend
+
+            # Step 4: Set up Google Cloud SDK
             - name: Set up Google Cloud SDK
               uses: google-github-actions/setup-gcloud@v1
               with:
                   service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
                   project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-            # Step 3: Configure Docker authentication for GCR or Artifact Registry
+            # Step 5: Authenticate Docker
             - name: Authenticate Docker
               run: |
                   gcloud auth configure-docker
 
-            # Step 4: Build and push Docker image to GCR
+            # Step 6: Build and push Docker image to GCR
             - name: Build and push Docker image
               run: |
                   IMAGE_NAME=gcr.io/${{ secrets.GCP_PROJECT_ID }}/backend:latest
                   docker build -t $IMAGE_NAME ./backend
                   docker push $IMAGE_NAME
 
-            # Step 5: Deploy to Google Cloud Run
+            # Step 7: Deploy to Google Cloud Run
             - name: Deploy to Cloud Run
               run: |
                   gcloud run deploy wanderwise-backend \
