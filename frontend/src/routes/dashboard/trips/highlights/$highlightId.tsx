@@ -33,12 +33,14 @@ function RouteComponent() {
             placeholder="Title..."
             className="input input-bordered w-full ml-4"
           />
-          <button
-            onClick={() => document.getElementById("my_modal_1").showModal()}
+          <label htmlFor="my_modal_7" className="btn btn-outline btn-success mr-4">Spotify</label>
+          {/* <button
+            onClick={() => document.getElementById("my_modal_1")?.showModal()}
             className="btn btn-outline btn-success mr-4"
           >
             Spotify
-          </button>
+          </button> */}
+           <input type="checkbox" id="my_modal_7" className="modal-toggle" />
           <SpotifyModal  />
         </div>
 
