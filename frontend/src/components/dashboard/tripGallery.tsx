@@ -28,8 +28,6 @@ const TripGallery = () => {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
-      <button onClick={getTrips}> This is fetch</button>
-
       <div className="text-center mt-5">
         <h1 className="text-2xl font-bold">
           Welcome to Your Dashboard
@@ -43,7 +41,7 @@ const TripGallery = () => {
         </button>
       </div>
 
-      <div className="flex flex-col w-80 items-center justify-center gap-5 mt-8 mb-20 border p-5">
+      <div className="flex flex-col w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
         {trips.map((trip) => (
           <TripCard key={trip.id} id={trip.id} title={trip.title} />
         ))}
