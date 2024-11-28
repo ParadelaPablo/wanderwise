@@ -8,12 +8,6 @@ WORKDIR /app
 
 COPY pom.xml .
 
-# Install the local dependency in the Docker image 
-RUN mvn install:install-file \
-    -DgroupId=com.harium.supabase \
-    -DartifactId=core \
-    -Dversion=0.0.2 \
-    -Dpackaging=jar
 
 
 COPY src src
