@@ -14,7 +14,7 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
       date: new Date(day.date).toISOString() 
     })),
   };
-  console.log(updatedFullTrip)
+
   const response = await fetch(`${BASE_DEV_URL}/full-trip`, {
     method: "POST",
     headers: {

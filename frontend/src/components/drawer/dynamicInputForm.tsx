@@ -39,7 +39,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     autocompleteRef.current = autocomplete;
   };
 
-  const handlePlaceChanged = () => {
+  const handlePlaceChanged = (dayId: number) => {
     if (!autocompleteRef.current) {
       console.error("Autocomplete instance is not initialized.");
       return;
@@ -51,7 +51,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       return;
     }
 
-    const { geometry } = place;
+    const { geometry, formatted_address } = place;
     const bounds = new window.google.maps.LatLngBounds();
     if (geometry.viewport) {
       bounds.union(geometry.viewport);
@@ -59,12 +59,14 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       bounds.extend(geometry.location);
     }
 
-    if (!mapRef.current) {
+    if (mapRef.current) {
+      mapRef.current.fitBounds(bounds);
+    } else {
       console.error("Map reference is not initialized.");
-      return;
     }
-
-    mapRef.current.fitBounds(bounds);
+    if (formatted_address) {
+      updateStop(dayId, selectedType, formatted_address);
+    }
   };
 
   const addNewDay = () => {
@@ -91,8 +93,8 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       name: stopName,
     };
 
-    setDays(
-      days.map((day) =>
+    setDays((prevDays) =>
+      prevDays.map((day) =>
         day.dayOrder === dayId
           ? { ...day, stops: [...day.stops, newStop] }
           : day
@@ -189,22 +191,15 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                   </select>
                   <Autocomplete
                     onLoad={onLoadAutocomplete}
-                    onPlaceChanged={handlePlaceChanged}
+                    onPlaceChanged={() => handlePlaceChanged(day.dayOrder)}
+                    options={{
+                      fields: ["geometry", "formatted_address"], 
+                    }}
                   >
                     <input
                       type="text"
                       placeholder="Add stop"
                       className="input input-bordered w-full rounded-r-lg"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && e.currentTarget.value) {
-                          updateStop(
-                            day.dayOrder,
-                            selectedType,
-                            e.currentTarget.value
-                          );
-                          e.currentTarget.value = "";
-                        }
-                      }}
                     />
                   </Autocomplete>
                 </div>
