@@ -19,9 +19,10 @@ import org.wanderwise.wanderwise.service.StopService;
 import org.wanderwise.wanderwise.service.TripService;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -90,6 +91,7 @@ public class TripController {
         return ResponseEntity.ok(tripResponses);
     }
 
+
     @PostMapping("/full-trip")
     public ResponseEntity<TripWithDaysAndStopsResponse> createTripWithDaysAndStops(
             @RequestBody TripWithDaysAndStops tripRequest) {
@@ -111,8 +113,9 @@ public class TripController {
                 Day day = Day.builder()
                         .trip(savedTrip)
                         .dayOrder(dayWithStop.getDayOrder())
-                        .date(LocalDateTime.parse(LocalDate.parse(dayWithStop.getDate()).atStartOfDay().toString()))
+                        .date(dayWithStop.getDate().toString())
                         .build();
+
 
                 Day savedDay = dayService.createDay(savedTrip.getId(), day);
 

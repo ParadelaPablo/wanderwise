@@ -17,7 +17,7 @@ public class DayResponse {
 
     private Integer dayOrder;
 
-    private LocalDateTime date;
+    private String date;
 
     private List<StopResponse> stops;
 

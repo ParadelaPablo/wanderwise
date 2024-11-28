@@ -56,8 +56,8 @@ public class Day {
     private List<Stop> stops;
 
     @Column(nullable = false)
-    @Future
-    private LocalDateTime date;
+  //  @Future
+    private String date;
 
     @Column(nullable = false)
     @CreationTimestamp
