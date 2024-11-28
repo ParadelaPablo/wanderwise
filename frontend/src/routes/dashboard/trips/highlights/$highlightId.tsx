@@ -2,6 +2,8 @@ import { SpotifyModal } from "@/components/highlights/spotifyModal";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useState } from "react";
 
+const SPOTIFY_BASE_URL =  "https://open.spotify.com/track/"
+
 export const Route = createFileRoute(
   "/dashboard/trips/highlights/$highlightId"
 )({
@@ -10,6 +12,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const [trackData, setTrackData] = useState<{
+    id: string;
     name: string;
     artist: string;
     coverArt: string;
@@ -77,7 +80,8 @@ function RouteComponent() {
             </h2>
             <p>{trackData?.artist}</p>
             <div className="card-actions justify-end">
-              <button className="btn btn-primary">Go To Spotify</button>
+              <button onClick={()=> window.open(SPOTIFY_BASE_URL+trackData?.id, "_blank")}
+              className="btn btn-primary">Go To Spotify</button>
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ export const SpotifyModal = ({
   trackFetch 
 }: {
   trackFetch: (trackDetails: {
+    id: string;
     name: string;
     artist: string;
     coverArt: string;
@@ -22,6 +23,7 @@ export const SpotifyModal = ({
   });
 
   const handleTrackSelect = (trackDetails: {
+    id: string;
     name: string;
     artist: string;
     coverArt: string;
@@ -59,6 +61,7 @@ export const SpotifyModal = ({
             <div className="space-y-2">
               {data.map((track) => {
                 const trackDetails = {
+                  id: track.data.id,
                   name: track.data.name,
                   artist: track.data.artists.items
                     .map((artist) => artist.profile.name)
