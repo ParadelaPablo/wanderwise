@@ -32,4 +32,4 @@ RUN mvn clean package
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "./target/Canine-Cloud-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "./target/wanderwise-0.0.1-SNAPSHOT.jar"]
