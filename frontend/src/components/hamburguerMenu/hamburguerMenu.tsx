@@ -1,13 +1,18 @@
+import React, { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { useRouter } from "@tanstack/react-router";
 import logo from "../../assets/logofinalmaybe.png";
 
-<img src={logo} alt="Logo" />
-
-
 const HamburguerMenu: React.FC = () => {
 const { signOut } = useAuth();
 const router = useRouter();
+
+// Estado para controlar la visibilidad del menú desplegable
+const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+const toggleMenu = () => {
+setIsMenuOpen((prev) => !prev);
+};
 
 const handleSignOut = async () => {
 await signOut();
@@ -18,7 +23,12 @@ return (
 <div className="navbar bg-base-100 flex justify-between items-center px-4">
     <div className="navbar-start">
     <div className="dropdown">
-        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+        <div
+        tabIndex={0}
+        role="button"
+        onClick={toggleMenu}
+        className="btn btn-ghost btn-circle"
+        >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -34,53 +44,52 @@ return (
             />
         </svg>
         </div>
+
+        {isMenuOpen && (
         <ul
-        tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
-        <li>
+            <li>
             <button onClick={() => router.navigate({ to: "/dashboard" })}>
-            Dashboard
+                Dashboard
             </button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button>Current trip / Recent trip</button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button onClick={() => router.navigate({ to: "/dashboard/create" })}>
-            Add trip
+                Add trip
             </button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button onClick={() => router.navigate({ to: "/settings" })}>
-            Settings
+                Settings
             </button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button>My account</button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button onClick={() => router.navigate({ to: "/contact" })}>
-            Help
+                Help
             </button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button onClick={() => router.navigate({ to: "/contact" })}>
-            Contact
+                Contact
             </button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button onClick={handleSignOut}>Sign out</button>
-        </li>
+            </li>
         </ul>
+        )}
     </div>
     </div>
     <div className="navbar-end">
-    <img
-        src={logo}
-        alt="Logo"
-        className="h-8 w-8 object-contain"
-    />
+    <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
     </div>
 </div>
 );
