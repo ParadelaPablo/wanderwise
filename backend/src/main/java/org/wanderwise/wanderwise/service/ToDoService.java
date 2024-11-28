@@ -23,9 +23,11 @@ public class ToDoService {
     }
 
     public ToDo createToDoForTrip(Long tripId, ToDo toDo) {
-        System.out.println("Received ToDo: " + toDo);
+        if (toDo.getText() == null || toDo.getText().isBlank()) {
+            throw new IllegalArgumentException("ToDo text cannot be null or blank");
+        }
+
         Trip trip = tripService.getTripById(tripId);
-        System.out.println("Found Trip: " + trip);
         toDo.setTrip(trip);
         return toDoRepository.save(toDo);
     }
