@@ -4,9 +4,12 @@ import { useRouter } from "@tanstack/react-router";
 import { useUser } from "@clerk/clerk-react";
 
 
+
 const TripGallery = () => {
   const router = useRouter();
   const { user } = useUser();
+
+
 
   const trips = [
     { id: 1, title: "Trip to Milano" },
