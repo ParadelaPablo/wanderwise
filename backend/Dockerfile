@@ -4,14 +4,12 @@ FROM maven:3.9.4-eclipse-temurin-17
 # Set the working directory in the container
 WORKDIR /app
 
-COPY lib/core-0.0.2.jar ./libs/
 
 
 COPY pom.xml .
 
 # Install the local dependency in the Docker image 
 RUN mvn install:install-file \
-    -Dfile=/app/libs/core-0.0.2.jar \
     -DgroupId=com.harium.supabase \
     -DartifactId=core \
     -Dversion=0.0.2 \
