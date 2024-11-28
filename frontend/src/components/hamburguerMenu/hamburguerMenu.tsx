@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { useRouter } from "@tanstack/react-router";
 import logo from "../../assets/logofinalmaybe.png";
+import ThemeSwitcher from "../ThemeSwitcher/themeSwitcher"; // Asegúrate de importar tu componente
 
 const HamburguerMenu: React.FC = () => {
 const { signOut } = useAuth();
 const router = useRouter();
-
 const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 const toggleMenu = () => {
@@ -26,6 +26,7 @@ router.navigate({ to: path });
 
 return (
 <div className="navbar bg-base-100 flex justify-between items-center px-4">
+    {/* Menú hamburguesa */}
     <div className="navbar-start">
     <div className="dropdown">
         <div
@@ -76,22 +77,20 @@ return (
             </button>
             </li>
             <li>
-            <button onClick={() => handleNavigation("/contact")}>
-                Contact
-            </button>
-            </li>
-            <li>
             <button onClick={handleSignOut}>Sign out</button>
             </li>
         </ul>
         )}
     </div>
     </div>
-    <div className="navbar-end">
-    <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
+
+    <div className="navbar-end flex items-center gap-4">
+        <ThemeSwitcher />
+        <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
     </div>
-</div>
-);
+
+    </div>
+  );
 };
 
 export default HamburguerMenu;

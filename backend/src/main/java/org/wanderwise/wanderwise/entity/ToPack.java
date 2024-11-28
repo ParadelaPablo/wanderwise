@@ -22,7 +22,7 @@ public class ToPack {
     private Trip trip;
 
     @Column(nullable = false)
-    String toPack;
+    String text;
 
     @Column(nullable = false)
     Boolean done;

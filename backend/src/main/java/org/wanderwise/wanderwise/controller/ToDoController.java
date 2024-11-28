@@ -28,10 +28,15 @@ public class ToDoController {
     public ResponseEntity<ToDo> createToDo(
             @PathVariable Long tripId,
             @RequestBody ToDo toDo) {
+        if (toDo.getText() == null || toDo.getText().isBlank()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
         ToDo createdToDo = toDoService.createToDoForTrip(tripId, toDo);
         URI location = URI.create(String.format("/api/trips/%d/todos/%d", tripId, createdToDo.getId()));
         return ResponseEntity.created(location).body(createdToDo);
     }
+
 
     @PutMapping("/{toDoId}")
     public ResponseEntity<ToDo> updateToDo(

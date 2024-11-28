@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import TodoItem from "./todoItem";
-import { createToDo, getToDosByTrip, updateToDo, deleteToDo } from "../../services/todoService";
+import { createToDo, getToDosByTrip, updateToDo, deleteToDo } from "../../services/toDoService";
 
 interface ToDo {
   id: string | undefined;
@@ -26,12 +26,13 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
 
   const addNewItem = async () => {
     const newItem: ToDo = { id: undefined, text: "New Task", done: false };
-
+  
     setItems((prevItems) => [...prevItems, newItem]);
-
+  
     try {
+      console.log("Sending to backend:", { text: "New Task", done: false }); // Aquí verificas qué datos envías
       const createdToDo = await createToDo(tripId, { text: "New Task", done: false });
-
+  
       setItems((prevItems) =>
         prevItems.map((item) =>
           item.id === undefined ? { ...createdToDo, id: createdToDo.id } : item
@@ -39,10 +40,11 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
       );
     } catch (error) {
       console.error("Error creating todo:", error);
-
+  
       setItems((prevItems) => prevItems.filter((item) => item.id !== undefined));
     }
   };
+  
 
   const updateItem = async (updatedItem: ToDo) => {
     try {

@@ -20,9 +20,13 @@ public class ToPackController {
 
     @GetMapping
     public ResponseEntity<List<ToPack>> getAllToPacksByTrip(@PathVariable Long tripId) {
+        if (tripId == null || tripId <= 0) {
+            throw new IllegalArgumentException("Invalid tripId provided");
+        }
         List<ToPack> toPacks = toPackService.getToPacksByTripId(tripId);
         return ResponseEntity.ok(toPacks);
     }
+
 
     @GetMapping("/{toPackId}")
     public ResponseEntity<ToPack> getToPackById(

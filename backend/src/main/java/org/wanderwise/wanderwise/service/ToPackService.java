@@ -34,7 +34,7 @@ public class ToPackService {
         return toPackRepository.findById(toPackId)
                 .filter(toPack -> toPack.getTrip().getId().equals(tripId))
                 .map(toPack -> {
-                    toPack.setToPack(updatedToPack.getToPack());
+                    toPack.setText(updatedToPack.getText());
                     toPack.setDone(updatedToPack.getDone());
                     return toPackRepository.save(toPack);
                 })
