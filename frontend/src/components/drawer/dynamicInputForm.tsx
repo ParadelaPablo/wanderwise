@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 import { getStopTypeIcon } from "@/lib/icons";
+import { useNavigate } from "@tanstack/react-router";
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
@@ -29,6 +30,7 @@ type Props = {
 };
 
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
+  const navigate = useNavigate();
   const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -137,6 +139,16 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const mutation = useMutation({
     mutationFn: () => {
       return createFullTrip(data);
+    },
+    onSuccess: (response) => {
+      const tripId = response?.id;
+      navigate({
+        to: "/dashboard/trips/$tripId",
+        params: { tripId: tripId },
+      });
+    },
+    onError: (error) => {
+      console.error("Error creating trip:", error); 
     },
   });
 
