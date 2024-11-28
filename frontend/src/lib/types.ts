@@ -58,7 +58,7 @@ export type SpotifyTrack = {
   };
 };
 
-type StopResponse = {
+export type StopResponse = {
   id: number | null;
   dayId: number | null;
   stopType: string | null;
@@ -67,7 +67,7 @@ type StopResponse = {
   updatedAt: string | null;
 };
 
-type DayResponse = {
+export type DayResponse = {
   id: number | null;
   tripId: number | null;
   dayOrder: number | null;
