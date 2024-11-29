@@ -1,0 +1,70 @@
+[33mfa4c387[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mpablosbranch[m[33m, [m[1;31morigin/pablosbranch[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Merge branch 'main' into pablosbranch
+[33m78ad6b2[m toDo and toPack work proerly at the same time
+[33m9a6f1f6[m[33m ([m[1;31morigin/sebbe-branch[m[33m)[m Removed and updated imports in frontend
+[33m79f202f[m Merge branch 'main' of github.com:saltsthlm/wander-wise
+[33mb1ff674[m fix the ui for todo and topack
+[33m8044549[m Updated the tripgallery and stuff
+[33mc218967[m Added the tripgallery api and tripcard to use the delete button
+[33m62b09d9[m Merge branch 'svetlanas'
+[33m9c73cd8[m[33m ([m[1;31morigin/svetlanas[m[33m)[m refactor
+[33m89763bb[m add zod validation fot the form, lift the state up for the tripId route
+[33m83f569d[m Merge branch 'habib'
+[33mbb52a15[m Update .gitignore
+[33m88aa699[m added the Error and Loading components to all other components
+[33m8807618[m Merge branch 'main' into pablosbranch
+[33mfa37087[m todo works again
+[33m92e906a[m Make the Loading a separate component
+[33ma56136b[m Started with error message and laoding component.
+[33m70bedad[m Merge branch 'main' into habib
+[33m624a059[m Updated the tripId to not take upp th ewhole screen space, and made the footer sticky
+[33m04e2603[m update env
+[33mdf4e5dd[m update dev_url
+[33m56a39cc[m fast commit
+[33mbed16bc[m refactor get trips, move to api file, move the type to types file
+[33m6c390ef[m add delete btn
+[33m7322e95[m Merge branch 'svetlanas'
+[33m34f87ef[m remove lines from main to start backend, update trip gallery
+[33mcc2a047[m remove lines from main to start backend, update trip gallery
+[33m73f905a[m display tripGallery cards
+[33m164358f[m add pending on sending data, disable btn Done
+[33mac60956[m add navigation on Success when the trip is created
+[33m090f82b[m Merge branch 'pablosbranch'
+[33m2586abb[m Merge branch 'main' of github.com:saltsthlm/wander-wise
+[33m269063e[m theme, buttons, footer, todo, topack, thousand errors, I will die soon...
+[33m41e045b[m add emoji for the types of the stops, clear input on the select stop
+[33m7e23691[m display waypoints on the map
+[33ma45902e[m updated the Dockerfile in frontend to skip the lib checks.
+[33m43f7a2a[m updated the Dockerfile for the frontend.
+[33me14bb33[m update settings
+[33m921c6e1[m todooo
+[33m878d734[m todo
+[33m6bba919[m adds nginx.conf to frontend
+[33md661c52[m merge svetlanas
+[33m20bbc10[m fix backend types, add timeline, get trip by Id
+[33m563f5ea[m fix backend types, add timeline, get trip by Id
+[33m6155135[m fix backend types, add timeline, get trip by Id
+[33m96d9f5a[m changed the branch to habib
+[33m0ee6fd1[m Changed the song display to be in hihglight car dinstead of tripCard
+[33mf9adb2e[m start deploying the frontend.
+[33m92d7a76[m update the name of the file
+[33m0a83aa9[m updated the deploy
+[33ma67d047[m Updated highlightid component to go to the spotify/trackid when pressing the button
+[33mcdb0693[m added readme
+[33m34cc979[m Renamed some states and functions in spotifyModal and highlights
+[33ma6d202f[m removed supabase dependency from dockerfile.
+[33md0f82c0[m just commit
+[33m82b8498[m Updated the spotifyModal, highlights and tripCard to fetch all the trackData
+[33me476960[m changed the branch to habib
+[33m38dfd8f[m modified the Dockerfile and deployment
+[33m92e2849[m deploying
+[33m4a52d3a[m edited the workflow for deployment and Dockerfile
+[33m22baf1e[m change branch for deployment form to habib
+[33m5bb2ccf[m test the deployment
+[33m1008a25[m commit the lates changes on the backend
+[33mbfaf4d6[m Remove .env file from tracking
+[33m7d53d95[m :tada: Merge branch 'svetlanas' fri xthe types, autocomplete and the request to DB to post the trips
+[33m68caabc[m update autocomplete on change
+[33mabb53af[m fix types for mapRef and autocompleteRef
+[33m4244f3c[m fix issue sending data to the DB
+[33m34a62d9[m Updated the tripCard and tripGallery
+[33m0aebf50[m Implemented get trip function in the tripGallery for the dashboard

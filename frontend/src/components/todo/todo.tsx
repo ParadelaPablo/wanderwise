@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
 import TodoItem from "./todoItem";
-import {
-  createToDo,
-  getToDosByTrip,
-  updateToDo,
-  deleteToDo,
-} from "../../services/toDoService";
+import { createToDo, getToDosByTrip, updateToDo, deleteToDo } from "../../services/toDoService";
 
 interface ToDo {
-  id: string;
+  id: string | undefined;
   text: string;
   done: boolean;
 }
@@ -20,12 +15,7 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
     const fetchToDos = async () => {
       try {
         const todos = await getToDosByTrip(tripId);
-        setItems(
-          todos.map((todo) => ({
-            ...todo,
-            id: todo.id ?? "", 
-          }))
-        );
+        setItems(todos.map(todo => ({ ...todo, id: todo.id ?? "" })));
       } catch (error) {
         console.error("Error fetching todos:", error);
       }
@@ -36,23 +26,26 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
 
   const addNewItem = async () => {
     const tempId = `temp-${Date.now()}`;
-    const newItem: ToDo = { id: tempId, text: "New Task", done: false };
+    const newItem: ToDo = { id: tempId, text: "", done: false };
     
     setItems((prevItems) => [...prevItems, newItem]);
-  
+  };
+
+  const persistNewItem = async (tempId: string, text: string) => {
     try {
-      console.log("Sending to backend:", { text: "New Task", done: false });
+      console.log("Sending to backend:", { text, done: false });
       const createdToDo = await createToDo(tripId, {
-        text: "New Task",
+        text,
         done: false,
       });
-  
+
       if (createdToDo.id) {
         setItems((prevItems) =>
           prevItems.map((item) =>
             item.id === tempId ? { ...createdToDo, id: createdToDo.id as string } : item
           )
         );
+        alert("New item successfully persisted!");
       } else {
         console.error("Created ToDo does not have a valid ID.");
         setItems((prevItems) => prevItems.filter((item) => item.id !== tempId));
@@ -62,7 +55,6 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
       setItems((prevItems) => prevItems.filter((item) => item.id !== tempId));
     }
   };
-  
 
   const updateItem = async (updatedItem: ToDo) => {
     try {
@@ -70,9 +62,7 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
         const updated = await updateToDo(tripId, updatedItem.id, updatedItem);
         setItems((prevItems) =>
           prevItems.map((item) =>
-            item.id === updated.id
-              ? { ...item, text: updated.text, done: updated.done }
-              : item
+            item.id === updated.id ? { ...item, text: updated.text, done: updated.done } : item
           )
         );
       }
@@ -110,14 +100,14 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
       <div>
         {items.map((item) => (
           <TodoItem
-            key={item.id}
-            id={item.id}
+            key={item.id ?? "default-id"}
             text={item.text}
             done={item.done}
+            persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
             updateItem={(updatedTodo) =>
-              updateItem({ ...updatedTodo, id: item.id })
+              updateItem({ ...updatedTodo, id: item.id ?? "default-id" })
             }
-            removeItem={() => removeItem(item.id)}
+            removeItem={() => removeItem(item.id ?? "default-id")}
           />
         ))}
       </div>

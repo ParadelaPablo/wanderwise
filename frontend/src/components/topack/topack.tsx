@@ -24,18 +24,31 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
     fetchToPacks();
   }, [tripId]);
 
-  const addNewItem = async () => {
-    const newItem: ToPack = { id: undefined, text: "New Item", done: false };
+  const addNewItem = () => {
+    const tempId = `temp-${Date.now()}`;
+    const newItem: ToPack = { id: tempId, text: "", done: false };
     setItems(prevItems => [...prevItems, newItem]);
+  };
 
+  const persistNewItem = async (tempId: string, text: string) => {
     try {
-      const createdToPack = await createToPack(tripId, { text: "New Item", done: false });
-      setItems(prevItems =>
-        prevItems.map(item => (item.id === undefined ? { ...createdToPack, id: createdToPack.id } : item))
-      );
+      console.log("Sending to backend:", { text, done: false });
+      const createdToPack = await createToPack(tripId, { text, done: false });
+
+      if (createdToPack.id) {
+        setItems(prevItems =>
+          prevItems.map(item =>
+            item.id === tempId ? { ...createdToPack, id: createdToPack.id } : item
+          )
+        );
+        alert("New item successfully persisted!");
+      } else {
+        console.error("Created ToPack does not have a valid ID.");
+        setItems(prevItems => prevItems.filter(item => item.id !== tempId));
+      }
     } catch (error) {
       console.error("Error creating topack:", error);
-      setItems(prevItems => prevItems.filter(item => item.id !== undefined));
+      setItems(prevItems => prevItems.filter(item => item.id !== tempId));
     }
   };
 
@@ -44,7 +57,9 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
       if (updatedItem.id) {
         const updated = await updateToPack(tripId, updatedItem.id, updatedItem);
         setItems(prevItems =>
-          prevItems.map(item => (item.id === updated.id ? { ...item, text: updated.text, done: updated.done } : item))
+          prevItems.map(item =>
+            item.id === updated.id ? { ...item, text: updated.text, done: updated.done } : item
+          )
         );
       }
     } catch (error) {
@@ -79,9 +94,9 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
         {items.map(item => (
           <ToPackItems
             key={item.id ?? "default-id"}
-            id={item.id ?? "default-id"}
             text={item.text}
             done={item.done}
+            persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
             updateItem={(updatedToPack) => updateItem({ ...updatedToPack, id: item.id ?? "default-id" })}
             removeItem={() => removeItem(item.id ?? "default-id")}
           />
