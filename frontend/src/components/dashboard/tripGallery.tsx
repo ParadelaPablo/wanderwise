@@ -48,7 +48,7 @@ const TripGallery = () => {
         </div>
       </div>
 
-      <div className="flex flex-col w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row  flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
         {trips.map((trip) => (
           <TripCard key={trip.id} id={Number(trip.id)} title={trip.title} />
         ))}
