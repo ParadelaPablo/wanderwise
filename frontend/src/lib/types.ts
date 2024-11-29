@@ -61,7 +61,7 @@ export type SpotifyTrack = {
 export type StopResponse = {
   id: number | null;
   dayId: number | null;
-  stopType: string | null;
+  stopType: StopType;
   name: string | null;
   createdAt: string | null;
   updatedAt: string | null;

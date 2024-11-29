@@ -18,20 +18,20 @@ import {
 export function getStopTypeIcon(stopType: StopType): ReactNode {
   switch (stopType) {
     case StopType.FIKA:
-      return <FaCoffee className="text-lg text-primary" />; // Coffee icon for FIKA
+      return <FaCoffee className="text-lg text-primary" />;
     case StopType.ACTIVITY:
-      return <FaMapMarkerAlt className="text-lg text-primary" />; // Map marker icon for ACTIVITY
+      return <FaMapMarkerAlt className="text-lg text-primary" />;
     case StopType.FUEL:
-      return <FaGasPump className="text-lg text-primary" />; // Gas pump icon for FUEL
+      return <FaGasPump className="text-lg text-primary" />;
     case StopType.FOOD_AND_DRINK:
-      return <FaUtensils className="text-lg text-primary" />; // Utensils icon for FOOD_AND_DRINK
+      return <FaUtensils className="text-lg text-primary" />;
     case StopType.SIGHTSEEING:
-      return <FaCamera className="text-lg text-primary" />; // Camera icon for SIGHTSEEING
+      return <FaCamera className="text-lg text-primary" />;
     case StopType.REST:
-      return <FaMoon className="text-lg text-primary" />; // Moon icon for REST
+      return <FaMoon className="text-lg text-primary" />;
     case StopType.OVERNIGHT:
-      return <FaBed className="text-lg text-primary" />; // Bed icon for OVERNIGHT
+      return <FaBed className="text-lg text-primary" />;
     default:
-      return null; // Fallback if the stop type is not recognized
+      return null;
   }
 }
