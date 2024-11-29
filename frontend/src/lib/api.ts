@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FullTripRequest, TripForGallery } from "./types";
 
-const BASE_DEV_URL = import.meta.env.BASE_DEV_URL;
+const BASE_DEV_URL = import.meta.env.VITE_BASE_DEV_URL;
 
 export const getTrips = async (): Promise<TripForGallery[]> => {
   const response = await axios.get(BASE_DEV_URL);

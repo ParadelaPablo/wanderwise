@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE_DEV_URL = import.meta.env.BASE_DEV_URL;
+const BASE_DEV_URL = import.meta.env.VITE_BASE_DEV_URL;
 
 const axiosInstance = axios.create({
   baseURL: BASE_DEV_URL,
