@@ -1,9 +1,10 @@
 import { getStopTypeIcon } from "@/lib/icons";
 import { TripData } from "@/lib/types";
+import { LoadingState } from "../ui-states/loading";
 
 const TripTimeline = ({ tripData }: { tripData: TripData }) => {
   if (!tripData) {
-    return <div>Loading...</div>;
+    return <LoadingState />;
   }
   const leftDays = tripData.days.slice(1, tripData.days.length - 1);
 
