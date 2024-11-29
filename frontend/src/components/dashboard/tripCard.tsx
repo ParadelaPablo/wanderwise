@@ -10,7 +10,8 @@ const TripCard = ({ id, title }: TripCardProps) => {
 
   return (
     <div>
-      <div className="w-full">
+      <div className="w-full relative">
+        <button className="btn m-2 absolute top-0 right-0 z-10">X</button>
         <button
           className="btn glass p-0 w-80 h-40 relative"
           onClick={() => router.navigate({ to: `/dashboard/trips/${id}` })}
