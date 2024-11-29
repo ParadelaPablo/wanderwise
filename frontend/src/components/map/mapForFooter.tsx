@@ -14,7 +14,13 @@ const center = {
   lat: 59.3467183,
   lng: 18.0097756,
 };
-export const MapForFooter = ({ tripId }: { tripId: number }) => {
+export const MapForFooter = ({
+  tripId,
+  tripData,
+}: {
+  tripId: number;
+  tripData: TripData;
+}) => {
   const [map, setMap] = useState(null);
   const [directionsResponse, setDirectionsResponse] =
     useState<google.maps.DirectionsResult | null>(null);
@@ -30,19 +36,10 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
     setMap(null);
   }, []);
 
-  const { isLoading, isError, data, error } = useQuery<TripData>({
-    queryKey: ["trip", tripId],
-    queryFn: () => getTripById(tripId),
-    enabled: !!tripId,
-  });
-  if (data) {
-    console.log("Here is the response", data);
-  }
-
   // prevent rendering, fingers crossed
   const waypoints = useMemo(() => {
     const result: google.maps.DirectionsWaypoint[] = [];
-    data?.days?.forEach((day) => {
+    tripData?.days?.forEach((day) => {
       day.stops?.forEach((stop) => {
         result.push({
           location: stop.name!,
@@ -51,7 +48,7 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
       });
     });
     return result;
-  }, [data]);
+  }, [tripData]);
   console.log(waypoints);
 
   const origin = useMemo(() => waypoints[0]?.location || center, [waypoints]);
@@ -111,9 +108,8 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
         {/* Child components, such as markers, info windows, etc. */}
         <></>
       </GoogleMap>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div> {error.message}</div>}
-      <TripTimeline tripData={data!} />
+
+      <TripTimeline tripData={tripData!} />
     </div>
   );
 };
