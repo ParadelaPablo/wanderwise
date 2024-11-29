@@ -11,6 +11,23 @@ export const getTrips = async (): Promise<TripForGallery[]> => {
     return response.data;
 };
 
+export const deleteTripById = async (id: number): Promise<TripForGallery> => {
+  try {
+    console.log(`Attempting to delete trip with ID: ${id}`);
+    const response = await axios.delete(`http://localhost:8080/api/trips/${id}`);
+    console.log("Delete response:", response.data);
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error details:", error.response?.data);
+    } else {
+      console.error("Unexpected error:", error);
+    }
+    throw error;
+  }
+};
+
+
 export async function createFullTrip(fullTrip: FullTripRequest) {
     if (fullTrip.userId == null || fullTrip.userId == undefined) {
         throw new Error("User Id is undefined");
