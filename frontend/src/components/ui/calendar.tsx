@@ -10,8 +10,7 @@ export type CalendarProps = React.ComponentProps<typeof DayPicker>
 function Calendar({
   className,
   classNames,
-  showOutsideDays = true,
-  ...props
+  showOutsideDays = true
 }: CalendarProps) {
   return (
     <DayPicker

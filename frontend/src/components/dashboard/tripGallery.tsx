@@ -5,6 +5,8 @@ import { useUser } from "@clerk/clerk-react";
 
 import { useQuery } from "@tanstack/react-query";
 import { getTrips } from "@/lib/api";
+import { LoadingState } from "../ui-states/loading";
+import { ErrorState } from "../ui-states/error";
 
 const useTrips = () => {
   return useQuery({
@@ -18,8 +20,8 @@ const TripGallery = () => {
   const { user } = useUser();
   const { data: trips = [], isLoading, isError, error } = useTrips();
 
-  if (isLoading) return <div>Loading trips...</div>;
-  if (isError) return <div>Error loading trips: {error.message}</div>;
+  if (isLoading) return <LoadingState />;
+  if (isError) return <ErrorState />;
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
