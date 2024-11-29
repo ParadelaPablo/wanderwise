@@ -31,5 +31,5 @@ RUN mvn clean package
 # Expose the port on which the application will run
 EXPOSE 8080
 
-# Run the application
+# Run the application   
 ENTRYPOINT ["java", "-jar", "./target/wanderwise-0.0.1-SNAPSHOT.jar"]

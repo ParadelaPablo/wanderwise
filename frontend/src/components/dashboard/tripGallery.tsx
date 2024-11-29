@@ -18,8 +18,8 @@ const TripGallery = () => {
   const { user } = useUser();
   const { data: trips = [], isLoading, isError, error } = useTrips();
 
-  if (isLoading) return <div>Loading trips...</div>;
-  if (isError) return <div>Error loading trips: {error.message}</div>;
+  if (isLoading) return <div className="flex items-center justify-center h-screen"><span className="loading loading-dots loading-lg"></span></div>;
+  if (isError) return <div className="flex items-center justify-center h-screen" ><span className="px-4 py-2 bg-red-200  rounded-md text-gray-600">⛽️ Your trips have temporarily run out of gas. Refueling now—hang tight! 🚗💨</span></div>;
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
