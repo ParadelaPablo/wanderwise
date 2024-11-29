@@ -2,19 +2,9 @@ import TripCard from "./tripCard";
 import ButtonCircle from "../buttons/buttonAddNewTripCircle";
 import { useRouter } from "@tanstack/react-router";
 import { useUser } from "@clerk/clerk-react";
-import axios from "axios";
+
 import { useQuery } from "@tanstack/react-query";
-
-interface Trip {
-  id: string; // ID como string, se convertirá a número al usarlo
-  title: string;
-}
-
-const getTrips = async (): Promise<Trip[]> => {
-  const response = await axios.get("http://localhost:8080/api/trips");
-  console.log(response.data);
-  return response.data;
-};
+import { getTrips } from "@/lib/api";
 
 const useTrips = () => {
   return useQuery({

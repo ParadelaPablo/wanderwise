@@ -85,3 +85,8 @@ export type TripData = {
   updatedAt: string;
   days: DayResponse[];
 };
+
+export interface TripForGallery {
+  id: string; 
+  title: string;
+}

@@ -1,6 +1,13 @@
-import { FullTripRequest } from "./types";
+import axios from "axios";
+import { FullTripRequest, TripForGallery } from "./types";
 
 const BASE_DEV_URL = "http://localhost:8080/api/trips";
+
+export const getTrips = async (): Promise<TripForGallery[]> => {
+  const response = await axios.get(BASE_DEV_URL);
+  console.log(response.data);
+  return response.data;
+};
 
 export async function createFullTrip(fullTrip: FullTripRequest) {
   if (fullTrip.userId == null || fullTrip.userId == undefined) {
