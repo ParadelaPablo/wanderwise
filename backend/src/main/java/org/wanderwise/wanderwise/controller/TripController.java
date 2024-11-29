@@ -161,7 +161,7 @@ public class TripController {
                                 stop.getUpdatedAt()
                         );
                     }).toList();
-            return new DayResponse(
+            return new DayResponse( 
                     day.getId(),
                     day.getTrip().getId(),
                     day.getDayOrder(),

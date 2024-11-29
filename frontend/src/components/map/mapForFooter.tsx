@@ -4,6 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import TripTimeline from "./TripTimeline";
 import { TripData } from "@/lib/types";
+import { LoadingState } from "../ui-states/loading";
+import { ErrorState } from "../ui-states/error";
 
 const containerStyle = {
   width: "400px",
@@ -111,8 +113,8 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
         {/* Child components, such as markers, info windows, etc. */}
         <></>
       </GoogleMap>
-      {isLoading && <div>Loading...</div>}
-      {isError && <div> {error.message}</div>}
+      {isLoading && <LoadingState />}
+      {isError && <ErrorState />}
       <TripTimeline tripData={data!} />
     </div>
   );

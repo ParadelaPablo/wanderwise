@@ -3,6 +3,8 @@ import { FullTripRequest, TripForGallery } from "./types";
 
 const BASE_DEV_URL = import.meta.env.VITE_BASE_DEV_URL;
 
+console.log("BASE_DEV_URL", BASE_DEV_URL);
+
 export const getTrips = async (): Promise<TripForGallery[]> => {
     //throw new Error("Not implemented yet");
     const response = await axios.get(BASE_DEV_URL);
