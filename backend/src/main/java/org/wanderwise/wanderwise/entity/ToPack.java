@@ -1,11 +1,11 @@
 package org.wanderwise.wanderwise.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Entity
-@Table(name = "toPack")
+@Table(name = "to_pack")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,7 +18,8 @@ public class ToPack {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "trip_id")
+    @JoinColumn(name = "trip_id", nullable = false)
+    @JsonIgnore
     private Trip trip;
 
     @Column(nullable = false)
@@ -26,5 +27,4 @@ public class ToPack {
 
     @Column(nullable = false)
     Boolean done;
-
 }

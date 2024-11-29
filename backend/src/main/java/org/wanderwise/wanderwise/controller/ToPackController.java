@@ -40,10 +40,14 @@ public class ToPackController {
     public ResponseEntity<ToPack> createToPack(
             @PathVariable Long tripId,
             @RequestBody ToPack toPack) {
+        if (toPack == null) {
+            throw new IllegalArgumentException("ToPack cannot be null");
+        }
         ToPack newToPack = toPackService.createToPackForTrip(tripId, toPack);
         URI location = URI.create(String.format("/api/trips/%d/topacks/%d", tripId, newToPack.getId()));
         return ResponseEntity.created(location).body(newToPack);
     }
+
 
     @PutMapping("/{toPackId}")
     public ResponseEntity<ToPack> updateToPack(
