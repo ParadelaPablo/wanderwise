@@ -11,7 +11,6 @@ export const getTrips = async (): Promise<TripForGallery[]> => {
 };
 
 export async function createFullTrip(fullTrip: ValidatedFullTripSchema) {
-
   const updatedFullTrip = {
     ...fullTrip,
     days: fullTrip.days.map((day) => ({
