@@ -10,16 +10,11 @@ export const Route = createRootRoute({
       <SignedOut>
         <Navbar />
       </SignedOut>
-
       <SignedIn>
         <HamburguerMenu />
       </SignedIn>
-
       <Outlet />
-
-      <TanStackRouterDevtools />
+      {process.env.NODE_ENV === "development" && <TanStackRouterDevtools />}
     </>
   ),
 });
-
-

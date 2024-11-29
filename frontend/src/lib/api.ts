@@ -1,5 +1,6 @@
 import axios from "axios";
-import { FullTripRequest, TripForGallery } from "./types";
+import { TripForGallery } from "./types";
+import { ValidatedFullTripSchema } from "./schema";
 
 const BASE_DEV_URL = import.meta.env.VITE_BASE_DEV_URL;
 

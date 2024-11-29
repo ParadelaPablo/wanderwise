@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -12,6 +12,7 @@ import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 import { getStopTypeIcon } from "@/lib/icons";
 import { useNavigate } from "@tanstack/react-router";
+import { FullTripSchema } from "@/lib/schema";
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
@@ -32,10 +33,31 @@ type Props = {
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const navigate = useNavigate();
   const { userId } = useAuth();
+
+  const [resolvedUserId, setResolvedUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (userId) {
+      setResolvedUserId(userId);
+    }
+  }, [userId]);
+
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
   const mapRef = useRef<google.maps.Map | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (validationErrors) {
+      const timeout = setTimeout(() => {
+        setValidationErrors([]);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [validationErrors, setValidationErrors]);
+
   const onLoadAutocomplete = (
     autocomplete: google.maps.places.Autocomplete
   ) => {
@@ -130,16 +152,43 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     );
   };
 
-  const data = {
-    userId: userId,
-    title: title,
-    days: days,
+  const validateData = () => {
+    if (!resolvedUserId) {
+      setValidationErrors(["User ID is required"]);
+      return false;
+    }
+    const data = {
+      userId: resolvedUserId,
+      title,
+      days,
+    };
+
+    const validationResult = FullTripSchema.safeParse(data);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.errors.map((err) => err.message);
+      setValidationErrors(errors);
+      return false;
+    }
+
+    setValidationErrors([]);
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (!validateData()) return;
+
+    const data = {
+      userId: resolvedUserId!,
+      title,
+      days,
+    };
+
+    mutation.mutate(data);
   };
 
   const mutation = useMutation({
-    mutationFn: () => {
-      return createFullTrip(data);
-    },
+    mutationFn: createFullTrip,
     onSuccess: (response) => {
       const tripId = response?.id;
       navigate({
@@ -155,114 +204,121 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   return (
     <div className="flex flex-col gap-4 items-center ">
       {mutation.isPending && (
-        <div className="flex justify-center items-center">
-          Loading...
+        <div className="flex justify-center items-center">Loading...</div>
+      )}
+      {validationErrors.length > 0 && (
+        <div className="text-red-500 mt-2">
+          {validationErrors.map((error, index) => (
+            <p key={index}>{error}</p>
+          ))}
         </div>
       )}
-      {!mutation.isPending && (<>
-        <div>
-        {days.map((day) => (
-          <div
-            key={day.dayOrder}
-            className="card w-full bg-base-100 shadow-md p-4 border border-gray-200"
-          >
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="font-bold text-lg">
-                Day {day.dayOrder}{" "}
-                <Popover>
-                  <PopoverTrigger>
-                    <button className="btn btn-sm btn-primary ml-2">
-                      {day.date.toLocaleDateString("en-US", {
-                        weekday: "short",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </button>
-                  </PopoverTrigger>
-                  <PopoverContent className="z-50">
-                    <Calendar
-                      mode="single"
-                      onSelect={(date) => {
-                        if (date) updateDate(day.dayOrder, date);
-                      }}
-                      selected={day.date}
-                    />
-                  </PopoverContent>
-                </Popover>
-              </h3>
-              <button
-                className="btn btn-sm btn-circle btn-ghost text-gray-400"
-                onClick={() => removeDay(day.dayOrder)}
+      {!mutation.isPending && (
+        <>
+          <div>
+            {days.map((day) => (
+              <div
+                key={day.dayOrder}
+                className="card w-full bg-base-100 shadow-md p-4 border border-gray-200"
               >
-                ✖
-              </button>
-            </div>
-            <div className="flex flex-col space-y-2">
-              <div className="form-control">
-                <div className="input-group flex flex-row gap-1 items-center">
-                  <select
-                    className="select select-bordered w-1/3"
-                    value={selectedType}
-                    onChange={(e) => setSelectedType(e.target.value)}
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="font-bold text-lg">
+                    Day {day.dayOrder}{" "}
+                    <Popover>
+                      <PopoverTrigger>
+                        <button className="btn btn-sm btn-primary ml-2">
+                          {day.date.toLocaleDateString("en-US", {
+                            weekday: "short",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </button>
+                      </PopoverTrigger>
+                      <PopoverContent className="z-50">
+                        <Calendar
+                          mode="single"
+                          onSelect={(date) => {
+                            if (date) updateDate(day.dayOrder, date);
+                          }}
+                          selected={day.date}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </h3>
+                  <button
+                    className="btn btn-sm btn-circle btn-ghost text-gray-400"
+                    onClick={() => removeDay(day.dayOrder)}
                   >
-                    {stopTypes.map((type) => (
-                      <option key={type.id} value={type.id}>
-                        {type.label}
-                      </option>
+                    ✖
+                  </button>
+                </div>
+                <div className="flex flex-col space-y-2">
+                  <div className="form-control">
+                    <div className="input-group flex flex-row gap-1 items-center">
+                      <select
+                        className="select select-bordered w-1/3"
+                        value={selectedType}
+                        onChange={(e) => setSelectedType(e.target.value)}
+                      >
+                        {stopTypes.map((type) => (
+                          <option key={type.id} value={type.id}>
+                            {type.label}
+                          </option>
+                        ))}
+                      </select>
+                      <Autocomplete
+                        onLoad={onLoadAutocomplete}
+                        onPlaceChanged={() => handlePlaceChanged(day.dayOrder)}
+                        options={{
+                          fields: ["geometry", "formatted_address"],
+                        }}
+                      >
+                        <input
+                          ref={inputRef}
+                          type="text"
+                          placeholder="Add stop"
+                          className="input input-bordered w-full rounded-r-lg"
+                        />
+                      </Autocomplete>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    {day.stops.map((stop, index) => (
+                      <div
+                        key={index}
+                        className="flex justify-between items-center border p-2 rounded-md"
+                      >
+                        <div className="flex items-center gap-2 capitalize">
+                          {getStopTypeIcon(stop.stopType)}
+                          <p>{stop.name}</p>
+                        </div>
+                        <button
+                          className="btn btn-circle btn-xs btn-ghost"
+                          onClick={() => removeStop(day.dayOrder, index)}
+                        >
+                          ✖
+                        </button>
+                      </div>
                     ))}
-                  </select>
-                  <Autocomplete
-                    onLoad={onLoadAutocomplete}
-                    onPlaceChanged={() => handlePlaceChanged(day.dayOrder)}
-                    options={{
-                      fields: ["geometry", "formatted_address"],
-                    }}
-                  >
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      placeholder="Add stop"
-                      className="input input-bordered w-full rounded-r-lg"
-                    />
-                  </Autocomplete>
+                  </div>
                 </div>
               </div>
-              <div className="space-y-1">
-                {day.stops.map((stop, index) => (
-                  <div
-                    key={index}
-                    className="flex justify-between items-center border p-2 rounded-md"
-                  >
-                    <div className="flex items-center gap-2 capitalize">
-                      {getStopTypeIcon(stop.stopType)}
-                      <p>{stop.name}</p>
-                    </div>
-                    <button
-                      className="btn btn-circle btn-xs btn-ghost"
-                      onClick={() => removeStop(day.dayOrder, index)}
-                    >
-                      ✖
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
+            <button className="btn btn-primary mt-4" onClick={addNewDay}>
+              Add New Day
+            </button>
           </div>
-        ))}
-        <button className="btn btn-primary mt-4" onClick={addNewDay}>
-          Add New Day
-        </button>
-      </div>
-      <div>
-        <button
-          disabled={mutation.isPending}
-          onClick={() => mutation.mutate()}
-          className="btn btn-primary mt-4"
-        >
-          {mutation.isPending ? "Building your trip..." : "DONE 🎉"}
-        </button>
-      </div></>)}
-     
+          <div>
+            <button
+              disabled={mutation.isPending}
+              onClick={handleSubmit}
+              className={`btn btn-primary mt-4 ${validationErrors.length > 0 ? "btn-disabled" : ""}`}
+            >
+              {mutation.isPending ? "Building your trip..." : "DONE 🎉"}
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
