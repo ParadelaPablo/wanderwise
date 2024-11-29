@@ -3,9 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getSpotifyTracks } from "@/lib/spotifyApi";
 import { millisToMinutesAndSeconds } from "@/lib/utils";
 import { SpotifyTrack } from "@/lib/types";
+import { LoadingState } from "../ui-states/loading";
+import { ErrorState } from "../ui-states/error";
 
 export const SpotifyModal = ({
-  trackFetch 
+  trackFetch
 }: {
   trackFetch: (trackDetails: {
     id: string;
@@ -37,6 +39,8 @@ export const SpotifyModal = ({
     }
   };
 
+
+
   return (
     <div className="modal" role="dialog">
       <div className="modal-box">
@@ -55,8 +59,8 @@ export const SpotifyModal = ({
           />
         </label>
         <div className="mt-4">
-          {isLoading && <span>Loading...</span>}
-          {isError && <span>Error: {error.message}</span>}
+          {isLoading && <LoadingState />}
+          {isError && <ErrorState />}
           {data && (
             <div className="space-y-2">
               {data.map((track) => {

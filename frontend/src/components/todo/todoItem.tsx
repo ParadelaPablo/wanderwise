@@ -19,7 +19,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ text, done, updateItem, removeItem 
     if (updatedText.length > 0) {
       updateItem({ text: updatedText, done: isChecked }); 
     } else {
-      console.error("El texto no puede estar vacío."); 
+      console.error("This Cant be empty"); 
     }
   };
 
