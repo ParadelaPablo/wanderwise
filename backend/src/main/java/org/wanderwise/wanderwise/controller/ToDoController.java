@@ -7,7 +7,6 @@ import org.wanderwise.wanderwise.service.ToDoService;
 
 import java.net.URI;
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/trips/{tripId}/todos")
 public class ToDoController {
@@ -33,10 +32,8 @@ public class ToDoController {
         }
 
         ToDo createdToDo = toDoService.createToDoForTrip(tripId, toDo);
-        URI location = URI.create(String.format("/api/trips/%d/todos/%d", tripId, createdToDo.getId()));
-        return ResponseEntity.created(location).body(createdToDo);
+        return ResponseEntity.ok(createdToDo); 
     }
-
 
     @PutMapping("/{toDoId}")
     public ResponseEntity<ToDo> updateToDo(
