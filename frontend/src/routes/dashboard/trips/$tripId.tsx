@@ -29,17 +29,14 @@ function RouteComponent() {
   });
 
   return (
-    <div className="h-screen flex flex-col justify-center w-full items-center">
+    <div className="flex flex-col justify-center w-full items-center">
       {isLoading && <div>Loading...</div>}
       {isError && <div> The trip is on vacation...</div>}
       <h1 className="text-xl font-bold">{tripData?.title}</h1>
-      <div className="flex-grow mr-5 ml-5">
-        <div>
-          When we connect with backend we should put the name of the endpoint{" "}
-          {tripId}
-        </div>
+      <div className="w-full">
+        
         <div className="divider"></div>
-        <div className="flex justify-left items-start my-2 p-1">
+        <div className="flex justify-left items-start my-2 p-1 w-full">
           {visibleComponent === "Map" && (
             <MapForFooter tripId={Number(tripId)} tripData={tripData!} />
           )}
