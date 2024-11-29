@@ -19,11 +19,14 @@ const TripTimeline = ({ tripData }: { tripData: TripData }) => {
             })}
           </time>
           {tripData.days[0].stops.map((stop) => (
-            <div key={stop.id} className="text-lg font-black">
-              <p className="font-medium">{stop.name}</p>
+            <div
+              key={stop.id}
+              className="text-lg font-black flex flex-row gap-2 items-center"
+            >
               <p className="text-gray-500 text-sm">
                 {getStopTypeIcon(stop.stopType) || "Unknown"}
               </p>
+              <p className="font-medium">{stop.name}</p>
             </div>
           ))}
         </div>
@@ -72,11 +75,14 @@ const TripTimeline = ({ tripData }: { tripData: TripData }) => {
               </time>
               {day.stops.length > 0 ? (
                 day.stops.map((stop) => (
-                  <div key={stop.id} className="text-lg font-black">
-                    <p className="font-medium">{stop.name}</p>
+                  <div
+                    key={stop.id}
+                    className="text-lg font-black flex flex-row gap-2 items-center"
+                  >
                     <p className="text-gray-500 text-sm">
                       {getStopTypeIcon(stop.stopType) || "Unknown"}
                     </p>
+                    <p className="font-medium">{stop.name}</p>
                   </div>
                 ))
               ) : (
@@ -100,11 +106,14 @@ const TripTimeline = ({ tripData }: { tripData: TripData }) => {
             })}
           </time>
           {tripData.days[tripData.days.length - 1].stops.map((stop) => (
-            <div key={stop.id} className="text-lg font-black">
-              <p className="font-medium">{stop.name}</p>
+            <div
+              key={stop.id}
+              className="text-lg font-black flex flex-row gap-2 items-center"
+            >
               <p className="text-gray-500 text-sm">
                 {getStopTypeIcon(stop.stopType) || "Unknown"}
               </p>
+              <p className="font-medium">{stop.name}</p>
             </div>
           ))}
         </div>

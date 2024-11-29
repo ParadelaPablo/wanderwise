@@ -1,5 +1,6 @@
 import axios from "axios";
-import { FullTripRequest, TripForGallery } from "./types";
+import { TripForGallery } from "./types";
+import { ValidatedFullTripSchema } from "./schema";
 
 const BASE_DEV_URL = import.meta.env.VITE_BASE_DEV_URL;
 
@@ -9,10 +10,7 @@ export const getTrips = async (): Promise<TripForGallery[]> => {
   return response.data;
 };
 
-export async function createFullTrip(fullTrip: FullTripRequest) {
-  if (fullTrip.userId == null || fullTrip.userId == undefined) {
-    throw new Error("User Id is undefined");
-  }
+export async function createFullTrip(fullTrip: ValidatedFullTripSchema) {
 
   const updatedFullTrip = {
     ...fullTrip,
