@@ -80,15 +80,15 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
   };
 
   return (
-    <div className="w-full">
-      <div className="flex items-start justify-between">
-        <p className="text-2xl">To Pack</p>
-        <button className="btn btn-active btn-ghost mr-2" onClick={addNewItem}>
+    <div className="w-full p-4">
+      <div className="flex items-center justify-between bg-green-400 p-4 rounded-lg text-white shadow-md">
+        <p className="text-xl font-semibold">To Pack</p>
+        <button className="btn btn-sm bg-white text-green-500 font-medium rounded-md hover:bg-green-100" onClick={addNewItem}>
           New Item
         </button>
       </div>
 
-      <div className="divider"></div>
+      <div className="divider my-4"></div>
 
       <div>
         {items.map(item => (
