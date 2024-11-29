@@ -3,8 +3,9 @@ import ButtonCircle from "../buttons/buttonAddNewTripCircle";
 import { useRouter } from "@tanstack/react-router";
 import { useUser } from "@clerk/clerk-react";
 
-import { useQuery } from "@tanstack/react-query";
-import { getTrips } from "@/lib/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { deleteTripById, getTrips } from "@/lib/api";
+import { TripForGallery } from "@/lib/types";
 
 const useTrips = () => {
   return useQuery({
@@ -13,10 +14,51 @@ const useTrips = () => {
   });
 };
 
+type MutationContext = {
+  previousTrips: TripForGallery[] | undefined;
+};
+
 const TripGallery = () => {
   const router = useRouter();
   const { user } = useUser();
+  const queryClient = useQueryClient();
   const { data: trips = [], isLoading, isError, error } = useTrips();
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteTripById,
+    onMutate: async (id: number): Promise<MutationContext | undefined> => {
+      await queryClient.cancelQueries({ queryKey: ["trips"] });
+
+      const previousTrips = queryClient.getQueryData<TripForGallery[]>([
+        "trips",
+      ]);
+
+      queryClient.setQueryData(["trips"], (oldtrips: TripForGallery[] = []) =>
+        oldtrips.filter((trip) => Number(trip.id) !== id)
+      );
+
+      return { previousTrips };
+    },
+
+    onError: (
+      err: Error,
+      variables: number,
+      context: MutationContext | undefined
+    ) => {
+      if (context?.previousTrips) {
+        queryClient.setQueryData(["trips"], context.previousTrips);
+      }
+      console.error("Error deleting trip:", err);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["trips"] });
+    },
+  });
+
+  const handleDelete = (id: number) => {
+    console.log(`Deleting trip with ID: ${id}`);
+    deleteMutation.mutate(id);
+  };
 
   if (isLoading) return <div>Loading trips...</div>;
   if (isError) return <div>Error loading trips: {error.message}</div>;
@@ -40,7 +82,12 @@ const TripGallery = () => {
 
       <div className="flex flex-col sm:flex-row  flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
         {trips.map((trip) => (
-          <TripCard key={trip.id} id={Number(trip.id)} title={trip.title} />
+          <TripCard
+            key={trip.id}
+            id={Number(trip.id)}
+            title={trip.title}
+            onDelete={handleDelete}
+          />
         ))}
       </div>
 
