@@ -26,8 +26,8 @@ function RouteComponent() {
           {visibleComponent === "Map" && (
             <MapForFooter tripId={Number(tripId)} />
           )}
-          {visibleComponent === "Todo" && <Todo />}
-          {visibleComponent === "ToPack" && <ToPack />}
+          {visibleComponent === "Todo" && <Todo tripId={tripId} />}
+          {visibleComponent === "ToPack" && <ToPack tripId={tripId} />}
           {visibleComponent === "Highlights" && <Highlights />}
         </div>
       </div>
