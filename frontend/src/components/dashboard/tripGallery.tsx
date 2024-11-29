@@ -5,6 +5,7 @@ import { useUser } from "@clerk/clerk-react";
 
 import { useQuery } from "@tanstack/react-query";
 import { getTrips } from "@/lib/api";
+import { LoadingState } from "../loading/loading";
 
 const useTrips = () => {
   return useQuery({
@@ -18,7 +19,7 @@ const TripGallery = () => {
   const { user } = useUser();
   const { data: trips = [], isLoading, isError, error } = useTrips();
 
-  if (isLoading) return <div className="flex items-center justify-center h-screen"><span className="loading loading-dots loading-lg"></span></div>;
+  if (isLoading) return <LoadingState />;
   if (isError) return <div className="flex items-center justify-center h-screen" ><span className="px-4 py-2 bg-red-200  rounded-md text-gray-600">⛽️ Your trips have temporarily run out of gas. Refueling now—hang tight! 🚗💨</span></div>;
 
   return (
