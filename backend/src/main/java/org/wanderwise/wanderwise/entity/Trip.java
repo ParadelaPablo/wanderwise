@@ -27,7 +27,7 @@ public class Trip {
     @Column(nullable = false)
     private String userId;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE , fetch = FetchType.EAGER)
     private List<Day> days;
 
 

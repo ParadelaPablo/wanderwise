@@ -18,7 +18,7 @@ public class Highlights {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 

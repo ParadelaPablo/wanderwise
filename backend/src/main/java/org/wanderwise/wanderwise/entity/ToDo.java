@@ -17,7 +17,7 @@ public class ToDo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "trip_id", nullable = false)
     @JsonIgnore
     private Trip trip;

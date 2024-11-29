@@ -44,7 +44,7 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "trip_id")
     private Trip trip;
 
@@ -52,7 +52,7 @@ public class Day {
     @Min(1)
     private Integer dayOrder;
 
-    @OneToMany(mappedBy = "day", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "day", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Stop> stops;
 
     @Column(nullable = false)
