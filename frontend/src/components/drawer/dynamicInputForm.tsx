@@ -10,6 +10,8 @@ import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
+import { getStopTypeIcon } from "@/lib/icons";
+import { useNavigate } from "@tanstack/react-router";
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
@@ -28,11 +30,12 @@ type Props = {
 };
 
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
+  const navigate = useNavigate();
   const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
   const mapRef = useRef<google.maps.Map | null>(null);
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
-
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const onLoadAutocomplete = (
     autocomplete: google.maps.places.Autocomplete
   ) => {
@@ -66,6 +69,9 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     }
     if (formatted_address) {
       updateStop(dayId, selectedType, formatted_address);
+    }
+    if (inputRef.current) {
+      inputRef.current.value = "";
     }
   };
 
@@ -134,11 +140,27 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
     mutationFn: () => {
       return createFullTrip(data);
     },
+    onSuccess: (response) => {
+      const tripId = response?.id;
+      navigate({
+        to: "/dashboard/trips/$tripId",
+        params: { tripId: tripId },
+      });
+    },
+    onError: (error) => {
+      console.error("Error creating trip:", error);
+    },
   });
 
   return (
     <div className="flex flex-col gap-4 items-center ">
-      <div>
+      {mutation.isPending && (
+        <div className="flex justify-center items-center">
+          Loading...
+        </div>
+      )}
+      {!mutation.isPending && (<>
+        <div>
         {days.map((day) => (
           <div
             key={day.dayOrder}
@@ -193,10 +215,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     onLoad={onLoadAutocomplete}
                     onPlaceChanged={() => handlePlaceChanged(day.dayOrder)}
                     options={{
-                      fields: ["geometry", "formatted_address"], 
+                      fields: ["geometry", "formatted_address"],
                     }}
                   >
                     <input
+                      ref={inputRef}
                       type="text"
                       placeholder="Add stop"
                       className="input input-bordered w-full rounded-r-lg"
@@ -211,9 +234,8 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     className="flex justify-between items-center border p-2 rounded-md"
                   >
                     <div className="flex items-center gap-2 capitalize">
-                      <p>
-                        {stop.stopType}: {stop.name}
-                      </p>
+                      {getStopTypeIcon(stop.stopType)}
+                      <p>{stop.name}</p>
                     </div>
                     <button
                       className="btn btn-circle btn-xs btn-ghost"
@@ -233,12 +255,14 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       </div>
       <div>
         <button
+          disabled={mutation.isPending}
           onClick={() => mutation.mutate()}
           className="btn btn-primary mt-4"
         >
-          DONE 🎉
+          {mutation.isPending ? "Building your trip..." : "DONE 🎉"}
         </button>
-      </div>
+      </div></>)}
+     
     </div>
   );
 };

@@ -50,3 +50,5 @@ export const secondsToTimeString = (totalSeconds: number): string => {
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   return `${hours} hrs ${minutes} mins`;
 };
+
+
