@@ -6,7 +6,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
   return (
-    <footer className="bg-gray-900 text-gray-100 py-4 sticky bottom-0 w-full shadow-lg border-t border-gray-800">
+    <footer className="bg-gray-900 text-gray-100 py-4 fixed bottom-0 w-full shadow-lg border-t border-gray-800">
       <div className="flex justify-around items-center gap-4">
         <button
           onClick={() => setVisibleComponent("Map")}
