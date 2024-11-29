@@ -4,6 +4,7 @@ import {
   DirectionsService,
   DirectionsRenderer,
 } from "@react-google-maps/api";
+import { secondsToTimeString } from "@/lib/utils";
 
 type MapProps = {
   geoLocation: {
@@ -66,13 +67,6 @@ function Map({
       waypoints: waypoints,
     };
   }, [origin, destination, waypoints]);
-
-  // Helper function to convert seconds into a readable time format (hours and minutes)
-  const secondsToTimeString = (totalSeconds: number): string => {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    return `${hours} hrs ${minutes} mins`;
-  };
 
   return (
     <div>

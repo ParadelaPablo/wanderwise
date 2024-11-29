@@ -6,21 +6,19 @@ const navigate = useNavigate();
 return (
 <button
     onClick={() => navigate({ to: "/dashboard/create" })}
-    className="btn btn-circle fixed bottom-5"
+    className="btn btn-circle bg-teal-500 text-white hover:bg-teal-600 shadow-lg sticky bottom-5 mx-auto block flex items-center justify-center"
 >
     <svg
     xmlns="http://www.w3.org/2000/svg"
-    className="h-6 w-6"
-    fill="none"
+    className="h-8 w-8"
     viewBox="0 0 24 24"
+    fill="none"
     stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
     >
-    <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        d="M12 4v16m8-8H4"
-    />
+    <path d="M12 5v14M5 12h14" />
     </svg>
 </button>
 );

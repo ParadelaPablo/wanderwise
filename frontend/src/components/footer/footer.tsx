@@ -1,29 +1,34 @@
+
+
 interface FooterProps {
   setVisibleComponent: (component: string) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
   return (
-    <footer className="bg-gray-800 text-white py-3 sticky bottom-0 w-full">
-      <div className="flex justify-around items-center gap-x-1">
-        <button className="flex-1 text-center px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+    <footer className="bg-gray-900 text-gray-100 py-4 fixed bottom-0 w-full shadow-lg border-t border-gray-800">
+      <div className="flex justify-around items-center gap-4">
+        <button
+          onClick={() => setVisibleComponent("Map")}
+          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-indigo-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1 ml-2"
+        >
           Map
         </button>
         <button
           onClick={() => setVisibleComponent("Todo")}
-          className="flex-1 text-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-purple-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1"
         >
           To Do
         </button>
         <button
           onClick={() => setVisibleComponent("ToPack")}
-          className="flex-1 text-center px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-teal-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1"
         >
           To Pack
         </button>
         <button
           onClick={() => setVisibleComponent("Highlights")}
-          className="flex-1 text-center px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-orange-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1 mr-2"
         >
           Highlights
         </button>

@@ -10,12 +10,14 @@ import { useAuth } from "@clerk/clerk-react";
 import { useMutation } from "@tanstack/react-query";
 import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
+import { getStopTypeIcon } from "@/lib/icons";
+import { useNavigate } from "@tanstack/react-router";
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
   { id: "ACTIVITY", label: "Activity" },
   { id: "FUEL", label: "Fuel" },
-  { id: "FOOD", label: "Food and drink" },
+  { id: "FOOD_AND_DRINK", label: "Food and drink" },
   { id: "SIGHTSEEING", label: "Sightseeing" },
   { id: "REST", label: "Rest" },
   { id: "OVERNIGHT", label: "Overnight" },
@@ -28,31 +30,56 @@ type Props = {
 };
 
 const DynamicInputForm = ({ days, setDays, title }: Props) => {
-  const { userId } =  useAuth();
+  const navigate = useNavigate();
+  const { userId } = useAuth();
   const [selectedType, setSelectedType] = useState<string>(stopTypes[0].id);
-  const mapRef = useRef();
-  const autocompleteRef = useRef();
-
-  const onLoadAutocomplete = (autocomplete) => {
+  const mapRef = useRef<google.maps.Map | null>(null);
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const onLoadAutocomplete = (
+    autocomplete: google.maps.places.Autocomplete
+  ) => {
     autocompleteRef.current = autocomplete;
   };
 
-  const handlePlaceChanged = () => {
-    const { geometry } = autocompleteRef.current.getPlace();
+  const handlePlaceChanged = (dayId: number) => {
+    if (!autocompleteRef.current) {
+      console.error("Autocomplete instance is not initialized.");
+      return;
+    }
+
+    const place = autocompleteRef.current.getPlace();
+    if (!place || !place.geometry) {
+      console.error("Place geometry is not available.");
+      return;
+    }
+
+    const { geometry, formatted_address } = place;
     const bounds = new window.google.maps.LatLngBounds();
     if (geometry.viewport) {
       bounds.union(geometry.viewport);
-    } else {
+    } else if (geometry.location) {
       bounds.extend(geometry.location);
     }
-    mapRef.current.fitBounds(bounds);
+
+    if (mapRef.current) {
+      mapRef.current.fitBounds(bounds);
+    } else {
+      console.error("Map reference is not initialized.");
+    }
+    if (formatted_address) {
+      updateStop(dayId, selectedType, formatted_address);
+    }
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
 
   const addNewDay = () => {
     const newDayId = days.length + 1;
 
     const newDay = {
-      order: newDayId,
+      dayOrder: newDayId,
       date: new Date(),
       stops: [],
     };
@@ -60,7 +87,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   };
 
   const removeDay = (id: number) => {
-    setDays(days.filter((day) => day.order !== id));
+    setDays(days.filter((day) => day.dayOrder !== id));
   };
 
   const updateStop = (dayId: number, typeId: string, stopName: string) => {
@@ -72,9 +99,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       name: stopName,
     };
 
-    setDays(
-      days.map((day) =>
-        day.order === dayId ? { ...day, stops: [...day.stops, newStop] } : day
+    setDays((prevDays) =>
+      prevDays.map((day) =>
+        day.dayOrder === dayId
+          ? { ...day, stops: [...day.stops, newStop] }
+          : day
       )
     );
   };
@@ -82,7 +111,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const removeStop = (dayId: number, stopIndex: number) => {
     setDays(
       days.map((day) =>
-        day.order === dayId
+        day.dayOrder === dayId
           ? {
               ...day,
               stops: day.stops.filter((_, index) => index !== stopIndex),
@@ -95,47 +124,51 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   const updateDate = (dayId: number, newDate: Date | undefined) => {
     if (!newDate) return;
     setDays(
-      days.map((day) => (day.order === dayId ? { ...day, date: newDate } : day))
+      days.map((day) =>
+        day.dayOrder === dayId ? { ...day, date: newDate } : day
+      )
     );
   };
 
   const data = {
-    userId: "12345bn",
+    userId: userId,
     title: title,
-    days: [
-      {
-        dayOrder: 1,
-        date: "2024-12-01",
-        stops: [
-          {
-          
-            stopType: "FIKA",
-            name: "Stockholm",
-          },
-        ],
-      },
-    ],
+    days: days,
   };
 
   const mutation = useMutation({
     mutationFn: () => {
       return createFullTrip(data);
     },
+    onSuccess: (response) => {
+      const tripId = response?.id;
+      navigate({
+        to: "/dashboard/trips/$tripId",
+        params: { tripId: tripId },
+      });
+    },
+    onError: (error) => {
+      console.error("Error creating trip:", error);
+    },
   });
-
-
 
   return (
     <div className="flex flex-col gap-4 items-center ">
-      <div>
+      {mutation.isPending && (
+        <div className="flex justify-center items-center">
+          Loading...
+        </div>
+      )}
+      {!mutation.isPending && (<>
+        <div>
         {days.map((day) => (
           <div
-            key={day.order}
+            key={day.dayOrder}
             className="card w-full bg-base-100 shadow-md p-4 border border-gray-200"
           >
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-bold text-lg">
-                Day {day.order}{" "}
+                Day {day.dayOrder}{" "}
                 <Popover>
                   <PopoverTrigger>
                     <button className="btn btn-sm btn-primary ml-2">
@@ -150,7 +183,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     <Calendar
                       mode="single"
                       onSelect={(date) => {
-                        if (date) updateDate(day.order, date);
+                        if (date) updateDate(day.dayOrder, date);
                       }}
                       selected={day.date}
                     />
@@ -159,7 +192,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
               </h3>
               <button
                 className="btn btn-sm btn-circle btn-ghost text-gray-400"
-                onClick={() => removeDay(day.order)}
+                onClick={() => removeDay(day.dayOrder)}
               >
                 ✖
               </button>
@@ -180,22 +213,16 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                   </select>
                   <Autocomplete
                     onLoad={onLoadAutocomplete}
-                    onPlaceChanged={handlePlaceChanged}
+                    onPlaceChanged={() => handlePlaceChanged(day.dayOrder)}
+                    options={{
+                      fields: ["geometry", "formatted_address"],
+                    }}
                   >
                     <input
+                      ref={inputRef}
                       type="text"
                       placeholder="Add stop"
                       className="input input-bordered w-full rounded-r-lg"
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && e.currentTarget.value) {
-                          updateStop(
-                            day.order,
-                            selectedType,
-                            e.currentTarget.value
-                          );
-                          e.currentTarget.value = "";
-                        }
-                      }}
                     />
                   </Autocomplete>
                 </div>
@@ -207,13 +234,12 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
                     className="flex justify-between items-center border p-2 rounded-md"
                   >
                     <div className="flex items-center gap-2 capitalize">
-                      <p>
-                        {stop.stopType}: {stop.name}
-                      </p>
+                      {getStopTypeIcon(stop.stopType)}
+                      <p>{stop.name}</p>
                     </div>
                     <button
                       className="btn btn-circle btn-xs btn-ghost"
-                      onClick={() => removeStop(day.order, index)}
+                      onClick={() => removeStop(day.dayOrder, index)}
                     >
                       ✖
                     </button>
@@ -229,12 +255,14 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       </div>
       <div>
         <button
+          disabled={mutation.isPending}
           onClick={() => mutation.mutate()}
           className="btn btn-primary mt-4"
         >
-          DONE 🎉
+          {mutation.isPending ? "Building your trip..." : "DONE 🎉"}
         </button>
-      </div>
+      </div></>)}
+     
     </div>
   );
 };

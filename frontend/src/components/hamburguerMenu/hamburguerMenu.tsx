@@ -1,24 +1,40 @@
+import React, { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { useRouter } from "@tanstack/react-router";
 import logo from "../../assets/logofinalmaybe.png";
-
-<img src={logo} alt="Logo" />
-
+import ThemeSwitcher from "../ThemeSwitcher/themeSwitcher"; // Asegúrate de importar tu componente
 
 const HamburguerMenu: React.FC = () => {
 const { signOut } = useAuth();
 const router = useRouter();
+const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+const toggleMenu = () => {
+setIsMenuOpen((prev) => !prev);
+};
 
 const handleSignOut = async () => {
 await signOut();
+setIsMenuOpen(false); // Cerrar el menú
 router.navigate({ to: "/" });
+};
+
+const handleNavigation = (path: string) => {
+setIsMenuOpen(false); // Cerrar el menú
+router.navigate({ to: path });
 };
 
 return (
 <div className="navbar bg-base-100 flex justify-between items-center px-4">
+    {/* Menú hamburguesa */}
     <div className="navbar-start">
     <div className="dropdown">
-        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+        <div
+        tabIndex={0}
+        role="button"
+        onClick={toggleMenu}
+        className="btn btn-ghost btn-circle"
+        >
         <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5"
@@ -34,56 +50,47 @@ return (
             />
         </svg>
         </div>
+
+        {isMenuOpen && (
         <ul
-        tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
         >
-        <li>
-            <button onClick={() => router.navigate({ to: "/dashboard" })}>
-            Dashboard
+            <li>
+            <button onClick={() => handleNavigation("/dashboard")}>
+                Dashboard
             </button>
-        </li>
-        <li>
-            <button>Current trip / Recent trip</button>
-        </li>
-        <li>
-            <button onClick={() => router.navigate({ to: "/dashboard/create" })}>
-            Add trip
+            </li>
+            <li>
+            <button onClick={() => handleNavigation("/dashboard/create")}>
+                Add trip
             </button>
-        </li>
-        <li>
-            <button onClick={() => router.navigate({ to: "/settings" })}>
-            Settings
+            </li>
+            <li>
+            <button onClick={() => handleNavigation("/settings")}>
+                Settings
             </button>
-        </li>
-        <li>
-            <button>My account</button>
-        </li>
-        <li>
-            <button onClick={() => router.navigate({ to: "/contact" })}>
-            Help
+            </li>
+            <li>
+            <button onClick={() => handleNavigation("/contact")}>
+                Help
             </button>
-        </li>
-        <li>
-            <button onClick={() => router.navigate({ to: "/contact" })}>
-            Contact
-            </button>
-        </li>
-        <li>
+            </li>
+            <li>
             <button onClick={handleSignOut}>Sign out</button>
-        </li>
+            </li>
         </ul>
+        )}
     </div>
     </div>
-    <div className="navbar-end">
-    <img
-        src={logo}
-        alt="Logo"
-        className="h-8 w-8 object-contain"
-    />
+
+    <div className="navbar-end flex items-center gap-4">
+        <ThemeSwitcher />
+        <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
     </div>
-</div>
-);
+
+    </div>
+  );
 };
 
 export default HamburguerMenu;

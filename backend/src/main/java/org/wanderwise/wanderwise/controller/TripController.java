@@ -6,10 +6,7 @@ import org.wanderwise.wanderwise.DTO.request.DayWithStops;
 import org.wanderwise.wanderwise.DTO.request.StopRequest;
 import org.wanderwise.wanderwise.DTO.request.TripRequest;
 import org.wanderwise.wanderwise.DTO.request.TripWithDaysAndStops;
-import org.wanderwise.wanderwise.DTO.response.DayWithStopsResponse;
-import org.wanderwise.wanderwise.DTO.response.StopResponse;
-import org.wanderwise.wanderwise.DTO.response.TripResponse;
-import org.wanderwise.wanderwise.DTO.response.TripWithDaysAndStopsResponse;
+import org.wanderwise.wanderwise.DTO.response.*;
 import org.wanderwise.wanderwise.entity.Day;
 import org.wanderwise.wanderwise.entity.Stop;
 import org.wanderwise.wanderwise.entity.StopType;
@@ -19,9 +16,10 @@ import org.wanderwise.wanderwise.service.StopService;
 import org.wanderwise.wanderwise.service.TripService;
 
 import java.net.URI;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -90,6 +88,7 @@ public class TripController {
         return ResponseEntity.ok(tripResponses);
     }
 
+
     @PostMapping("/full-trip")
     public ResponseEntity<TripWithDaysAndStopsResponse> createTripWithDaysAndStops(
             @RequestBody TripWithDaysAndStops tripRequest) {
@@ -111,8 +110,9 @@ public class TripController {
                 Day day = Day.builder()
                         .trip(savedTrip)
                         .dayOrder(dayWithStop.getDayOrder())
-                        .date(LocalDateTime.parse(LocalDate.parse(dayWithStop.getDate()).atStartOfDay().toString()))
+                        .date(dayWithStop.getDate())
                         .build();
+
 
                 Day savedDay = dayService.createDay(savedTrip.getId(), day);
 
@@ -144,9 +144,34 @@ public class TripController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<TripResponse> getTripById(@PathVariable Long id) {
+    public ResponseEntity<FullTripResponse> getTripById(@PathVariable Long id) {
         Trip trip = tripService.getTripById(id);
-        return ResponseEntity.ok(mapToResponse(trip));
+        List<Day> days = dayService.getAllDays(trip.getId());
+        List<DayResponse> dayResponse = days.stream().map(day -> {
+            System.out.println("Mapping DayResponse for Day ID: " + day.getId());
+            List<StopResponse> stopResponses = day.getStops().stream()
+                    .map(stop -> {
+                        System.out.println("Mapping StopResponse for Stop Name: " + stop.getName());
+                        return new StopResponse(
+                                stop.getId(),
+                                day.getId(),
+                                stop.getStopType().toString(),
+                                stop.getName(),
+                                stop.getCreatedAt(),
+                                stop.getUpdatedAt()
+                        );
+                    }).toList();
+            return new DayResponse(
+                    day.getId(),
+                    day.getTrip().getId(),
+                    day.getDayOrder(),
+                    day.getDate(),
+                    stopResponses
+            );
+        }).toList();
+
+        FullTripResponse response = new FullTripResponse(trip.getId(),trip.getUserId(), trip.getTitle(), trip.getCreatedAt(), trip.getUpdatedAt(), dayResponse);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/user/{userId}")

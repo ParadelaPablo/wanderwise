@@ -24,22 +24,19 @@ public class ToDoController {
         return ResponseEntity.ok(toDos);
     }
 
-    @GetMapping("/{toDoId}")
-    public ResponseEntity<ToDo> getToDoById(
-            @PathVariable Long tripId,
-            @PathVariable Long toDoId) {
-        ToDo toDo = toDoService.getToDoById(toDoId);
-        return ResponseEntity.ok(toDo);
-    }
-
     @PostMapping
     public ResponseEntity<ToDo> createToDo(
             @PathVariable Long tripId,
             @RequestBody ToDo toDo) {
+        if (toDo.getText() == null || toDo.getText().isBlank()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
         ToDo createdToDo = toDoService.createToDoForTrip(tripId, toDo);
         URI location = URI.create(String.format("/api/trips/%d/todos/%d", tripId, createdToDo.getId()));
         return ResponseEntity.created(location).body(createdToDo);
     }
+
 
     @PutMapping("/{toDoId}")
     public ResponseEntity<ToDo> updateToDo(

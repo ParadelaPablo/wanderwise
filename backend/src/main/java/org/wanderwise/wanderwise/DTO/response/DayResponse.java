@@ -17,7 +17,7 @@ public class DayResponse {
 
     private Integer dayOrder;
 
-    private LocalDateTime date;
+    private String date;
 
     private List<StopResponse> stops;
 
@@ -26,4 +26,11 @@ public class DayResponse {
     private LocalDateTime updatedAt;
 
 
+    public DayResponse(Long id, Long tripId, Integer dayOrder, String date, List<StopResponse> stops) {
+        this.id = id;
+        this.tripId = tripId;
+        this.dayOrder = dayOrder;
+        this.date = date;
+        this.stops = stops;
+    }
 }

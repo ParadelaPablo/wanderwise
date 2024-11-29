@@ -71,14 +71,14 @@ public class DayService {
             throw new IllegalArgumentException("Invalid trip id");
         }
         try {
-            System.err.println(day.getDayOrder());
-            System.err.println(day.getDate());
-            System.err.println(day.getTrip().getId());
+
             Trip trip = tripRepository.findById(tripId)
                     .orElseThrow(() -> new IllegalArgumentException("Trip not found with id: " + tripId));
+            System.err.println(trip.getTitle());
             day.setTrip(trip);
 
-            return dayRepository.save(day);
+            day = dayRepository.save(day);
+            return day;
         } catch (Exception e) {
             System.err.println(e.getMessage());
             throw new IllegalArgumentException("Invalid day data");

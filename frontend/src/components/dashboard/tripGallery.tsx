@@ -3,43 +3,44 @@ import ButtonCircle from "../buttons/buttonAddNewTripCircle";
 import { useRouter } from "@tanstack/react-router";
 import { useUser } from "@clerk/clerk-react";
 
+import { useQuery } from "@tanstack/react-query";
+import { getTrips } from "@/lib/api";
+
+const useTrips = () => {
+  return useQuery({
+    queryKey: ["trips"],
+    queryFn: getTrips,
+  });
+};
 
 const TripGallery = () => {
   const router = useRouter();
   const { user } = useUser();
+  const { data: trips = [], isLoading, isError, error } = useTrips();
 
-  const trips = [
-    { id: 1, title: "Trip to Milano" },
-    { id: 2, title: "Trip to Roma" },
-    { id: 3, title: "Trip to Firenze" },
-    { id: 4, title: "Trip to Napoli" },
-    { id: 5, title: "Trip to Venezia" },
-    { id: 6, title: "Trip to Milano" },
-
-  ];
+  if (isLoading) return <div>Loading trips...</div>;
+  if (isError) return <div>Error loading trips: {error.message}</div>;
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
       <div className="text-center mt-5">
-      <h1 className="text-2xl font-bold">
+        <h1 className="text-2xl font-bold">
           Welcome to Your Dashboard
-          {user?.firstName && `, ${user.firstName}`} 
+          {user?.firstName && `, ${user.firstName}`}
         </h1>
-        <button
-          onClick={() => router.navigate({ to: "/dashboard/create" })}
-          className="bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-600"
-        >
-          Add New Trip
-        </button>
+        <div className="mt-10 text-center">
+          <button
+            onClick={() => router.navigate({ to: "/dashboard/create" })}
+            className="bg-teal-500 text-white px-6 py-3 rounded-full hover:bg-teal-600 shadow-md"
+          >
+            Add New Trip
+          </button>
+        </div>
       </div>
 
-      <div className="flex flex-col w-80 items-center justify-center gap-5 mt-8 mb-20 border p-5">
+      <div className="flex flex-col sm:flex-row  flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
         {trips.map((trip) => (
-          <TripCard
-            key={trip.id}
-            id={trip.id}
-            title={trip.title}
-          />
+          <TripCard key={trip.id} id={Number(trip.id)} title={trip.title} />
         ))}
       </div>
 
