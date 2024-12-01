@@ -1,6 +1,4 @@
-import { getTripById } from "@/lib/api";
 import { DirectionsRenderer, GoogleMap } from "@react-google-maps/api";
-import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import TripTimeline from "./TripTimeline";
 import { TripData } from "@/lib/types";
@@ -15,7 +13,6 @@ const center = {
   lng: 18.0097756,
 };
 export const MapForFooter = ({
-  tripId,
   tripData,
 }: {
   tripId: number;
@@ -49,7 +46,6 @@ export const MapForFooter = ({
     });
     return result;
   }, [tripData]);
-  console.log(waypoints);
 
   const origin = useMemo(() => waypoints[0]?.location || center, [waypoints]);
   const destination = useMemo(
@@ -89,6 +85,7 @@ export const MapForFooter = ({
     directionsResponse,
     waypoints.length,
   ]);
+
   return (
     <div className="flex flex-col lg:flex-row gap-4 justify-center items-center">
       <GoogleMap
@@ -102,6 +99,14 @@ export const MapForFooter = ({
           <DirectionsRenderer
             options={{
               directions: directionsResponse,
+              markerOptions: {
+                icon: {
+                  url: "../../../public/icons/pin.png",
+                  scaledSize: new google.maps.Size(30, 30),
+                },
+                title: "new title",
+                clickable: true,
+              },
             }}
           />
         )}
