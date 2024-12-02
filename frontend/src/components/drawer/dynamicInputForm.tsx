@@ -13,6 +13,7 @@ import { Autocomplete } from "@react-google-maps/api";
 import { getStopTypeIcon } from "@/lib/icons";
 import { useNavigate } from "@tanstack/react-router";
 import { FullTripSchema } from "@/lib/schema";
+import { LoadingState } from "../ui-states/loading";
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
@@ -203,9 +204,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
 
   return (
     <div className="flex flex-col justify-between gap-4 h-4/5">
-      {mutation.isPending && (
-        <div className="flex justify-center items-center">Loading...</div>
-      )}
+      {mutation.isPending && <LoadingState />}
       {validationErrors.length > 0 && (
         <div className="text-red-500 mt-2">
           {validationErrors.map((error, index) => (

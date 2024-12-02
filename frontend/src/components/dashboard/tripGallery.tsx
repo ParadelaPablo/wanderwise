@@ -83,7 +83,7 @@ const TripGallery = () => {
       <div className="flex flex-col sm:flex-row  flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
         {trips.length === 0 && (
           <div className="text-center text-lg font-semibold">
-            You have no trips yet
+            You have no trips
           </div>
         )}
         {trips.length > 0 &&
