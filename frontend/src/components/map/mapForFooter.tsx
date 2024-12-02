@@ -156,7 +156,7 @@ export const MapForFooter = ({
   }, [directionsResponse, map, tripData]);
 
   return (
-    <div className="flex flex-col lg:flex-row gap-4 justify-center items-center">
+    <div className="w-full flex flex-col lg:flex-row gap-4 justify-center items-center">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
