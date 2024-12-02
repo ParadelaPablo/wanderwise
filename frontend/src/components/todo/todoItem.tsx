@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 interface TodoItemProps {
   text: string;
@@ -6,6 +6,7 @@ interface TodoItemProps {
   persistItem: (text: string) => void;
   updateItem: (updatedTodo: { text: string; done: boolean }) => void;
   removeItem: () => void;
+  isNew?: boolean;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({
@@ -14,17 +15,37 @@ const TodoItem: React.FC<TodoItemProps> = ({
   persistItem,
   updateItem,
   removeItem,
+  isNew = false,
 }) => {
   const [taskText, setTaskText] = useState(text);
   const [isChecked, setIsChecked] = useState(done);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTaskText(e.target.value);
+  const adjustTextAreaHeight = () => {
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = "auto";
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+    }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && taskText.trim().length > 0) {
+  useEffect(() => {
+    adjustTextAreaHeight();
+    if (isNew && textAreaRef.current) {
+      setTimeout(() => {
+        textAreaRef.current?.focus();
+      }, 0);
+    }
+  }, [isNew]);
+
+  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTaskText(e.target.value);
+    adjustTextAreaHeight();
+  };
+
+  const handleSave = () => {
+    if (taskText.trim().length > 0) {
       persistItem(taskText.trim());
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
   };
 
@@ -35,47 +56,43 @@ const TodoItem: React.FC<TodoItemProps> = ({
   };
 
   return (
-    <div className="form-control bg-white shadow-xl rounded-lg p-3 mb-4">
-      <label className="label cursor-pointer justify-between items-center space-x-3">
-        <input
-          type="checkbox"
-          className="peer hidden"
-          checked={isChecked}
-          onChange={handleCheckboxChange}
-        />
-        <div className="w-5 h-5 border-2 border-gray-400 rounded-md flex items-center justify-center peer-checked:border-green-500 peer-checked:bg-green-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
+    <div className="form-control bg-white shadow-md rounded-md p-1 mb-1">
+      <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-md">
+        <input type="checkbox" className="peer" />
+        <div className="collapse-title text-md font-medium p-1 flex items-center justify-between">
+          <span className="truncate">{taskText.split("\n")[0] || "Untitled"}</span>
         </div>
-
-        <input
-          type="text"
-          value={taskText}
-          onChange={handleTextChange}
-          onKeyPress={handleKeyPress}
-          placeholder="Item..."
-          className="input input-bordered w-full max-w-xs h-8 px-2 text-sm rounded-md focus:ring-2 focus:ring-green-400"
-        />
-
-        <button
-          className="btn btn-xs w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
-          onClick={removeItem}
-        >
-          ✖
-        </button>
-      </label>
+        <div className="collapse-content p-2">
+          <label className="label cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={handleCheckboxChange}
+              className="checkbox checkbox-primary"
+            />
+            <span className="ml-2 font-semibold">Mark as done</span>
+          </label>
+          <textarea
+            ref={textAreaRef}
+            value={taskText}
+            onChange={handleTextChange}
+            placeholder="Title...\nDetails..."
+            className="textarea textarea-bordered w-full mt-1 p-1 text-sm resize-none"
+            style={{ overflow: "hidden" }}
+          />
+          <div className="mt-2 flex justify-between items-center">
+            <button className="btn btn-xs btn-primary font-bold" onClick={handleSave}>
+              Save
+            </button>
+            <button
+              className="btn btn-xs font-extrabold btn-outline bg-red-500 text-white border-red-500 hover:bg-red-600 hover:border-red-600"
+              onClick={removeItem}
+            >
+              X
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

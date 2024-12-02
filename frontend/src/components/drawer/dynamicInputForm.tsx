@@ -14,6 +14,7 @@ import { getStopTypeIcon } from "@/lib/icons";
 import { useNavigate } from "@tanstack/react-router";
 import { LoadingState } from "../ui-states/loading";
 import { FullTripSchema } from "@/lib/schema";
+import { LoadingState } from "../ui-states/loading";
 
 
 const stopTypes: { id: string; label: string }[] = [
@@ -220,11 +221,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       )}
       {!mutation.isPending && (
         <>
-          <div>
+          <div className="overflow-y-scroll">
             {days.map((day) => (
               <div
                 key={day.dayOrder}
-                className="card w-full bg-base-100 shadow-md p-4 border border-gray-200"
+                className="card w-full bg-base-100 shadow-md p-4 mt-2 border border-gray-200"
               >
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-bold text-lg">

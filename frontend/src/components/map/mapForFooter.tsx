@@ -8,8 +8,8 @@ import { getIcon } from "@/lib/utils";
 
 
 const containerStyle = {
-  width: "400px",
-  height: "400px",
+  width: "390px",
+  height: "390px",
 };
 
 const center = {
@@ -159,7 +159,7 @@ export const MapForFooter = ({
   }, [directionsResponse, map, tripData]);
 
   return (
-    <div className="w-full flex flex-col lg:flex-row gap-4 justify-center items-center">
+    <div className="w-full flex flex-col lg:flex-row gap-4 justify-center items-center mb-20">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}

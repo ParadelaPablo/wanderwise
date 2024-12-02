@@ -8,6 +8,7 @@ import { MapForFooter } from "../../../components/map/mapForFooter";
 import { useQuery } from "@tanstack/react-query";
 import { getTripById } from "@/lib/api";
 import { TripData } from "@/lib/types";
+import { LoadingState } from "@/components/ui-states/loading";
 export const Route = createFileRoute("/dashboard/trips/$tripId")({
   component: RouteComponent,
 });
@@ -30,7 +31,7 @@ function RouteComponent() {
 
   return (
     <div className="flex flex-col justify-center w-full items-center">
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <LoadingState/>}
       {isError && <div> The trip is on vacation...</div>}
       <h1 className="text-xl font-bold">{tripData?.title}</h1>
       <div className="w-full">

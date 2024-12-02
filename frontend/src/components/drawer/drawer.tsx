@@ -27,7 +27,7 @@ export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-2">
+        <div className="menu bg-base-200 text-base-content h-full w-80 p-4 gap-4">
           <Stat
             setTitle={setTitle}
             text={"Total time"}
@@ -35,7 +35,7 @@ export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
             title={title}
           />
           <DynamicInputForm days={days} setDays={setDays} title={title} />
-        </ul>
+        </div>
       </div>
     </div>
   );
