@@ -15,6 +15,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
   persistItem,
   updateItem,
   removeItem,
+  isNew = false,
 }) => {
   const [taskText, setTaskText] = useState(text);
   const [isChecked, setIsChecked] = useState(done);
@@ -29,18 +30,22 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
 
   useEffect(() => {
     adjustTextAreaHeight();
-  }, []);
+    if (isNew && textAreaRef.current) {
+      setTimeout(() => {
+        textAreaRef.current?.focus();
+      }, 0);
+    }
+  }, [isNew]);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTaskText(e.target.value);
     adjustTextAreaHeight();
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && taskText.trim().length > 0) {
+  const handleSave = () => {
+    if (taskText.trim().length > 0) {
       persistItem(taskText.trim());
-    } else if (e.key === "Enter") {
-      console.error("This can't be empty");
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
     }
   };
 
@@ -72,7 +77,6 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
             ref={textAreaRef}
             value={taskText}
             onChange={handleTextChange}
-            onKeyPress={handleKeyPress}
             placeholder="Title...\nDetails..."
             className="textarea textarea-bordered w-full mt-1 p-1 text-sm resize-none"
             style={{ overflow: "hidden" }}
@@ -80,7 +84,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
           <div className="mt-2 flex justify-between items-center">
             <button
               className="btn btn-xs btn-primary font-bold"
-              onClick={() => persistItem(taskText.trim())}
+              onClick={handleSave}
             >
               Save
             </button>
