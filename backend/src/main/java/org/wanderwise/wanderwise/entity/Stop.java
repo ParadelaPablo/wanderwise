@@ -22,7 +22,7 @@ public class Stop {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "day_id")
+    @JoinColumn(name = "day_id", nullable = false)
     private Day day;
 
     @Column(nullable = false)
@@ -32,14 +32,11 @@ public class Stop {
     @Enumerated(EnumType.STRING)
     private StopType stopType;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @PastOrPresent
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
-
 }

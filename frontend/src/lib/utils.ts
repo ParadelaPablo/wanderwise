@@ -51,4 +51,23 @@ export const secondsToTimeString = (totalSeconds: number): string => {
   return `${hours} hrs ${minutes} mins`;
 };
 
-
+export const getIcon = (stopType: string) => {
+  switch (stopType) {
+    case "FIKA":
+      return "../../../public/icons/fika.png";
+    case "ACTIVITY":
+      return "../../../public/icons/activity.png";
+    case "FUEL":
+      return "../../../public/icons/fuel.png";
+    case "FOOD_AND_DRINK":
+      return "../../../public/icons/restaurant.png";
+    case "SIGHTSEEING":
+      return "../../../public/icons/sightseeing.png";
+    case "REST":
+      return "../../../public/icons/rest.png";
+    case "OVERNIGHT":
+      return "../../../public/icons/overnight.png";
+    default:
+      return "../../../public/icons/red-dot.png";
+  }
+};
