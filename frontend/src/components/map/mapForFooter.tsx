@@ -91,69 +91,74 @@ export const MapForFooter = ({
     if (directionsResponse && map) {
       const { routes } = directionsResponse;
       const { legs } = routes[0];
-
-      // add the start point custom marker  for the start location
-      new google.maps.Marker({
-        position: legs[0].start_location,
-        map: map,
-        icon: {
-          url: "../../../public/icons/startpoint.png",
-          scaledSize: new google.maps.Size(30, 30),
-        },
-        title: "Start Location",
-      });
-
-      // Add the custom marker with the final destination
-      new google.maps.Marker({
-        position: legs[legs.length - 1].end_location,
-        map: map,
-        icon: {
-          url: "../../../public/icons/destination.png",
-          scaledSize: new google.maps.Size(30, 30),
-        },
-        title: "Destination",
-      });
-
-      //get oll the cities that are left
-      const cities = [];
-      // Add the end address of the first leg
-      cities.push(legs[0].end_address);
-      // Add the start address of the last leg
-      cities.push(legs[legs.length - 1].start_address);
-
-      // Add intermediate cities excluding the first and the last leg
-
-      for (let i = 1; i < legs.length - 1; i++) {
-        cities.push(legs[i].end_address); //add only the end address becuse the start address is already exists in the array
-      }
-
-      //maybe uniq is not a good choise because user might have same city more tham one time
-      //  const uniq = [...new Set(cities)];
-      //  console.log("Cities:   " + cities)
-
-      cities.forEach((city, index) => {
-        // Find the corresponding stop in tripData
-        tripData?.days?.forEach((day) => {
-          day.stops?.forEach((stop) => {
-            if (stop.name === city) {
-              const stopType = stop.stopType;
-
-              // Add the custom marker with the final destination
-              new google.maps.Marker({
-                position: legs[index].end_location,
-                map: map,
-                icon: {
-                  url: getIcon(stopType),
-                  scaledSize: new google.maps.Size(30, 30),
-                },
-                title: `Stop: ${stop.name}`,
-              });
-            }
+  
+      // check if there's more than one leg to avoid accessing undefined
+      if (legs.length > 0) {
+        console.log(legs[0]); // Start location leg
+        console.log(legs[legs.length - 1]); // End location leg (if there's more than one)
+  
+        // Add the start point custom marker for the start location
+        new google.maps.Marker({
+          position: legs[0].start_location,
+          map: map,
+          icon: {
+            url: "../../../public/icons/startpoint.png",
+            scaledSize: new google.maps.Size(30, 30),
+          },
+          title: "Start Location",
+        });
+  
+        // Add the custom marker with the final destination
+        new google.maps.Marker({
+          position: legs[legs.length - 1].end_location,
+          map: map,
+          icon: {
+            url: "../../../public/icons/destination.png",
+            scaledSize: new google.maps.Size(30, 30),
+          },
+          title: "Destination",
+        });
+  
+        // Get all the cities that are left (excluding the start and end location)
+        const cities = [];
+        // Add the end address of the first leg
+        cities.push(legs[0].end_address);
+        
+        // Only add the last leg's start address if there are more than one leg
+        if (legs.length > 1) {
+          cities.push(legs[legs.length - 1].start_address);
+        }
+  
+        // Add intermediate cities (if there are any)
+        for (let i = 1; i < legs.length - 1; i++) {
+          cities.push(legs[i].end_address);
+        }
+  
+        cities.forEach((city, index) => {
+          // Find the corresponding stop in tripData
+          tripData?.days?.forEach((day) => {
+            day.stops?.forEach((stop) => {
+              if (stop.name === city) {
+                const stopType = stop.stopType;
+  
+                // Add the custom marker with the stop's corresponding position
+                new google.maps.Marker({
+                  position: legs[index].end_location,
+                  map: map,
+                  icon: {
+                    url: getIcon(stopType),
+                    scaledSize: new google.maps.Size(30, 30),
+                  },
+                  title: `Stop: ${stop.name}`,
+                });
+              }
+            });
           });
         });
-      });
+      }
     }
   }, [directionsResponse, map, tripData]);
+  
 
   return (
     <div className="w-full flex flex-col lg:flex-row gap-4 justify-center items-center mb-20">
