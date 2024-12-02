@@ -202,7 +202,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   });
 
   return (
-    <div className="flex flex-col gap-4 items-center ">
+    <div className="flex flex-col justify-between gap-4 h-4/5">
       {mutation.isPending && (
         <div className="flex justify-center items-center">Loading...</div>
       )}
@@ -215,11 +215,11 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       )}
       {!mutation.isPending && (
         <>
-          <div>
+          <div className="overflow-y-scroll">
             {days.map((day) => (
               <div
                 key={day.dayOrder}
-                className="card w-full bg-base-100 shadow-md p-4 border border-gray-200"
+                className="card w-full bg-base-100 shadow-md p-4 mt-2 border border-gray-200"
               >
                 <div className="flex justify-between items-center mb-2">
                   <h3 className="font-bold text-lg">
