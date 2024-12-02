@@ -2,7 +2,6 @@ package org.wanderwise.wanderwise.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.wanderwise.wanderwise.entity.Trip;
 
 @Entity
 @Table(name = "highlights")
@@ -15,7 +14,6 @@ public class Highlights {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -33,5 +31,4 @@ public class Highlights {
 
     @Column(name = "song_url")
     private String song;
-
 }

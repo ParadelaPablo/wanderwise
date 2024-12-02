@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 
 interface ToPackItemProps {
-  id: string | undefined;
   text: string;
   done: boolean;
+  persistItem: (text: string) => Promise<void>;
   updateItem: (updatedToPack: { text: string; done: boolean }) => void;
   removeItem: () => void;
 }
 
-const ToPackItems: React.FC<ToPackItemProps> = ({ text, done, updateItem, removeItem }) => {
+const ToPackItems: React.FC<ToPackItemProps> = ({ text, done, persistItem, updateItem, removeItem }) => {
   const [taskText, setTaskText] = useState(text);
   const [isChecked, setIsChecked] = useState(done);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedText = e.target.value.trim();
-    setTaskText(updatedText);
-    if (updatedText.length > 0) {
-      updateItem({ text: updatedText, done: isChecked });
+    setTaskText(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && taskText.trim().length > 0) {
+      persistItem(taskText.trim());
+    } else if (e.key === "Enter") {
+      console.error("This can't be empty");
     }
   };
 
@@ -51,6 +55,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({ text, done, updateItem, remove
           type="text"
           value={taskText}
           onChange={handleTextChange}
+          onKeyPress={handleKeyPress}
           placeholder="Item..."
           className="input input-bordered w-full max-w-xs h-8 px-2 text-sm rounded-md focus:ring-2 focus:ring-green-400"
         />

@@ -32,14 +32,11 @@ public class Stop {
     @Enumerated(EnumType.STRING)
     private StopType stopType;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     @PastOrPresent
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime updatedAt;
-
 }

@@ -11,7 +11,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "to_Do")
+@Table(name = "to_do")
 public class ToDo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

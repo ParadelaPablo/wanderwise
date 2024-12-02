@@ -1,77 +1,64 @@
-
-
-
-
 const Contact: React.FC = () => {
-    return (
-        <div className="bg-gray-100 min-h-screen flex flex-col justify-center items-center p-6">
-        <main className="text-center mb-4">
-            <h2 className="text-2xl font-bold mb-2 text-gray-800">Contact Us</h2>
-            <p className="text-base mb-6 text-gray-600">
-            Have any questions? We'd love to hear from you! Fill out the form
-            below or reach us at{" "}
-            <a
-                href="mailto:support@collabtask.com"
-                className="text-blue-500 font-semibold hover:underline"
+  return (
+    <div className="min-h-screen flex flex-col justify-center items-center p-6">
+      <main className="text-center mb-4">
+        <h2 className="text-2xl font-bold mb-2">Contact Us</h2>
+        <p className="text-base mb-6">
+          Have any questions? We'd love to hear from you! Fill out the form
+          below or reach us at{" "}
+          <a
+            href="mailto:support@collabtask.com"
+            className="text-blue-500 font-semibold hover:underline"
+          >
+            support@wanderwise.com
+          </a>
+          .
+        </p>
+
+        <form className="max-w-md w-full p-4 rounded-md shadow-md mx-auto flex flex-col gap-4">
+          <label className="input input-bordered flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              className="size-6"
             >
-                support@wanderwise.com
-            </a>
-            .
-            </p>
-            <form className="bg-white max-w-md w-full p-4 rounded-md shadow-md mx-auto flex flex-col gap-4">
-            <div className="flex flex-col items-start">
-                <label
-                htmlFor="name"
-                className="text-sm font-bold text-gray-800 mb-1"
-                >
-                Your Name
-                </label>
-                <input
-                type="text"
-                id="name"
-                placeholder="Enter your name"
-                className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-            </div>
-            <div className="flex flex-col items-start">
-                <label
-                htmlFor="email"
-                className="text-sm font-bold text-gray-800 mb-1"
-                >
-                Your Email
-                </label>
-                <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-            </div>
-            <div className="flex flex-col items-start">
-                <label
-                htmlFor="message"
-                className="text-sm font-bold text-gray-800 mb-1"
-                >
-                Your Message
-                </label>
-                <textarea
-                id="message"
-                rows={4}
-                placeholder="Write your message"
-                className="w-full border border-gray-300 rounded-md px-4 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                ></textarea>
-            </div>
-            <button
-                type="submit"
-                className="bg-blue-500 text-white rounded-md py-2 px-4 font-semibold w-full hover:bg-blue-600 transition duration-300"
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+
+            <input type="text" className="grow" placeholder="Subject" />
+          </label>
+          <label className="input input-bordered flex items-center gap-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className="h-4 w-4 opacity-70"
             >
-                Send Message
-            </button>
-            </form>
-        </main>
-        </div>
-    );
-    };
-    
-    export default Contact;
-    
+              <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+            </svg>
+            <input type="text" className="grow" placeholder="Username" />
+          </label>
+          <textarea
+            className="textarea textarea-bordered resize-none"
+            placeholder="Text..."
+          ></textarea>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded-md py-2 px-4 font-semibold w-full hover:bg-blue-600 transition duration-300"
+          >
+            Send Message
+          </button>
+        </form>
+      </main>
+    </div>
+  );
+};
+
+export default Contact;

@@ -2,7 +2,9 @@ package org.wanderwise.wanderwise.service;
 
 import org.springframework.stereotype.Service;
 import org.wanderwise.wanderwise.entity.ToPack;
+import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.repository.ToPackRepository;
+import org.wanderwise.wanderwise.repository.TripRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -11,10 +13,13 @@ import java.util.NoSuchElementException;
 public class ToPackService {
 
     private final ToPackRepository toPackRepository;
+    private final TripRepository tripRepository;
 
-    public ToPackService(ToPackRepository toPackRepository) {
+    public ToPackService(ToPackRepository toPackRepository, TripRepository tripRepository) {
         this.toPackRepository = toPackRepository;
+        this.tripRepository = tripRepository;
     }
+
 
     public List<ToPack> getToPacksByTripId(Long tripId) {
         return toPackRepository.findByTrip_Id(tripId);
@@ -26,9 +31,23 @@ public class ToPackService {
     }
 
     public ToPack createToPackForTrip(Long tripId, ToPack toPack) {
-        toPack.getTrip().setId(tripId);
+        Trip trip = tripRepository.findById(tripId)
+                .orElseThrow(() -> new NoSuchElementException("Trip not found with ID: " + tripId));
+
+        toPack.setTrip(trip);
+
+        if (toPack.getText() == null || toPack.getText().isEmpty()) {
+            throw new IllegalArgumentException("Text for ToPack cannot be null or empty");
+        }
+
+        if (toPack.getDone() == null) {
+            toPack.setDone(false);
+        }
+
         return toPackRepository.save(toPack);
     }
+
+
 
     public ToPack updateToPackForTrip(Long tripId, Long toPackId, ToPack updatedToPack) {
         return toPackRepository.findById(toPackId)

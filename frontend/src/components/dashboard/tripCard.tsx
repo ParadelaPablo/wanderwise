@@ -3,15 +3,22 @@ import { useRouter } from "@tanstack/react-router";
 type TripCardProps = {
   id: number;
   title: string;
+  onDelete: (id: number) => void;
 };
 
-const TripCard = ({ id, title }: TripCardProps) => {
+const TripCard = ({ id, title, onDelete }: TripCardProps) => {
   const router = useRouter();
 
   return (
     <div>
       <div className="w-full relative">
-        <button className="btn m-2 absolute top-0 right-0 z-10">X</button>
+        <button
+          onClick={() => onDelete(id)}
+          className="btn-sm bg-neutral rounded text-primary m-2 absolute top-0 right-0 z-10"
+        >
+          X
+        </button>
+
         <button
           className="btn glass p-0 w-80 h-40 relative"
           onClick={() => router.navigate({ to: `/dashboard/trips/${id}` })}

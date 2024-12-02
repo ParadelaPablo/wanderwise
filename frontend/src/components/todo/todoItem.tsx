@@ -1,25 +1,30 @@
 import React, { useState } from "react";
 
 interface TodoItemProps {
-  id: string;
   text: string;
   done: boolean;
+  persistItem: (text: string) => void;
   updateItem: (updatedTodo: { text: string; done: boolean }) => void;
   removeItem: () => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ text, done, updateItem, removeItem }) => {
+const TodoItem: React.FC<TodoItemProps> = ({
+  text,
+  done,
+  persistItem,
+  updateItem,
+  removeItem,
+}) => {
   const [taskText, setTaskText] = useState(text);
   const [isChecked, setIsChecked] = useState(done);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedText = e.target.value.trim(); 
-    setTaskText(updatedText);
+    setTaskText(e.target.value);
+  };
 
-    if (updatedText.length > 0) {
-      updateItem({ text: updatedText, done: isChecked }); 
-    } else {
-      console.error("El texto no puede estar vacío."); 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && taskText.trim().length > 0) {
+      persistItem(taskText.trim());
     }
   };
 
@@ -59,6 +64,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ text, done, updateItem, removeItem 
           type="text"
           value={taskText}
           onChange={handleTextChange}
+          onKeyPress={handleKeyPress}
           placeholder="Item..."
           className="input input-bordered w-full max-w-xs h-8 px-2 text-sm rounded-md focus:ring-2 focus:ring-green-400"
         />

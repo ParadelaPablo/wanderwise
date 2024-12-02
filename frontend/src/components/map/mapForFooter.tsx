@@ -1,11 +1,11 @@
-import { getTripById } from "@/lib/api";
 import { DirectionsRenderer, GoogleMap } from "@react-google-maps/api";
-import { useQuery } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import TripTimeline from "./TripTimeline";
 import { TripData } from "@/lib/types";
 import { LoadingState } from "../ui-states/loading";
 import { ErrorState } from "../ui-states/error";
+import { getIcon } from "@/lib/utils";
+
 
 const containerStyle = {
   width: "400px",
@@ -16,7 +16,12 @@ const center = {
   lat: 59.3467183,
   lng: 18.0097756,
 };
-export const MapForFooter = ({ tripId }: { tripId: number }) => {
+export const MapForFooter = ({
+  tripData,
+}: {
+  tripId: number;
+  tripData: TripData;
+}) => {
   const [map, setMap] = useState(null);
   const [directionsResponse, setDirectionsResponse] =
     useState<google.maps.DirectionsResult | null>(null);
@@ -32,19 +37,10 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
     setMap(null);
   }, []);
 
-  const { isLoading, isError, data, error } = useQuery<TripData>({
-    queryKey: ["trip", tripId],
-    queryFn: () => getTripById(tripId),
-    enabled: !!tripId,
-  });
-  if (data) {
-    console.log("Here is the response", data);
-  }
-
   // prevent rendering, fingers crossed
   const waypoints = useMemo(() => {
     const result: google.maps.DirectionsWaypoint[] = [];
-    data?.days?.forEach((day) => {
+    tripData?.days?.forEach((day) => {
       day.stops?.forEach((stop) => {
         result.push({
           location: stop.name!,
@@ -53,8 +49,7 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
       });
     });
     return result;
-  }, [data]);
-  console.log(waypoints);
+  }, [tripData]);
 
   const origin = useMemo(() => waypoints[0]?.location || center, [waypoints]);
   const destination = useMemo(
@@ -94,8 +89,77 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
     directionsResponse,
     waypoints.length,
   ]);
+
+  useEffect(() => {
+    if (directionsResponse && map) {
+      const { routes } = directionsResponse;
+      const { legs } = routes[0];
+
+      // add the start point custom marker  for the start location
+      new google.maps.Marker({
+        position: legs[0].start_location,
+        map: map,
+        icon: {
+          url: "../../../public/icons/startpoint.png",
+          scaledSize: new google.maps.Size(30, 30),
+        },
+        title: "Start Location",
+      });
+
+      // Add the custom marker with the final destination
+      new google.maps.Marker({
+        position: legs[legs.length - 1].end_location,
+        map: map,
+        icon: {
+          url: "../../../public/icons/destination.png",
+          scaledSize: new google.maps.Size(30, 30),
+        },
+        title: "Destination",
+      });
+
+      //get oll the cities that are left
+      const cities = [];
+      // Add the end address of the first leg
+      cities.push(legs[0].end_address);
+      // Add the start address of the last leg
+      cities.push(legs[legs.length - 1].start_address);
+
+      // Add intermediate cities excluding the first and the last leg
+
+      for (let i = 1; i < legs.length - 1; i++) {
+        cities.push(legs[i].end_address); //add only the end address becuse the start address is already exists in the array
+      }
+
+      //maybe uniq is not a good choise because user might have same city more tham one time
+      //  const uniq = [...new Set(cities)];
+      //  console.log("Cities:   " + cities)
+
+      cities.forEach((city, index) => {
+        // Find the corresponding stop in tripData
+        tripData?.days?.forEach((day) => {
+          day.stops?.forEach((stop) => {
+            if (stop.name === city) {
+              const stopType = stop.stopType;
+
+              // Add the custom marker with the final destination
+              new google.maps.Marker({
+                position: legs[index].end_location,
+                map: map,
+                icon: {
+                  url: getIcon(stopType),
+                  scaledSize: new google.maps.Size(30, 30),
+                },
+                title: `Stop: ${stop.name}`,
+              });
+            }
+          });
+        });
+      });
+    }
+  }, [directionsResponse, map, tripData]);
+
   return (
-    <div className="flex flex-col lg:flex-row gap-4 justify-center items-center">
+    <div className="w-full flex flex-col lg:flex-row gap-4 justify-center items-center">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -107,6 +171,9 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
           <DirectionsRenderer
             options={{
               directions: directionsResponse,
+              markerOptions: {
+                visible: false,
+              },
             }}
           />
         )}
@@ -115,7 +182,9 @@ export const MapForFooter = ({ tripId }: { tripId: number }) => {
       </GoogleMap>
       {isLoading && <LoadingState />}
       {isError && <ErrorState />}
-      <TripTimeline tripData={data!} />
-    </div>
+
+      <TripTimeline tripData={tripData!} />
+
+    </div >
   );
 };

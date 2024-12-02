@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ToPackItems from "./topackItems";
 import { createToPack, getToPacksByTrip, updateToPack, deleteToPack } from "../../services/toPackService";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ToPack {
   id: string | undefined;
@@ -18,24 +20,55 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
         setItems(topacks.map(pack => ({ ...pack, id: pack.id ?? "" })));
       } catch (error) {
         console.error("Error fetching topacks:", error);
+        toast.error("Failed to fetch ToPack items. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
       }
     };
 
     fetchToPacks();
   }, [tripId]);
 
-  const addNewItem = async () => {
-    const newItem: ToPack = { id: undefined, text: "New Item", done: false };
+  const addNewItem = () => {
+    const tempId = `temp-${Date.now()}`;
+    const newItem: ToPack = { id: tempId, text: "", done: false };
     setItems(prevItems => [...prevItems, newItem]);
+  };
 
+  const persistNewItem = async (tempId: string, text: string) => {
     try {
-      const createdToPack = await createToPack(tripId, { text: "New Item", done: false });
-      setItems(prevItems =>
-        prevItems.map(item => (item.id === undefined ? { ...createdToPack, id: createdToPack.id } : item))
-      );
+      console.log("Sending to backend:", { text, done: false });
+      const createdToPack = await createToPack(tripId, { text, done: false });
+      if (createdToPack.id) {
+        setItems(prevItems =>
+          prevItems.map(item =>
+            item.id === tempId ? { ...createdToPack, id: createdToPack.id } : item
+          )
+        );
+        toast.success("New item was successfully added!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      } else {
+        console.error("Created ToPack does not have a valid ID.");
+        setItems(prevItems => prevItems.filter(item => item.id !== tempId));
+        toast.error("Failed to persist the item. Please try again.", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     } catch (error) {
       console.error("Error creating topack:", error);
-      setItems(prevItems => prevItems.filter(item => item.id !== undefined));
+      setItems(prevItems => prevItems.filter(item => item.id !== tempId));
+      toast.error("Error creating ToPack item. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
     }
   };
 
@@ -44,11 +77,23 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
       if (updatedItem.id) {
         const updated = await updateToPack(tripId, updatedItem.id, updatedItem);
         setItems(prevItems =>
-          prevItems.map(item => (item.id === updated.id ? { ...item, text: updated.text, done: updated.done } : item))
+          prevItems.map(item =>
+            item.id === updated.id ? { ...item, text: updated.text, done: updated.done } : item
+          )
         );
+        toast.info("Item updated successfully.", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
       }
     } catch (error) {
       console.error("Error updating topack:", error);
+      toast.error("Failed to update the item. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
     }
   };
 
@@ -58,30 +103,40 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
 
     try {
       await deleteToPack(tripId, id);
+      toast.success("Item deleted successfully.", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
     } catch (error) {
       console.error("Error deleting topack:", error);
       setItems(originalItems);
+      toast.error("Failed to delete the item. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
     }
   };
 
   return (
-    <div className="w-full">
-      <div className="flex items-start justify-between">
-        <p className="text-2xl">To Pack</p>
-        <button className="btn btn-active btn-ghost mr-2" onClick={addNewItem}>
+    <div className="w-full p-4">
+      <div className="flex items-center justify-between bg-neutral p-4 rounded-lg shadow-md">
+        <p className="text-xl font-semibold text-neutral-content">To Pack</p>
+        <button className="btn btn-sm btn-base text-base-content" onClick={addNewItem}>
           New Item
         </button>
       </div>
 
-      <div className="divider"></div>
+      <div className="divider my-4"></div>
 
       <div>
         {items.map(item => (
           <ToPackItems
             key={item.id ?? "default-id"}
-            id={item.id ?? "default-id"}
             text={item.text}
             done={item.done}
+            persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
             updateItem={(updatedToPack) => updateItem({ ...updatedToPack, id: item.id ?? "default-id" })}
             removeItem={() => removeItem(item.id ?? "default-id")}
           />
