@@ -6,7 +6,7 @@ const navigate = useNavigate();
 return (
 <button
     onClick={() => navigate({ to: "/dashboard/create" })}
-    className="btn btn-circle bg-teal-500 text-white hover:bg-teal-600 shadow-lg sticky bottom-5 mx-auto block flex items-center justify-center"
+    className="btn btn-circle bg-neutral text-primary hover:bg-teal-600 shadow-lg sticky bottom-5 mx-auto block flex items-center justify-center"
 >
     <svg
     xmlns="http://www.w3.org/2000/svg"
