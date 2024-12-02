@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import ToPackItems from "./topackItems";
 import { createToPack, getToPacksByTrip, updateToPack, deleteToPack } from "../../services/toPackService";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ interface ToPack {
 
 const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
   const [items, setItems] = useState<ToPack[]>([]);
+  const newItemIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     const fetchToPacks = async () => {
@@ -35,6 +36,7 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
     const tempId = `temp-${Date.now()}`;
     const newItem: ToPack = { id: tempId, text: "", done: false };
     setItems(prevItems => [...prevItems, newItem]);
+    newItemIdRef.current = tempId;
   };
 
   const persistNewItem = async (tempId: string, text: string) => {
@@ -132,14 +134,16 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
 
       <div>
         {items.map(item => (
-          <ToPackItems
-            key={item.id ?? "default-id"}
-            text={item.text}
-            done={item.done}
-            persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
-            updateItem={(updatedToPack) => updateItem({ ...updatedToPack, id: item.id ?? "default-id" })}
-            removeItem={() => removeItem(item.id ?? "default-id")}
-          />
+          <div key={item.id}>
+            <ToPackItems
+              text={item.text}
+              done={item.done}
+              persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
+              updateItem={(updatedToPack) => updateItem({ ...updatedToPack, id: item.id ?? "default-id" })}
+              removeItem={() => removeItem(item.id ?? "default-id")}
+              isNew={item.id === newItemIdRef.current}
+            />
+          </div>
         ))}
       </div>
     </div>

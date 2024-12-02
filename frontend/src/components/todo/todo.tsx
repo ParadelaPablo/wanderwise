@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import TodoItem from "./todoItem";
 import { createToDo, getToDosByTrip, updateToDo, deleteToDo } from "../../services/toDoService";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ interface ToDo {
 
 const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
   const [items, setItems] = useState<ToDo[]>([]);
+  const newItemIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     const fetchToDos = async () => {
@@ -27,10 +28,11 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
     fetchToDos();
   }, [tripId]);
 
-  const addNewItem = async () => {
+  const addNewItem = () => {
     const tempId = `temp-${Date.now()}`;
     const newItem: ToDo = { id: tempId, text: "", done: false };
     setItems((prevItems) => [...prevItems, newItem]);
+    newItemIdRef.current = tempId;
   };
 
   const persistNewItem = async (tempId: string, text: string) => {
@@ -44,6 +46,7 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
           )
         );
         toast.success("New item was successfully added!");
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
       } else {
         toast.error("Failed to add new item. Please try again.");
         setItems((prevItems) => prevItems.filter((item) => item.id !== tempId));
@@ -87,32 +90,33 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
   };
 
   return (
-<div className="w-full p-4">
-  <div className="flex items-center justify-between bg-neutral p-4 rounded-lg shadow-md">
-    <p className="text-xl font-semibold text-neutral-content">To Do</p>
-    <button
-      className="btn btn-sm btn-base text-base-content"
-      onClick={addNewItem}
-    >
-      New Item
-    </button>
-  </div>
-
+    <div className="w-full p-4">
+      <div className="flex items-center justify-between bg-neutral p-4 rounded-lg shadow-md">
+        <p className="text-xl font-semibold text-neutral-content">To Do</p>
+        <button
+          className="btn btn-sm btn-base text-base-content"
+          onClick={addNewItem}
+        >
+          New Item
+        </button>
+      </div>
 
       <div className="divider my-4"></div>
 
       <div>
         {items.map((item) => (
-          <TodoItem
-            key={item.id ?? "default-id"}
-            text={item.text}
-            done={item.done}
-            persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
-            updateItem={(updatedTodo) =>
-              updateItem({ ...updatedTodo, id: item.id ?? "default-id" })
-            }
-            removeItem={() => removeItem(item.id ?? "default-id")}
-          />
+          <div key={item.id}>
+            <TodoItem
+              text={item.text}
+              done={item.done}
+              persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
+              updateItem={(updatedTodo) =>
+                updateItem({ ...updatedTodo, id: item.id ?? "default-id" })
+              }
+              removeItem={() => removeItem(item.id ?? "default-id")}
+              isNew={item.id === newItemIdRef.current}
+            />
+          </div>
         ))}
       </div>
     </div>

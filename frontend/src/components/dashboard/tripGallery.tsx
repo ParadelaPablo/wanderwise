@@ -6,6 +6,8 @@ import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteTripById, getTrips } from "@/lib/api";
 import { TripForGallery } from "@/lib/types";
+import { LoadingState } from "../../components/ui-states/loading"; 
+
 
 const useTrips = () => {
   return useQuery({
@@ -17,7 +19,6 @@ const useTrips = () => {
 type MutationContext = {
   previousTrips: TripForGallery[] | undefined;
 };
-
 const TripGallery = () => {
   const router = useRouter();
   const { user } = useUser();
@@ -60,7 +61,8 @@ const TripGallery = () => {
     deleteMutation.mutate(id);
   };
 
-  if (isLoading) return <div>Loading trips...</div>;
+  if (isLoading) return <LoadingState />; // Reemplaza la línea actual con el componente LoadingState
+
   if (isError) return <div>Error loading trips: {error.message}</div>;
 
   return (
@@ -80,7 +82,7 @@ const TripGallery = () => {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row  flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
         {trips.length === 0 && (
           <div className="text-center text-lg font-semibold">
             You have no trips
