@@ -9,16 +9,13 @@ import lombok.*;
 @Setter
 @Builder
 public class HighlightsResponse {
-
     private Long id;
-
-    private Long tripId;
-
     private String text;
-
     private String title;
+    private String songTitle;
+    private String songArtist;
+    private String songUrl;
+    private String songCoverUrl;
+    private String imageUrl;
 
-    private String image_url;
-
-    private String song_url;
 }

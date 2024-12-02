@@ -2,6 +2,7 @@ package org.wanderwise.wanderwise.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.wanderwise.wanderwise.DTO.request.HighlightRequest;
 import org.wanderwise.wanderwise.DTO.response.HighlightsResponse;
 import org.wanderwise.wanderwise.entity.Highlights;
 import org.wanderwise.wanderwise.service.HighlightsService;
@@ -28,9 +29,12 @@ public class HighlightsController {
     }
 
     @PostMapping
-    public ResponseEntity<HighlightsResponse> createHighlight(@RequestBody Highlights highlights) {
-        Highlights createdHighlight = highlightsService.createHighlight(highlights);
-        return ResponseEntity.ok(mapToHighlightsResponse(createdHighlight));
+    public ResponseEntity<HighlightsResponse> createHighlight(@RequestBody HighlightRequest highlightRequest) {
+
+        Highlights createdHighlight = highlightsService.createHighlight(highlightRequest);
+        HighlightsResponse response = mapToHighlightsResponse(createdHighlight);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
@@ -56,13 +60,26 @@ public class HighlightsController {
     }
 
     private HighlightsResponse mapToHighlightsResponse(Highlights highlights) {
-        return HighlightsResponse.builder()
-                .id(highlights.getId())
-                .tripId(highlights.getTrip().getId())
-                .text(highlights.getText())
-                .title(highlights.getTitle())
-                .image_url(highlights.getImage())
-                .song_url(highlights.getSong())
-                .build();
+        String songTitle = null;
+        String songArtist = null;
+        String songUrl = null;
+        String songCoverUrl = null;
+
+        if (highlights.getSong() != null) {
+            songTitle = highlights.getSong().getTitle();
+            songArtist = highlights.getSong().getArtist();
+            songUrl = highlights.getSong().getSongUrl();
+            songCoverUrl = highlights.getSong().getCoverUrl();
+        }
+        return new HighlightsResponse(
+                highlights.getId(),
+                highlights.getText(),
+                highlights.getTitle(),
+                songTitle,
+                songArtist,
+                songUrl,
+                songCoverUrl,
+                highlights.getImage()
+        );
     }
 }

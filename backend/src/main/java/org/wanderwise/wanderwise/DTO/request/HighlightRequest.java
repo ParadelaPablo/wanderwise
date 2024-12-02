@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class HighlightsRequest {
+public class HighlightRequest {
 
     @NotNull
     private Long tripId;
@@ -20,10 +20,10 @@ public class HighlightsRequest {
     @NotNull
     private String title;
 
-    @NotNull
-    private String image_url;
-
-    @NotNull
-    private String song_url;
+    private String songTitle;
+    private String artist;
+    private String songUrl;
+    private String songCoverUrl;
+    private String imageUrl;
 
 }
