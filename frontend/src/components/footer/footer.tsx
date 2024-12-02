@@ -5,7 +5,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
-  const [activeComponent, setActiveComponent] = useState<string>("");
+  const [activeComponent, setActiveComponent] = useState<string>("Todo");
 
   const handleClick = (component: string) => {
     setActiveComponent(component);
