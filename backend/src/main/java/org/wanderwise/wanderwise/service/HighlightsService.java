@@ -1,8 +1,13 @@
 package org.wanderwise.wanderwise.service;
 
 import org.springframework.stereotype.Service;
+import org.wanderwise.wanderwise.DTO.request.HighlightRequest;
 import org.wanderwise.wanderwise.entity.Highlights;
+import org.wanderwise.wanderwise.entity.Song;
+import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.repository.HighlightsRepository;
+import org.wanderwise.wanderwise.repository.SongRepository;
+import org.wanderwise.wanderwise.repository.TripRepository;
 
 import java.util.List;
 
@@ -10,18 +15,49 @@ import java.util.List;
 public class HighlightsService {
 
     private final HighlightsRepository highlightsRepository;
+    private final SongRepository songRepository;
+    private final TripRepository tripRepository;
 
-    public HighlightsService(HighlightsRepository highlightRepository) {
+    public HighlightsService(HighlightsRepository highlightRepository,
+                             SongRepository songRepository,
+                             TripRepository tripRepository) {
         this.highlightsRepository = highlightRepository;
+        this.songRepository = songRepository;
+        this.tripRepository = tripRepository;
     }
 
     public List<Highlights> getAllHighlights() {
         return highlightsRepository.findAll();
     }
 
-    public Highlights createHighlight(Highlights highlights) {
-        return highlightsRepository.save(highlights);
+    public Highlights createHighlight(HighlightRequest highlightRequest) {
+        Song song = null;
+
+        if (highlightRequest.getSongTitle() != null && highlightRequest.getArtist() != null && highlightRequest.getSongUrl() != null  && highlightRequest.getSongCoverUrl() != null) {
+            song = songRepository.save(Song.builder()
+                    .title(highlightRequest.getSongTitle())
+                    .artist(highlightRequest.getArtist())
+                    .songUrl(highlightRequest.getSongUrl())
+                    .coverUrl(highlightRequest.getSongCoverUrl())
+                    .build());
+        }
+
+
+        Trip trip = tripRepository.findById(highlightRequest.getTripId())
+                .orElseThrow(() -> new RuntimeException("Trip not found"));
+
+
+        Highlights highlight = Highlights.builder()
+                .trip(trip)
+                .text(highlightRequest.getText())
+                .title(highlightRequest.getTitle())
+                .image(highlightRequest.getImageUrl())
+                .song(song)
+                .build();
+
+        return highlightsRepository.save(highlight);
     }
+
 
     public void deleteHighlight(Long id) {
         highlightsRepository.deleteById(id);
@@ -40,8 +76,6 @@ public class HighlightsService {
     }
 
     public List<Highlights> getHighlightsByTripId(Long tripId) {
-        return highlightsRepository.findAll().stream()
-                .filter(highlights -> highlights.getTrip().getId().equals(tripId))
-                .toList();
+        return highlightsRepository.findByTripId(tripId);
     }
 }

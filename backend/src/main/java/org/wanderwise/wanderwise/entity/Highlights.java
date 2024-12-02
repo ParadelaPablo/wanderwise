@@ -29,6 +29,7 @@ public class Highlights {
     @Column(name = "image_url")
     private String image;
 
-    @Column(name = "song_url")
-    private String song;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "song_id", nullable = true)
+    private Song song;
 }

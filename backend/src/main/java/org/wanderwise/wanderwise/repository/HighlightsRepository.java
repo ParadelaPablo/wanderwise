@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface HighlightsRepository extends JpaRepository<Highlights, Long> {
-    List<Highlights> findByTrip_Id(Long tripId);
+    List<Highlights> findByTripId(Long tripId);
 
 }
