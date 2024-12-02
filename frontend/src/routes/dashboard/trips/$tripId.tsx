@@ -17,7 +17,7 @@ function RouteComponent() {
     from: "/dashboard/trips/$tripId",
     select: (params) => params.tripId,
   });
-  const [visibleComponent, setVisibleComponent] = useState("Todo");
+  const [visibleComponent, setVisibleComponent] = useState("Map");
 
   const {
     isLoading,
@@ -35,9 +35,8 @@ function RouteComponent() {
       {isError && <div> The trip is on vacation...</div>}
       <h1 className="text-xl font-bold">{tripData?.title}</h1>
       <div className="w-full">
-        
-        <div className="divider"></div>
-        <div className="flex justify-left items-start my-2 p-1 w-full">
+    
+        <div className="flex justify-left items-start my-2 p-1 w-full h-full">
           {visibleComponent === "Map" && (
             <MapForFooter tripId={Number(tripId)} tripData={tripData!} />
           )}

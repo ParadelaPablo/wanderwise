@@ -5,8 +5,9 @@ import { TripData } from "@/lib/types";
 import { getIcon } from "@/lib/utils";
 
 const containerStyle = {
-  width: "390px",
-  height: "390px",
+  margin: "auto",
+          width: "100%",
+          height: "100%"
 };
 
 const center = {
@@ -91,12 +92,12 @@ export const MapForFooter = ({
     if (directionsResponse && map) {
       const { routes } = directionsResponse;
       const { legs } = routes[0];
-  
+
       // check if there's more than one leg to avoid accessing undefined
       if (legs.length > 0) {
         console.log(legs[0]); // Start location leg
         console.log(legs[legs.length - 1]); // End location leg (if there's more than one)
-  
+
         // Add the start point custom marker for the start location
         new google.maps.Marker({
           position: legs[0].start_location,
@@ -107,7 +108,7 @@ export const MapForFooter = ({
           },
           title: "Start Location",
         });
-  
+
         // Add the custom marker with the final destination
         new google.maps.Marker({
           position: legs[legs.length - 1].end_location,
@@ -118,29 +119,29 @@ export const MapForFooter = ({
           },
           title: "Destination",
         });
-  
+
         // Get all the cities that are left (excluding the start and end location)
         const cities = [];
         // Add the end address of the first leg
         cities.push(legs[0].end_address);
-        
+
         // Only add the last leg's start address if there are more than one leg
         if (legs.length > 1) {
           cities.push(legs[legs.length - 1].start_address);
         }
-  
+
         // Add intermediate cities (if there are any)
         for (let i = 1; i < legs.length - 1; i++) {
           cities.push(legs[i].end_address);
         }
-  
+
         cities.forEach((city, index) => {
           // Find the corresponding stop in tripData
           tripData?.days?.forEach((day) => {
             day.stops?.forEach((stop) => {
               if (stop.name === city) {
                 const stopType = stop.stopType;
-  
+
                 // Add the custom marker with the stop's corresponding position
                 new google.maps.Marker({
                   position: legs[index].end_location,
@@ -158,32 +159,35 @@ export const MapForFooter = ({
       }
     }
   }, [directionsResponse, map, tripData]);
-  
 
   return (
     <div className="w-full flex flex-col lg:flex-row gap-4 justify-center items-center mb-20">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={7}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-        {directionsResponse && (
-          <DirectionsRenderer
-            options={{
-              directions: directionsResponse,
-              markerOptions: {
-                visible: false,
-              },
-            }}
-          />
-        )}
-        {/* Child components, such as markers, info windows, etc. */}
-        <></>
-      </GoogleMap>
+      <div className="h-96 w-96 lg:h-[700px] lg:w-[700px]">
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={7}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          {directionsResponse && (
+            <DirectionsRenderer
+              options={{
+                directions: directionsResponse,
+                markerOptions: {
+                  visible: false,
+                },
+              }}
+            />
+          )}
+          {/* Child components, such as markers, info windows, etc. */}
+          <></>
+        </GoogleMap>
+      </div>
 
-      <TripTimeline tripData={tripData!} />
+      <div>
+        <TripTimeline tripData={tripData!} />
+      </div>
     </div>
   );
 };
