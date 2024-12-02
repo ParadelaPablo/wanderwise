@@ -76,8 +76,6 @@ public class HighlightsService {
     }
 
     public List<Highlights> getHighlightsByTripId(Long tripId) {
-        return highlightsRepository.findAll().stream()
-                .filter(highlights -> highlights.getTrip().getId().equals(tripId))
-                .toList();
+        return highlightsRepository.findByTripId(tripId);
     }
 }
