@@ -67,6 +67,9 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   };
 
   const handlePlaceChanged = (dayId: number) => {
+    // if it's empty, return
+    if (!autocompleteRef.current) return;
+
     if (!autocompleteRef.current) {
       console.error("Autocomplete instance is not initialized.");
       return;

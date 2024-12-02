@@ -6,6 +6,8 @@ import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteTripById, getTrips } from "@/lib/api";
 import { TripForGallery } from "@/lib/types";
+import { LoadingState } from "../ui-states/loading";
+import { ErrorState } from "../ui-states/error";
 
 const useTrips = () => {
   return useQuery({
@@ -60,8 +62,8 @@ const TripGallery = () => {
     deleteMutation.mutate(id);
   };
 
-  if (isLoading) return <div>Loading trips...</div>;
-  if (isError) return <div>Error loading trips: {error.message}</div>;
+  if (isLoading) return <LoadingState />;
+  if (isError) return <ErrorState />;
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
