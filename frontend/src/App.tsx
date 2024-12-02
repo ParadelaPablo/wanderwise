@@ -1,5 +1,7 @@
 import { Providers } from "./utils/providers";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 import { routeTree } from "./routeTree.gen";
 import { LoadScript } from "@react-google-maps/api";
@@ -21,6 +23,7 @@ function App() {
     >
       <Providers>
         <RouterProvider router={router} />
+        <ToastContainer />
       </Providers>
     </LoadScript>
   );

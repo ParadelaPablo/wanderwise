@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import TodoItem from "./todoItem";
 import { createToDo, getToDosByTrip, updateToDo, deleteToDo } from "../../services/toDoService";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface ToDo {
   id: string | undefined;
@@ -15,8 +17,9 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
     const fetchToDos = async () => {
       try {
         const todos = await getToDosByTrip(tripId);
-        setItems(todos.map(todo => ({ ...todo, id: todo.id ?? "" })));
+        setItems(todos.map((todo) => ({ ...todo, id: todo.id ?? "" })));
       } catch (error) {
+        toast.error("Error fetching todos");
         console.error("Error fetching todos:", error);
       }
     };
@@ -27,17 +30,12 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
   const addNewItem = async () => {
     const tempId = `temp-${Date.now()}`;
     const newItem: ToDo = { id: tempId, text: "", done: false };
-    
     setItems((prevItems) => [...prevItems, newItem]);
   };
 
   const persistNewItem = async (tempId: string, text: string) => {
     try {
-      console.log("Sending to backend:", { text, done: false });
-      const createdToDo = await createToDo(tripId, {
-        text,
-        done: false,
-      });
+      const createdToDo = await createToDo(tripId, { text, done: false });
 
       if (createdToDo.id) {
         setItems((prevItems) =>
@@ -45,12 +43,13 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
             item.id === tempId ? { ...createdToDo, id: createdToDo.id as string } : item
           )
         );
-        alert("New item successfully persisted!");
+        toast.success("New item was successfully added!");
       } else {
-        console.error("Created ToDo does not have a valid ID.");
+        toast.error("Failed to add new item. Please try again.");
         setItems((prevItems) => prevItems.filter((item) => item.id !== tempId));
       }
     } catch (error) {
+      toast.error("Error creating todo");
       console.error("Error creating todo:", error);
       setItems((prevItems) => prevItems.filter((item) => item.id !== tempId));
     }
@@ -65,8 +64,10 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
             item.id === updated.id ? { ...item, text: updated.text, done: updated.done } : item
           )
         );
+        toast.success("Item updated successfully!");
       }
     } catch (error) {
+      toast.error("Error updating todo");
       console.error("Error updating todo:", error);
     }
   };
@@ -77,7 +78,9 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
 
     try {
       await deleteToDo(tripId, id);
+      toast.success("Item deleted successfully!");
     } catch (error) {
+      toast.error("Error deleting todo");
       console.error("Error deleting todo:", error);
       setItems(originalItems);
     }
