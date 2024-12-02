@@ -27,7 +27,7 @@ public class Trip {
     @Size(min = 3, message = "User ID must have at least 3 characters")
     private String userId;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Day> days;
 
     @Column(nullable = false)
