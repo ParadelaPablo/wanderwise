@@ -66,13 +66,13 @@ const TripGallery = () => {
   if (isError) return <div>Error loading trips: {error.message}</div>;
 
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen relative">
-      <div className="text-center mt-5">
-        <h1 className="text-2xl font-bold">
+    <div className="h-full flex flex-col items-center justify-between gap-2 mt-4">
+      <div className="flex flex-col gap-8">
+        <h1 className="text-2xl font-bold text-center">
           Welcome to Your Dashboard
           {user?.firstName && `, ${user.firstName}`}
         </h1>
-        <div className="mt-10 text-center">
+        <div className="text-center">
           <button
             onClick={() => router.navigate({ to: "/dashboard/create" })}
             className="bg-neutral text-primary px-6 py-3 rounded-full hover:bg-teal-600 shadow-md"
@@ -82,7 +82,7 @@ const TripGallery = () => {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 border p-6" style={{ borderRadius: '1rem' }}>
         {trips.length === 0 && (
           <div className="text-center text-lg font-semibold">
             You have no trips
