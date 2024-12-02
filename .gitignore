@@ -1,4 +1,4 @@
 .vscode/
 frontend/.env.development
 frontend/.env.development
-./backend/src/main/resources/cloudstorage.json
+backend/src/main/resources/cloudstorage.json

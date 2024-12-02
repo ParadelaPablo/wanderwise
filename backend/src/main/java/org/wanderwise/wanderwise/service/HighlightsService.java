@@ -20,6 +20,7 @@ public class HighlightsService {
     }
 
     public Highlights createHighlight(Highlights highlights) {
+
         return highlightsRepository.save(highlights);
     }
 
