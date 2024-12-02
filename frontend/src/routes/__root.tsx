@@ -14,7 +14,7 @@ export const Route = createRootRoute({
         <HamburguerMenu />
       </SignedIn>
       <Outlet />
-      {process.env.NODE_ENV === "development" && <TanStackRouterDevtools />}
+      {/* {process.env.NODE_ENV === "development" && <TanStackRouterDevtools />} */}
     </>
   ),
 });
