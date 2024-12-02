@@ -73,7 +73,7 @@ const TripGallery = () => {
         <div className="mt-10 text-center">
           <button
             onClick={() => router.navigate({ to: "/dashboard/create" })}
-            className="bg-teal-500 text-white px-6 py-3 rounded-full hover:bg-teal-600 shadow-md"
+            className="bg-neutral text-primary px-6 py-3 rounded-full hover:bg-teal-600 shadow-md"
           >
             Add New Trip
           </button>

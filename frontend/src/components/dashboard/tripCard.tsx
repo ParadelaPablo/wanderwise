@@ -14,7 +14,7 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
       <div className="w-full relative">
         <button
           onClick={() => onDelete(id)}
-          className="btn m-2 absolute top-0 right-0 z-10"
+          className="btn-sm bg-neutral rounded text-primary m-2 absolute top-0 right-0 z-10"
         >
           X
         </button>
