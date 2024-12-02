@@ -1,38 +1,109 @@
-
+import React, { useState } from "react";
 
 interface FooterProps {
   setVisibleComponent: (component: string) => void;
 }
 
 const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
+  const [activeComponent, setActiveComponent] = useState<string>("");
+
+  const handleClick = (component: string) => {
+    setActiveComponent(component);
+    setVisibleComponent(component);
+  };
+
   return (
-    <footer className="bg-gray-900 text-gray-100 py-4 fixed bottom-0 w-full shadow-lg border-t border-gray-800">
-      <div className="flex justify-around items-center gap-4">
-        <button
-          onClick={() => setVisibleComponent("Map")}
-          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-indigo-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1 ml-2"
-        >
-          Map
-        </button>
-        <button
-          onClick={() => setVisibleComponent("Todo")}
-          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-purple-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1"
-        >
-          To Do
-        </button>
-        <button
-          onClick={() => setVisibleComponent("ToPack")}
-          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-teal-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1"
-        >
-          To Pack
-        </button>
-        <button
-          onClick={() => setVisibleComponent("Highlights")}
-          className="flex items-center justify-center w-24 h-12 text-sm font-medium bg-gray-800 text-gray-300 rounded-lg hover:bg-orange-600 hover:text-white shadow-md transition-transform duration-200 transform hover:-translate-y-1 mr-2"
-        >
-          Highlights
-        </button>
-      </div>
+    <footer className="fixed bottom-0 w-full shadow-lg">
+      <ul className="menu menu-horizontal bg-base-200 w-full justify-between">
+        <li className="shadow-sm rounded-2xl">
+          <a
+            className={`rounded-2xl p-1 m-1 ${activeComponent === "Map" ? "text-indigo-700" : ""}`}
+            onClick={() => handleClick("Map")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            Map
+          </a>
+        </li>
+        <li className="shadow-sm rounded-2xl">
+          <a
+            className={`rounded-2xl p-1 m-1  ${activeComponent === "Todo" ? "text-indigo-700" : ""}`}
+            onClick={() => handleClick("Todo")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Todo
+          </a>
+        </li>
+        <li className="shadow-sm rounded-2xl">
+          <a
+            className={`rounded-2xl p-1 m-1 ${activeComponent === "ToPack" ? "text-indigo-700" : ""}`}
+            onClick={() => handleClick("ToPack")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+            ToPack
+          </a>
+        </li>
+        <li className="shadow-sm rounded-2xl">
+          <a
+            className={`rounded-2xl p-1 m-1 ${activeComponent === "Highlights" ? "text-indigo-700" : ""}`}
+            onClick={() => handleClick("Highlights")}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+              />
+            </svg>
+            Highlights
+          </a>
+        </li>
+      </ul>
     </footer>
   );
 };
