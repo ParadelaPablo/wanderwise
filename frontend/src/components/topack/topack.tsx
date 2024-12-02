@@ -41,7 +41,6 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
     try {
       console.log("Sending to backend:", { text, done: false });
       const createdToPack = await createToPack(tripId, { text, done: false });
-
       if (createdToPack.id) {
         setItems(prevItems =>
           prevItems.map(item =>
