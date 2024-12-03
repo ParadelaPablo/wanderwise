@@ -33,7 +33,7 @@ function RouteComponent() {
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loadingButton, setLoadingButton] = useState(false);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState("");
   console.log(date);
   const [trackData, setTrackData] = useState<{
     id: string;
@@ -44,7 +44,7 @@ function RouteComponent() {
   } | null>(null);
 
   const [highlightData, setHighlightData] = useState<{
-    tripId: number;
+    tripId: string;
     text: string;
     title: string;
     date: string;
