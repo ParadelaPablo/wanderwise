@@ -3,6 +3,7 @@ interface Highlight {
   text: string;
   title: string;
   imageUrl?: string;
+  songUrl: string;
 }
 
 interface HighlightCardProps {
@@ -10,7 +11,11 @@ interface HighlightCardProps {
 }
 
 const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
-  const { text, title, imageUrl } = highlightInfo;
+  const { text, title, imageUrl, songUrl } = highlightInfo;
+
+  const goToSpotify = () => {
+     window.open(songUrl, '_blank')
+  }
 
   return (
     <div className="w-96 relative">
@@ -47,6 +52,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
             </div>
           </details>
 
+
           <div className="hover:bg-slate-200 p-4 bg-gray-100 rounded-xl shadow-sm flex items-center justify-between gap-4">
             <div className="flex-shrink-0">
               <img
@@ -56,17 +62,22 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
             </div>
 
             <div className="flex-grow min-w-0">
-              <h3 className="font-semibold capitalize truncate overflow-hidden">
-                Så mycket bättre
-              </h3>
-              <p className="text-sm text-gray-500 truncate overflow-hidden">
-                Thomas Stenström
-              </p>
-              <div className="flex-shrink-0 text-sm text-gray-500 text-right">
-                123
-              </div>
+              <button onClick={goToSpotify}>
+                <h3 className="font-semibold capitalize truncate overflow-hidden">
+                  Så mycket bättre
+                </h3>
+                <p className="text-sm text-gray-500 truncate overflow-hidden">
+                  Thomas Stenström
+                </p>
+                <div className="flex-shrink-0 text-sm text-gray-500 text-right">
+                  123
+                </div>
+              </button>
             </div>
           </div>
+
+
+
         </div>
       </div>
     </div>
