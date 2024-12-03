@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import HighlightCard from "./highLightCard";
+import HighlightGallery from "./highlightGallery";
 
 const Highlights = ({ tripId }: { tripId: string }) => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Highlights = ({ tripId }: { tripId: string }) => {
         Add notes
       </button>
       <div className="flex flex-row flex-wrap justify-center items-center gap-y-20 mt-10">
-        <HighlightCard />
+        <HighlightGallery />
       </div>
     </div>
   );
