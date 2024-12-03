@@ -60,7 +60,9 @@ const TodoItem: React.FC<TodoItemProps> = ({
       <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-md">
         <input type="checkbox" className="peer" />
         <div className="collapse-title text-md font-medium p-1 flex items-center justify-between">
-          <span className="truncate">{taskText.split("\n")[0] || "Untitled"}</span>
+          <span className={`truncate ${taskText.trim() === "" ? "font-thin" : "font-bold"}`}>
+            {taskText.split("\n")[0] || "Title..."}
+          </span>
         </div>
         <div className="collapse-content p-2">
           <label className="label cursor-pointer">
@@ -76,7 +78,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
             ref={textAreaRef}
             value={taskText}
             onChange={handleTextChange}
-            placeholder="Title...\nDetails..."
+            placeholder="Add a title and details..."
             className="textarea textarea-bordered w-full mt-1 p-1 text-sm resize-none"
             style={{ overflow: "hidden" }}
           />
@@ -98,3 +100,4 @@ const TodoItem: React.FC<TodoItemProps> = ({
 };
 
 export default TodoItem;
+

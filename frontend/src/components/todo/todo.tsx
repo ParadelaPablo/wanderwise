@@ -75,17 +75,22 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
     }
   };
 
-  const removeItem = async (id: string) => {
-    const originalItems = [...items];
-    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  const removeItem = (id: string) => {
+    if (id.startsWith("temp-")) {
+      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    } else {
+      const originalItems = [...items];
+      setItems((prevItems) => prevItems.filter((item) => item.id !== id));
 
-    try {
-      await deleteToDo(tripId, id);
-      toast.success("Item deleted successfully!");
-    } catch (error) {
-      toast.error("Error deleting todo");
-      console.error("Error deleting todo:", error);
-      setItems(originalItems);
+      deleteToDo(tripId, id)
+        .then(() => {
+          toast.success("Item deleted successfully!");
+        })
+        .catch((error) => {
+          toast.error("Error deleting todo");
+          console.error("Error deleting todo:", error);
+          setItems(originalItems); 
+        });
     }
   };
 
