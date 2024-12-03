@@ -70,8 +70,7 @@ const TripGallery = () => {
     <div className="flex flex-col items-center justify-between min-h-screen relative">
       <div className="text-center mt-5">
         <h1 className="text-2xl font-bold">
-          Welcome to Your Dashboard
-          {user?.firstName && `, ${user.firstName}`}
+          Hey{user?.firstName ? `, ${user.firstName}` : ""}! 🎉 Welcome back 🚀
         </h1>
         <div className="mt-10 text-center">
           <button
