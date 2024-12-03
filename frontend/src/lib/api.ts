@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_BASE_BACKEND_URL;
 
 export const getTrips = async (): Promise<TripForGallery[]> => {
     //throw new Error("Not implemented yet");
-    const response = await axios.get(BASE_URL);
+    const response = await axios.get(BASE_URL+"/trips");
     console.log(response.data);
     return response.data;
 };
@@ -52,7 +52,6 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
         );
     }
     const json = await response.json();
-    console.log("data have been sent!!! Here is the response", json);
     return json;
 }
 
@@ -71,6 +70,5 @@ export async function getTripById(tripId: number) {
         );
     }
     const json = await response.json();
-    console.log("Here is the response", json);
     return json;
 }
