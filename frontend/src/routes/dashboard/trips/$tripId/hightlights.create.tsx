@@ -31,8 +31,8 @@ function RouteComponent() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [date, setDate] = useState<Date | undefined>(new Date());
-  const [file, setFile] = useState<File | null>(null)
+  const [file, setFile] = useState<File | null>(null);
+  const [loadingButton, setLoadingButton] = useState(false);
 
   console.log(date);
   const [trackData, setTrackData] = useState<{
@@ -106,10 +106,12 @@ function RouteComponent() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoadingButton(true);
     e.preventDefault();
 
     if (!file) {
       alert("Please select an image file.");
+      setLoadingButton(false);
       return;
     }
 
@@ -126,13 +128,13 @@ function RouteComponent() {
     formData.append("image", file);
 
     try {
-      const response = await axios.post("http://localhost:8080/api/highlights/new", formData);
-      console.log("Highlight saved successfully:", response.data);
+      const response = await axios.post(`${BACKEND_POST_HIGHLIGHT}/highlights/new`, formData);
       toast.success("Highlight saved successfully!");
     } catch (error) {
       console.error("Error saving highlight:", error.message);
-      toast.error("Error saving highlight");
+      toast.error("Error saving highlight: " + error.message);
     }
+    setLoadingButton(false);
   };
 
   return (
@@ -220,13 +222,13 @@ function RouteComponent() {
                   className="btn btn-success min-h-10 h-10"
                   disabled={isLoading}
                 >
-                  {isLoading ? "Submitting..." : "Submit"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
+                  {loadingButton ? <span className="loading loading-spinner loading-md"></span> : "Save"}
+                </button >
+              </div >
+            </div >
+          </div >
+        </div >
+      </form >
 
       <div className="card h-32 w-full max-w-md image-full shadow-xl relative">
         {trackData?.coverArt && (
@@ -256,6 +258,6 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
