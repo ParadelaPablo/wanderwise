@@ -72,6 +72,9 @@ const TripGallery = () => {
           Welcome to Your Dashboard
           {user?.firstName && `, ${user.firstName}`}
         </h1>
+        <div className="text-1xl text-center px-4">
+          Are you ready to plan your next adventure?
+        </div>
         <div className="text-center">
           <button
             onClick={() => router.navigate({ to: "/dashboard/create" })}
