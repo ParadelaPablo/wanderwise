@@ -15,7 +15,7 @@ import HighlightCard from "./highLightCard";
 const Highlights = () => {
   const navigate = useNavigate();
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const highlightId = date?.getMilliseconds();
+//do we nee to save the date? maybe yes
   return (
     <div className="w-full flex flex-col justify-center items-center gap-2">
       <h1>Journal</h1>
@@ -43,7 +43,7 @@ const Highlights = () => {
       </Popover>
       <button
         onClick={() =>
-          navigate({ to: `/dashboard/trips/highlights/${highlightId}` })
+          navigate({ to: "/dashboard/trips/highlights/create/" })
         }
         className="btn"
       >

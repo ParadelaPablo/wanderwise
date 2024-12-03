@@ -18,7 +18,7 @@ import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as ContactIndexImport } from './routes/contact/index'
 import { Route as DashboardCreateIndexImport } from './routes/dashboard/create/index'
 import { Route as DashboardTripsTripIdImport } from './routes/dashboard/trips/$tripId'
-import { Route as DashboardTripsHighlightsHighlightIdImport } from './routes/dashboard/trips/highlights/$highlightId'
+import { Route as DashboardTripsHighlightsCreateIndexImport } from './routes/dashboard/trips/highlights/create/index'
 
 // Create/Update Routes
 
@@ -64,10 +64,10 @@ const DashboardTripsTripIdRoute = DashboardTripsTripIdImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardTripsHighlightsHighlightIdRoute =
-  DashboardTripsHighlightsHighlightIdImport.update({
-    id: '/dashboard/trips/highlights/$highlightId',
-    path: '/dashboard/trips/highlights/$highlightId',
+const DashboardTripsHighlightsCreateIndexRoute =
+  DashboardTripsHighlightsCreateIndexImport.update({
+    id: '/dashboard/trips/highlights/create/',
+    path: '/dashboard/trips/highlights/create/',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -124,11 +124,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCreateIndexImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard/trips/highlights/$highlightId': {
-      id: '/dashboard/trips/highlights/$highlightId'
-      path: '/dashboard/trips/highlights/$highlightId'
-      fullPath: '/dashboard/trips/highlights/$highlightId'
-      preLoaderRoute: typeof DashboardTripsHighlightsHighlightIdImport
+    '/dashboard/trips/highlights/create/': {
+      id: '/dashboard/trips/highlights/create/'
+      path: '/dashboard/trips/highlights/create'
+      fullPath: '/dashboard/trips/highlights/create'
+      preLoaderRoute: typeof DashboardTripsHighlightsCreateIndexImport
       parentRoute: typeof rootRoute
     }
   }
@@ -144,7 +144,7 @@ export interface FileRoutesByFullPath {
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
   '/dashboard/create': typeof DashboardCreateIndexRoute
-  '/dashboard/trips/highlights/$highlightId': typeof DashboardTripsHighlightsHighlightIdRoute
+  '/dashboard/trips/highlights/create': typeof DashboardTripsHighlightsCreateIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -155,7 +155,7 @@ export interface FileRoutesByTo {
   '/signin': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
   '/dashboard/create': typeof DashboardCreateIndexRoute
-  '/dashboard/trips/highlights/$highlightId': typeof DashboardTripsHighlightsHighlightIdRoute
+  '/dashboard/trips/highlights/create': typeof DashboardTripsHighlightsCreateIndexRoute
 }
 
 export interface FileRoutesById {
@@ -167,7 +167,7 @@ export interface FileRoutesById {
   '/signin/': typeof SigninIndexRoute
   '/dashboard/trips/$tripId': typeof DashboardTripsTripIdRoute
   '/dashboard/create/': typeof DashboardCreateIndexRoute
-  '/dashboard/trips/highlights/$highlightId': typeof DashboardTripsHighlightsHighlightIdRoute
+  '/dashboard/trips/highlights/create/': typeof DashboardTripsHighlightsCreateIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -180,7 +180,7 @@ export interface FileRouteTypes {
     | '/signin'
     | '/dashboard/trips/$tripId'
     | '/dashboard/create'
-    | '/dashboard/trips/highlights/$highlightId'
+    | '/dashboard/trips/highlights/create'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -190,7 +190,7 @@ export interface FileRouteTypes {
     | '/signin'
     | '/dashboard/trips/$tripId'
     | '/dashboard/create'
-    | '/dashboard/trips/highlights/$highlightId'
+    | '/dashboard/trips/highlights/create'
   id:
     | '__root__'
     | '/'
@@ -200,7 +200,7 @@ export interface FileRouteTypes {
     | '/signin/'
     | '/dashboard/trips/$tripId'
     | '/dashboard/create/'
-    | '/dashboard/trips/highlights/$highlightId'
+    | '/dashboard/trips/highlights/create/'
   fileRoutesById: FileRoutesById
 }
 
@@ -212,7 +212,7 @@ export interface RootRouteChildren {
   SigninIndexRoute: typeof SigninIndexRoute
   DashboardTripsTripIdRoute: typeof DashboardTripsTripIdRoute
   DashboardCreateIndexRoute: typeof DashboardCreateIndexRoute
-  DashboardTripsHighlightsHighlightIdRoute: typeof DashboardTripsHighlightsHighlightIdRoute
+  DashboardTripsHighlightsCreateIndexRoute: typeof DashboardTripsHighlightsCreateIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -223,8 +223,8 @@ const rootRouteChildren: RootRouteChildren = {
   SigninIndexRoute: SigninIndexRoute,
   DashboardTripsTripIdRoute: DashboardTripsTripIdRoute,
   DashboardCreateIndexRoute: DashboardCreateIndexRoute,
-  DashboardTripsHighlightsHighlightIdRoute:
-    DashboardTripsHighlightsHighlightIdRoute,
+  DashboardTripsHighlightsCreateIndexRoute:
+    DashboardTripsHighlightsCreateIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -244,7 +244,7 @@ export const routeTree = rootRoute
         "/signin/",
         "/dashboard/trips/$tripId",
         "/dashboard/create/",
-        "/dashboard/trips/highlights/$highlightId"
+        "/dashboard/trips/highlights/create/"
       ]
     },
     "/": {
@@ -268,8 +268,8 @@ export const routeTree = rootRoute
     "/dashboard/create/": {
       "filePath": "dashboard/create/index.tsx"
     },
-    "/dashboard/trips/highlights/$highlightId": {
-      "filePath": "dashboard/trips/highlights/$highlightId.tsx"
+    "/dashboard/trips/highlights/create/": {
+      "filePath": "dashboard/trips/highlights/create/index.tsx"
     }
   }
 }
