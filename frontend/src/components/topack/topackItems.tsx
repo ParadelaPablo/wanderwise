@@ -91,10 +91,10 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
               Save
             </button>
             <button
-              className="btn btn-xs btn-outline bg-red-500 text-white border-red-500 hover:bg-red-600 hover:border-red-600"
+              className="btn btn-xs font-extrabold btn-outline bg-red-500 text-white border-red-500 hover:bg-red-600 hover:border-red-600"
               onClick={removeItem}
             >
-              ✖
+              X
             </button>
           </div>
         </div>
