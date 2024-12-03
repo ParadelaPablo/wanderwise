@@ -18,7 +18,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
   }
 
   return (
-    <div className="w-96 relative">
+    <div className="w-80 relative">
       <div className="border rounded-2xl p-4">
         <p className="absolute top-0 m-2 text-gray-400">12 December 2024</p>
         <button className="bg-red-200 text-white rounded-full p-2 w-5 h-5 flex items-center justify-center text-sm hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 absolute top-2 right-2">
@@ -69,9 +69,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
                 <p className="text-sm text-gray-500 truncate overflow-hidden">
                   Thomas Stenström
                 </p>
-                <div className="flex-shrink-0 text-sm text-gray-500 text-right">
-                  123
-                </div>
+               
               </button>
             </div>
           </div>
