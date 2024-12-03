@@ -33,7 +33,7 @@ function RouteComponent() {
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loadingButton, setLoadingButton] = useState(false);
-
+  const [date, setDate] = useState();
   console.log(date);
   const [trackData, setTrackData] = useState<{
     id: string;
@@ -43,10 +43,8 @@ function RouteComponent() {
     songURL: string;
   } | null>(null);
 
-
   const [highlightData, setHighlightData] = useState<{
-    id: string;
-    tripId: string;
+    tripId: number;
     text: string;
     title: string;
     date: string;
@@ -61,7 +59,7 @@ function RouteComponent() {
       tripId: parseInt(tripId, 10),
       text: content || "",
       title: title || "",
-      date: "date",
+      date: date,
       songTitle: trackData?.name || null,
       artist: trackData?.artist || null,
       songUrl: trackData?.id ? SPOTIFY_BASE_URL + trackData.id : null,
@@ -70,7 +68,7 @@ function RouteComponent() {
     };
     setHighlightData(updatedHighlightData);
     console.log("Updated Highlight Data:", updatedHighlightData);
-  }, [content, title, trackData, tripId]);
+  }, [content, title, trackData, tripId, date]);
 
   const mutation = useMutation({
     mutationFn: async (highlight: typeof highlightData) => {
@@ -96,8 +94,6 @@ function RouteComponent() {
   });
 
   const { isLoading } = mutation;
-
-
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -128,7 +124,10 @@ function RouteComponent() {
     formData.append("image", file);
 
     try {
-      const response = await axios.post(`${BACKEND_POST_HIGHLIGHT}/highlights/new`, formData);
+      const response = await axios.post(
+        `${BACKEND_POST_HIGHLIGHT}/highlights/new`,
+        formData
+      );
       toast.success("Highlight saved successfully!");
     } catch (error) {
       console.error("Error saving highlight:", error.message);
@@ -222,13 +221,17 @@ function RouteComponent() {
                   className="btn btn-success min-h-10 h-10"
                   disabled={isLoading}
                 >
-                  {loadingButton ? <span className="loading loading-spinner loading-md"></span> : "Save"}
-                </button >
-              </div >
-            </div >
-          </div >
-        </div >
-      </form >
+                  {loadingButton ? (
+                    <span className="loading loading-spinner loading-md"></span>
+                  ) : (
+                    "Save"
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
 
       <div className="card h-32 w-full max-w-md image-full shadow-xl relative">
         {trackData?.coverArt && (
@@ -258,6 +261,6 @@ function RouteComponent() {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
