@@ -1,4 +1,7 @@
-const HighlightCard = () => {
+const HighlightCard = ({highlightInfo}) => {
+  
+  const { id, imageUrl, text, title } = highlightInfo;
+
   return (
     <div className="w-96 relative">
       <div className="border rounded-2xl p-4">
@@ -19,12 +22,11 @@ const HighlightCard = () => {
 
           <details className="collapse bg-gray-100">
             <summary className="collapse-title text-md text-gray-600 font-medium">
-              Note Title
+              {title}
             </summary>
             <div className="collapse-content">
               <p className="text-center h-20 pt-1 text-gray-600">
-                On our trip to the place we saw this amazing thing and could not
-                believe our eyes how beautiful!
+                {text}
               </p>
             </div>
           </details>
