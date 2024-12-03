@@ -56,8 +56,8 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
   };
 
   return (
-    <div className="form-control bg-white shadow-md rounded-md p-1 mb-1">
-      <div className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-md">
+    <div className="form-control bg-white shadow-md rounded-xl p-1 mb-2">
+      <div className="collapse collapse-arrow pl-1 pr-1 border border-base-300 bg-base-100 rounded-xl">
         <input type="checkbox" className="peer" />
         <div className="collapse-title text-md font-medium p-1 flex items-center justify-between">
           <span className={`truncate ${taskText.trim() === "" ? "font-thin" : "font-bold"}`}>

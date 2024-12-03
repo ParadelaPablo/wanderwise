@@ -61,8 +61,8 @@ const TripGallery = () => {
     deleteMutation.mutate(id);
   };
 
-  if (isLoading) return <LoadingState />; // Reemplaza la línea actual con el componente LoadingState
-
+  if (isLoading) return <LoadingState />; 
+  
   if (isError) return <div>Error loading trips: {error.message}</div>;
 
   return (
