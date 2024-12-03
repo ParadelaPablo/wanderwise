@@ -39,10 +39,6 @@ function RouteComponent() {
     songURL: string;
   } | null>(null);
 
-  const highlightId = useParams({
-    from: "/dashboard/trips/highlights/$highlightId",
-    select: (params) => params.highlightId,
-  });
 
   const [highlightData, setHighlightData] = useState<{
     id: string;
