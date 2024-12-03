@@ -11,16 +11,26 @@ interface HighlightCardProps {
 }
 
 const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
-  const { text, title, imageUrl, songUrl } = highlightInfo;
+  const {
+    text,
+    title,
+    imageUrl,
+    songUrl,
+    songArtist,
+    songCoverUrl,
+    songTitle,
+    date,
+  } = highlightInfo;
+  console.log(highlightInfo);
 
   const goToSpotify = () => {
-     window.open(songUrl, '_blank')
-  }
+    window.open(songUrl, "_blank");
+  };
 
   return (
     <div className="w-80 relative">
       <div className="border rounded-2xl p-4">
-        <p className="absolute top-0 m-2 text-gray-400">12 December 2024</p>
+        <p className="absolute top-0 m-2 text-gray-400">{date}</p>
         <button className="bg-red-200 text-white rounded-full p-2 w-5 h-5 flex items-center justify-center text-sm hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 absolute top-2 right-2">
           x
         </button>
@@ -52,30 +62,24 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
             </div>
           </details>
 
+          {songTitle && (
+            <div className="hover:bg-slate-200 p-4 bg-gray-100 rounded-xl shadow-sm flex items-center justify-between gap-4">
+              <div className="flex-shrink-0">
+                <img src={songCoverUrl} className="w-16 h-16 rounded-md" />
+              </div>
 
-          <div className="hover:bg-slate-200 p-4 bg-gray-100 rounded-xl shadow-sm flex items-center justify-between gap-4">
-            <div className="flex-shrink-0">
-              <img
-                src="https://i.scdn.co/image/ab67616d0000b2737eded8c0d5047cc9f5940ab6"
-                className="w-16 h-16 rounded-md"
-              />
+              <div className="flex-grow min-w-0">
+                <button onClick={goToSpotify}>
+                  <h3 className="font-semibold capitalize truncate overflow-hidden">
+                    {songTitle}
+                  </h3>
+                  <p className="text-sm text-gray-500 truncate overflow-hidden">
+                    {songArtist}
+                  </p>
+                </button>
+              </div>
             </div>
-
-            <div className="flex-grow min-w-0">
-              <button onClick={goToSpotify}>
-                <h3 className="font-semibold capitalize truncate overflow-hidden">
-                  Så mycket bättre
-                </h3>
-                <p className="text-sm text-gray-500 truncate overflow-hidden">
-                  Thomas Stenström
-                </p>
-               
-              </button>
-            </div>
-          </div>
-
-
-
+          )}
         </div>
       </div>
     </div>

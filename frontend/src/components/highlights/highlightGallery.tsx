@@ -20,7 +20,7 @@ const HighlightGallery: React.FC<HighlightGalleryProps> = ({tripId2}) => {
 
     const fetchHighlights = async (): Promise<Highlight[]> => {
         console.log("Fetching highlights...");
-        const response = await axios.get(BACKEND_GET_HIGHLIGHT + tripId2);
+        const response = await axios.get(BACKEND_GET_HIGHLIGHT + Number(tripId2));
         console.log("Response received:", response.data);
         return response.data;
     };
