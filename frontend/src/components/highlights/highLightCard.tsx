@@ -46,6 +46,27 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
               <p className="text-center h-20 pt-1 text-gray-600">{text}</p>
             </div>
           </details>
+
+          <div className="hover:bg-slate-200 p-4 bg-gray-100 rounded-xl shadow-sm flex items-center justify-between gap-4">
+            <div className="flex-shrink-0">
+              <img
+                src="https://i.scdn.co/image/ab67616d0000b2737eded8c0d5047cc9f5940ab6"
+                className="w-16 h-16 rounded-md"
+              />
+            </div>
+
+            <div className="flex-grow min-w-0">
+              <h3 className="font-semibold capitalize truncate overflow-hidden">
+                Så mycket bättre
+              </h3>
+              <p className="text-sm text-gray-500 truncate overflow-hidden">
+                Thomas Stenström
+              </p>
+              <div className="flex-shrink-0 text-sm text-gray-500 text-right">
+                123
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

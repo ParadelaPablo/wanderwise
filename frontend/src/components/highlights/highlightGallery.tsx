@@ -42,7 +42,7 @@ const HighlightGallery: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col justify-center items-center p-4">
+    <div className="flex flex-col justify-center items-center p-4 mb-32">
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
         {highlights && highlights.length > 0 ? (
           highlights.map((highlight) => (
