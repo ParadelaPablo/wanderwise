@@ -75,6 +75,7 @@ public class HighlightsController {
                 highlights.getId(),
                 highlights.getText(),
                 highlights.getTitle(),
+                highlights.getDate(),
                 songTitle,
                 songArtist,
                 songUrl,

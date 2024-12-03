@@ -1,8 +1,17 @@
 import { SpotifyModal } from "@/components/highlights/spotifyModal";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { useMutation} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
 const SPOTIFY_BASE_URL = "https://open.spotify.com/track/";
 const BACKEND_POST_HIGHLIGHT = "http://localhost:8080/api/highlights";
 
@@ -12,7 +21,6 @@ export const Route = createFileRoute(
   component: RouteComponent,
 });
 
-
 function RouteComponent() {
   const tripId = useParams({
     from: "/dashboard/trips/$tripId/hightlights/create",
@@ -21,7 +29,8 @@ function RouteComponent() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
+  const [date, setDate] = useState<Date | undefined>(new Date());
+  console.log(date);
   const [trackData, setTrackData] = useState<{
     id: string;
     name: string;
@@ -34,6 +43,7 @@ function RouteComponent() {
     tripId: number;
     text: string;
     title: string;
+    date: string;
     songTitle: string | null;
     artist: string | null;
     songUrl: string | null;
@@ -46,6 +56,7 @@ function RouteComponent() {
       tripId: parseInt(tripId, 10),
       text: content || "",
       title: title || "",
+      date: "date",
       songTitle: trackData?.name || null,
       artist: trackData?.artist || null,
       songUrl: trackData?.id ? SPOTIFY_BASE_URL + trackData.id : null,
@@ -56,7 +67,6 @@ function RouteComponent() {
     console.log("Updated Highlight Data:", updatedHighlightData);
   }, [content, title, trackData, tripId]);
 
-  
   const mutation = useMutation({
     mutationFn: async (highlight: typeof highlightData) => {
       if (!highlight) throw new Error("Highlight data is missing");
@@ -74,21 +84,19 @@ function RouteComponent() {
     },
     onSuccess: (data) => {
       console.log("Highlight saved successfully:", data);
-      
     },
     onError: (error) => {
       console.error("Error saving highlight:", error);
     },
   });
 
-  
   const { isLoading } = mutation;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Submitting Highlight Data:", highlightData);
     if (highlightData) {
-      mutation.mutate(highlightData); 
+      mutation.mutate(highlightData);
     }
   };
 
@@ -103,6 +111,28 @@ function RouteComponent() {
 
       <form onSubmit={handleSubmit}>
         <div className="w-full flex flex-col justify-center items-center gap-2 mt-10 p-3">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+              variant={"ghost"}
+                className={cn(
+                  "w-[240px] justify-start text-left font-normal",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon />
+                {date ? format(date, "PPP") : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
           <div className="flex w-screen gap-x-5">
             <input
               type="text"
@@ -122,7 +152,7 @@ function RouteComponent() {
               trackFetch={(trackDetails) => {
                 setTrackData({
                   ...trackDetails,
-                  songURL: `https://open.spotify.com/track/${trackDetails.id}`, 
+                  songURL: `https://open.spotify.com/track/${trackDetails.id}`,
                 });
               }}
             />
@@ -145,7 +175,7 @@ function RouteComponent() {
                 <button
                   type="submit"
                   className="btn btn-success min-h-10 h-10"
-                  disabled={isLoading} 
+                  disabled={isLoading}
                 >
                   {isLoading ? "Submitting..." : "Submit"}
                 </button>

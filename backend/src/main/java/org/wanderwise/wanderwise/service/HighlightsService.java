@@ -32,8 +32,14 @@ public class HighlightsService {
 
     public Highlights createHighlight(HighlightRequest highlightRequest) {
         Song song = null;
+        System.out.println("sohighlightRequest = " + highlightRequest.getSongTitle());
+        System.out.println(" highlightRequest.getSongUrl() = " +  highlightRequest.getSongUrl());
 
-        if (highlightRequest.getSongTitle() != null && highlightRequest.getArtist() != null && highlightRequest.getSongUrl() != null  && highlightRequest.getSongCoverUrl() != null) {
+        if (highlightRequest.getSongTitle() != null ||
+                highlightRequest.getArtist() != null ||
+                highlightRequest.getSongUrl() != null ||
+                highlightRequest.getSongCoverUrl() != null) {
+
             song = songRepository.save(Song.builder()
                     .title(highlightRequest.getSongTitle())
                     .artist(highlightRequest.getArtist())
@@ -41,7 +47,7 @@ public class HighlightsService {
                     .coverUrl(highlightRequest.getSongCoverUrl())
                     .build());
         }
-
+        System.out.println("song = " + song);
 
         Trip trip = tripRepository.findById(highlightRequest.getTripId())
                 .orElseThrow(() -> new RuntimeException("Trip not found"));
@@ -51,6 +57,7 @@ public class HighlightsService {
                 .trip(trip)
                 .text(highlightRequest.getText())
                 .title(highlightRequest.getTitle())
+                .date(highlightRequest.getDate())
                 .image(highlightRequest.getImageUrl())
                 .song(song)
                 .build();
