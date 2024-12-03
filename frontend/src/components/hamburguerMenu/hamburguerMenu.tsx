@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { useRouter } from "@tanstack/react-router";
 import logo from "../../assets/logofinalmaybe.png";
-import ThemeSwitcher from "../ThemeSwitcher/themeSwitcher"; // Asegúrate de importar tu componente
+import ThemeSwitcher from "../ThemeSwitcher/themeSwitcher"; 
 
 const HamburguerMenu: React.FC = () => {
 const { signOut } = useAuth();
@@ -15,18 +15,17 @@ setIsMenuOpen((prev) => !prev);
 
 const handleSignOut = async () => {
 await signOut();
-setIsMenuOpen(false); // Cerrar el menú
+setIsMenuOpen(false); 
 router.navigate({ to: "/" });
 };
 
 const handleNavigation = (path: string) => {
-setIsMenuOpen(false); // Cerrar el menú
+setIsMenuOpen(false); 
 router.navigate({ to: path });
 };
 
 return (
 <div className="navbar bg-base-100 flex justify-between items-center px-4">
-    {/* Menú hamburguesa */}
     <div className="navbar-start">
     <div className="dropdown">
         <div
