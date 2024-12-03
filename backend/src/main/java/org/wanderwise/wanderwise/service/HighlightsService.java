@@ -49,10 +49,8 @@ public class HighlightsService {
 
         Trip trip = tripRepository.findById(highlightRequest.getTripId())
                 .orElseThrow(() -> new RuntimeException("Trip not found"));
-        System.err.println("step before going in cloud storage");
         String imageUrl = cloudStorage.uploadFile(highlightRequest.getTitle() + ".png", highlightRequest.getImage());
-        System.err.println("step after going in cloud storage");
-        System.err.println("image url: " + imageUrl);
+
                 Highlights highlight = Highlights.builder()
                 .trip(trip)
                 .text(highlightRequest.getText())
