@@ -56,7 +56,6 @@ function RouteComponent() {
     console.log("Updated Highlight Data:", updatedHighlightData);
   }, [content, title, trackData, tripId]);
 
-  
   const mutation = useMutation({
     mutationFn: async (highlight: typeof highlightData) => {
       if (!highlight) throw new Error("Highlight data is missing");

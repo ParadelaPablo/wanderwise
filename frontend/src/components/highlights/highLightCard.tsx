@@ -1,6 +1,5 @@
-const HighlightCard = ({highlightInfo}) => {
-  
-  const { id, imageUrl, text, title } = highlightInfo;
+const HighlightCard = ({ highlightInfo }) => {
+  const { imageUrl, text, title } = highlightInfo;
 
   return (
     <div className="w-96 relative">
@@ -14,8 +13,16 @@ const HighlightCard = ({highlightInfo}) => {
             <button className="overflow-hidden h-36 w-full">
               <img
                 className="object-cover object-center w-full h-full rounded-2xl"
-                src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHRyYXZlbHxlbnwwfHwwfHx8MA%3D%3D"
+                src={
+                  imageUrl ||
+                  "https://img.freepik.com/free-psd/holiday-template-design_23-2150299133.jpg"
+                }
                 alt=""
+                onError={(e) => {
+                  e.currentTarget.onerror = null; 
+                  e.currentTarget.src =
+                    "https://img.freepik.com/free-psd/holiday-template-design_23-2150299133.jpg";
+                }}
               />
             </button>
           </div>
@@ -25,9 +32,7 @@ const HighlightCard = ({highlightInfo}) => {
               {title}
             </summary>
             <div className="collapse-content">
-              <p className="text-center h-20 pt-1 text-gray-600">
-                {text}
-              </p>
+              <p className="text-center h-20 pt-1 text-gray-600">{text}</p>
             </div>
           </details>
 
