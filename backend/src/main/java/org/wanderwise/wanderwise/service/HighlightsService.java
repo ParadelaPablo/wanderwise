@@ -17,13 +17,16 @@ public class HighlightsService {
     private final HighlightsRepository highlightsRepository;
     private final SongRepository songRepository;
     private final TripRepository tripRepository;
+    private final CloudStorage cloudStorage;
 
     public HighlightsService(HighlightsRepository highlightRepository,
-            SongRepository songRepository,
-            TripRepository tripRepository) {
+                             SongRepository songRepository,
+                             TripRepository tripRepository,
+                             CloudStorage cloudStorage) {
         this.highlightsRepository = highlightRepository;
         this.songRepository = songRepository;
         this.tripRepository = tripRepository;
+        this.cloudStorage = cloudStorage;
     }
 
     public List<Highlights> getAllHighlights() {
@@ -43,14 +46,18 @@ public class HighlightsService {
                     .build());
         }
 
+
         Trip trip = tripRepository.findById(highlightRequest.getTripId())
                 .orElseThrow(() -> new RuntimeException("Trip not found"));
-
-        Highlights highlight = Highlights.builder()
+        System.err.println("step before going in cloud storage");
+        String imageUrl = cloudStorage.uploadFile(highlightRequest.getTitle() + ".png", highlightRequest.getImage());
+        System.err.println("step after going in cloud storage");
+        System.err.println("image url: " + imageUrl);
+                Highlights highlight = Highlights.builder()
                 .trip(trip)
                 .text(highlightRequest.getText())
                 .title(highlightRequest.getTitle())
-                .image(highlightRequest.getImageUrl())
+                .image(imageUrl)
                 .song(song)
                 .build();
 

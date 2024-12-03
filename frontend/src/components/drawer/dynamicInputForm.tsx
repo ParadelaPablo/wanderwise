@@ -14,7 +14,6 @@ import { getStopTypeIcon } from "@/lib/icons";
 import { useNavigate } from "@tanstack/react-router";
 import { LoadingState } from "../ui-states/loading";
 import { FullTripSchema } from "@/lib/schema";
-import { LoadingState } from "../ui-states/loading";
 
 
 const stopTypes: { id: string; label: string }[] = [

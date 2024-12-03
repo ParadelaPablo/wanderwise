@@ -1,17 +1,22 @@
 package org.wanderwise.wanderwise.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.wanderwise.wanderwise.DTO.request.HighlightRequest;
 import org.wanderwise.wanderwise.DTO.response.HighlightsResponse;
 import org.wanderwise.wanderwise.entity.Highlights;
 import org.wanderwise.wanderwise.service.HighlightsService;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/highlights")
+@CrossOrigin
 public class HighlightsController {
 
     private final HighlightsService highlightsService;
@@ -28,13 +33,32 @@ public class HighlightsController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
-    public ResponseEntity<HighlightsResponse> createHighlight(@RequestBody HighlightRequest highlightRequest) {
+    @PostMapping("/new")
+    public ResponseEntity<HighlightsResponse> createHighlight(
+            @RequestParam("tripId") String tripId,
+            @RequestParam("text") String text,
+            @RequestParam("title") String title,
+            @RequestParam(value = "songTitle", required = false) String songTitle,
+            @RequestParam(value = "songArtist", required = false) String songArtist,
+            @RequestParam(value = "songUrl", required = false) String songUrl,
+            @RequestParam(value = "songCoverUrl", required = false) String songCoverUrl,
+            @RequestParam(value = "image") MultipartFile image) throws IOException   {
+
+        System.err.println("tripId: " + tripId);
+
+        HighlightRequest highlightRequest = HighlightRequest.builder()
+                .tripId(Long.parseLong(tripId))
+                .text(text)
+                .title(title)
+                .songTitle(songTitle)
+                .songUrl(songUrl)
+                .songCoverUrl(songCoverUrl)
+                .image(image.getBytes()) // Convert MultipartFile to byte[]
+                .build();
 
         Highlights createdHighlight = highlightsService.createHighlight(highlightRequest);
         HighlightsResponse response = mapToHighlightsResponse(createdHighlight);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(null);
     }
 
     @DeleteMapping("/{id}")
