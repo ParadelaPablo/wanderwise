@@ -62,7 +62,7 @@ public class HighlightsService {
                 .text(highlightRequest.getText())
                 .title(highlightRequest.getTitle())
                 .date(highlightRequest.getDate())
-                .image(highlightRequest.getImageUrl())
+                .image(imageUrl)
                 .song(song)
                 .build();
 
