@@ -68,7 +68,7 @@ const TripGallery = () => {
   return (
     <div className="h-full flex flex-col items-center justify-between gap-2 mt-4">
       <div className="flex flex-col gap-8">
-        <h1 className="text-2xl font-bold text-center">
+        <h1 className="text-2xl font-bold text-center px-4">
           Welcome to Your Dashboard
           {user?.firstName && `, ${user.firstName}`}
         </h1>
