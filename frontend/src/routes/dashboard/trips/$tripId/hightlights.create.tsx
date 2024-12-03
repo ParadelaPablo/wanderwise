@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 const SPOTIFY_BASE_URL = "https://open.spotify.com/track/";
-const BACKEND_POST_HIGHLIGHT = "http://localhost:8080/api/highlights";
+const BACKEND_POST_HIGHLIGHT = import.meta.env.VITE_BASE_BACKEND_URL;
 
 export const Route = createFileRoute(
   "/dashboard/trips/$tripId/hightlights/create"
@@ -39,8 +39,14 @@ function RouteComponent() {
     songURL: string;
   } | null>(null);
 
+  const highlightId = useParams({
+    from: "/dashboard/trips/highlights/$highlightId",
+    select: (params) => params.highlightId,
+  });
+
   const [highlightData, setHighlightData] = useState<{
-    tripId: number;
+    id: string;
+    tripId: string;
     text: string;
     title: string;
     date: string;
@@ -48,7 +54,6 @@ function RouteComponent() {
     artist: string | null;
     songUrl: string | null;
     songCoverUrl: string | null;
-    imageUrl: string;
   } | null>(null);
 
   useEffect(() => {
@@ -92,11 +97,41 @@ function RouteComponent() {
 
   const { isLoading } = mutation;
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Submitting Highlight Data:", highlightData);
-    if (highlightData) {
-      mutation.mutate(highlightData);
+
+    if (!file) {
+      alert("Please select an image file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("tripId", "855");
+    formData.append("text", content);
+    formData.append("title", title);
+    if (trackData) {
+      formData.append("songTitle", trackData.name);
+      formData.append("songArtist", trackData.artist);
+      formData.append("songUrl", SPOTIFY_BASE_URL + trackData.id);
+      formData.append("songCoverUrl", trackData.coverArt);
+    }
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post("http://localhost:8080/api/highlights/new", formData);
+      console.log("Highlight saved successfully:", response.data);
+      toast.success("Highlight saved successfully!");
+    } catch (error) {
+      console.error("Error saving highlight:", error.message);
+      toast.error("Error saving highlight");
     }
   };
 
@@ -114,7 +149,7 @@ function RouteComponent() {
           <Popover>
             <PopoverTrigger asChild>
               <Button
-              variant={"ghost"}
+                variant={"ghost"}
                 className={cn(
                   "w-[240px] justify-start text-left font-normal",
                   !date && "text-muted-foreground"
@@ -165,6 +200,14 @@ function RouteComponent() {
                 placeholder="Enter text..."
                 onChange={(e) => setContent(e.target.value)}
               ></textarea>
+
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="file-input file-input-bordered w-full mt-4"
+              />
+
               <div className="absolute bottom-2 right-2 flex gap-2 items-end">
                 <button className="btn btn-outline min-h-10 h-10 w-10 text-2xl">
                   ♫

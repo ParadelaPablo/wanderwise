@@ -25,6 +25,8 @@ public class HighlightRequest {
     private String artist;
     private String songUrl;
     private String songCoverUrl;
-    private String imageUrl;
+
+    @NotNull
+    private byte[] image;
 
 }

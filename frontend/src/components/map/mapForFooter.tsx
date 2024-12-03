@@ -2,12 +2,15 @@ import { DirectionsRenderer, GoogleMap } from "@react-google-maps/api";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import TripTimeline from "./TripTimeline";
 import { TripData } from "@/lib/types";
+import { LoadingState } from "../ui-states/loading";
+import { ErrorState } from "../ui-states/error";
 import { getIcon } from "@/lib/utils";
+
 
 const containerStyle = {
   margin: "auto",
-          width: "100%",
-          height: "100%"
+  width: "100%",
+  height: "100%"
 };
 
 const center = {

@@ -39,6 +39,9 @@ function Map({
       response: google.maps.DirectionsResult,
       status: google.maps.DirectionsStatus
     ) => {
+      if (status === "NOT_FOUND") {
+        return;
+      }
       if (status === "OK") {
         setDirectionsResponse(response);
 

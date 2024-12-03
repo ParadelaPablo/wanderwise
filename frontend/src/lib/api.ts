@@ -1,31 +1,30 @@
 import axios from "axios";
-import { TripForGallery , FullTripRequest,} from "./types";
+import { TripForGallery, FullTripRequest } from "./types";
 
-const BASE_DEV_URL = import.meta.env.VITE_BASE_DEV_URL;
+const BASE_URL = import.meta.env.VITE_BASE_BACKEND_URL;
+
+console.log("BASE_DEV_URL", BASE_URL);
 
 export const getTrips = async (): Promise<TripForGallery[]> => {
     //throw new Error("Not implemented yet");
-    const response = await axios.get(BASE_DEV_URL);
+    const response = await axios.get(BASE_URL);
     console.log(response.data);
     return response.data;
 };
 
 export const deleteTripById = async (id: number): Promise<TripForGallery> => {
-  try {
-    console.log(`Attempting to delete trip with ID: ${id}`);
-    const response = await axios.delete(`http://localhost:8080/api/trips/${id}`);
-    console.log("Delete response:", response.data);
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.error("Axios error details:", error.response?.data);
-    } else {
-      console.error("Unexpected error:", error);
+    try {
+        const response = await axios.delete(`${BASE_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            console.error("Axios error details:", error.response?.data);
+        } else {
+            console.error("Unexpected error:", error);
+        }
+        throw error;
     }
-    throw error;
-  }
 };
-
 
 export async function createFullTrip(fullTrip: FullTripRequest) {
     if (fullTrip.userId == null || fullTrip.userId == undefined) {
@@ -40,7 +39,7 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
         })),
     };
     console.log(updatedFullTrip);
-    const response = await fetch(`${BASE_DEV_URL}/full-trip`, {
+    const response = await fetch(`${BASE_URL}/full-trip`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -60,7 +59,7 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
 }
 
 export async function getTripById(tripId: number) {
-    const response = await fetch(`${BASE_DEV_URL}/${tripId}`, {
+    const response = await fetch(`${BASE_URL}/${tripId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

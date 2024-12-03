@@ -32,8 +32,13 @@ build/
 ### VS Code ###
 .vscode/
 
+./src/main/resources/cloudstorage.json
 
 .env
 .env.local
 
+
+# Add data folder
 data/
+
+./docker-compose.yml
