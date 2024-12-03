@@ -16,7 +16,7 @@ public class Highlights {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
 
@@ -28,6 +28,9 @@ public class Highlights {
 
     @Column(name = "image_url")
     private String image;
+
+    @Column(nullable = true)
+    private String date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "song_id", nullable = true)

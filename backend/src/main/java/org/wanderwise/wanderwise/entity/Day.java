@@ -11,18 +11,23 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * The Day entity represents a day in a trip. It contains the date of the day, the order of the day in the trip, the trip
+ * The Day entity represents a day in a trip. It contains the date of the day,
+ * the order of the day in the trip, the trip
  * it belongs to and the stops that are in the day.
- * The day order is used to determine the order of the days in the trip. The date is used to determine the date of the day.
- *<ul>
+ * The day order is used to determine the order of the days in the trip. The
+ * date is used to determine the date of the day.
+ * <ul>
  * A Day has the following properties:
- *<li>id: a Long value representing the id of the day.</li>
+ * <li>id: a Long value representing the id of the day.</li>
  * <li>trip: a Trip object representing the trip the day belongs to.</li>
- * <li>dayOrder: an Integer value representing the order of the day in the trip.</li>
+ * <li>dayOrder: an Integer value representing the order of the day in the
+ * trip.</li>
  * <li>stops: a List of Stop objects representing the stops in the day.</li>
  * <li>date: a String value representing the date of the day.</li>
- * <li>createdAt: a LocalDateTime object representing the date and time the day was created.</li>
- * <li>updatedAt: a LocalDateTime object representing the date and time the day was last updated.</li>
+ * <li>createdAt: a LocalDateTime object representing the date and time the day
+ * was created.</li>
+ * <li>updatedAt: a LocalDateTime object representing the date and time the day
+ * was last updated.</li>
  * </ul>
  *
  * @see Trip
@@ -50,7 +55,7 @@ public class Day {
     @Min(1)
     private Integer dayOrder;
 
-    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "day", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Stop> stops;
 
     @Column(nullable = false)

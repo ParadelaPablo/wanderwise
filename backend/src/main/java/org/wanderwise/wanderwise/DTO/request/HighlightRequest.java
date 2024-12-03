@@ -20,10 +20,13 @@ public class HighlightRequest {
     @NotNull
     private String title;
 
+    private String date;
     private String songTitle;
     private String artist;
     private String songUrl;
     private String songCoverUrl;
-    private String imageUrl;
+
+    @NotNull
+    private byte[] image;
 
 }

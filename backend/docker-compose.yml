@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: 'postgres:15'
+    container_name: 'wander-wise-postgres'
+    environment:
+      POSTGRES_USER: wanderwise
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: wanderwise-db
+    volumes:
+      - ./data/pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    restart: always

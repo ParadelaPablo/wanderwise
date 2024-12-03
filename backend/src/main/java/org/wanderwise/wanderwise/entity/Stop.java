@@ -21,8 +21,8 @@ public class Stop {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "day_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "day_id")
     private Day day;
 
     @Column(nullable = false)

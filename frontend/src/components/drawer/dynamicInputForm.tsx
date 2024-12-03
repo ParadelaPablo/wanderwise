@@ -12,8 +12,9 @@ import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 import { getStopTypeIcon } from "@/lib/icons";
 import { useNavigate } from "@tanstack/react-router";
-import { FullTripSchema } from "@/lib/schema";
 import { LoadingState } from "../ui-states/loading";
+import { FullTripSchema } from "@/lib/schema";
+
 
 const stopTypes: { id: string; label: string }[] = [
   { id: "FIKA", label: "Fika" },
@@ -66,6 +67,9 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   };
 
   const handlePlaceChanged = (dayId: number) => {
+    // if it's empty, return
+    if (!autocompleteRef.current) return;
+
     if (!autocompleteRef.current) {
       console.error("Autocomplete instance is not initialized.");
       return;
@@ -136,9 +140,9 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
       days.map((day) =>
         day.dayOrder === dayId
           ? {
-              ...day,
-              stops: day.stops.filter((_, index) => index !== stopIndex),
-            }
+            ...day,
+            stops: day.stops.filter((_, index) => index !== stopIndex),
+          }
           : day
       )
     );
@@ -203,8 +207,10 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   });
 
   return (
-    <div className="flex flex-col justify-between gap-4 h-4/5">
-      {mutation.isPending && <LoadingState />}
+    <div className="flex flex-col gap-4 items-center ">
+      {mutation.isPending && (
+        <LoadingState />
+      )}
       {validationErrors.length > 0 && (
         <div className="text-red-500 mt-2">
           {validationErrors.map((error, index) => (

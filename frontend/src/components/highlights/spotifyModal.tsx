@@ -14,6 +14,7 @@ export const SpotifyModal = ({
     name: string;
     artist: string;
     coverArt: string;
+    
   }) => void;
 }) => {
   const [query, setQuery] = useState("");

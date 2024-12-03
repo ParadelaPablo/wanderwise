@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build -- --skipLibCheck
+RUN npm run build
 
 FROM nginx:alpine
 
