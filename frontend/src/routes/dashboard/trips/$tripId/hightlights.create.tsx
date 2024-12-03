@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { toast } from "react-toastify";
+import axios from "axios";
 const SPOTIFY_BASE_URL = "https://open.spotify.com/track/";
 const BACKEND_POST_HIGHLIGHT = import.meta.env.VITE_BASE_BACKEND_URL;
 
@@ -30,6 +32,8 @@ function RouteComponent() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [file, setFile] = useState<File | null>(null)
+
   console.log(date);
   const [trackData, setTrackData] = useState<{
     id: string;
