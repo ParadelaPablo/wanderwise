@@ -1,30 +1,33 @@
 import { SpotifyModal } from "@/components/highlights/spotifyModal";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import axios from "axios";
+import { useMutation} from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
 const SPOTIFY_BASE_URL = "https://open.spotify.com/track/";
 const BACKEND_POST_HIGHLIGHT = "http://localhost:8080/api/highlights";
 
 export const Route = createFileRoute(
-  '/dashboard/trips/$tripId/hightlights/create',
+  "/dashboard/trips/$tripId/hightlights/create"
 )({
   component: RouteComponent,
 });
 
+
 function RouteComponent() {
   const tripId = useParams({
-    from: '/dashboard/trips/$tripId/hightlights/create',
+    from: "/dashboard/trips/$tripId/hightlights/create",
     select: (params) => params.tripId,
   });
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
   const [trackData, setTrackData] = useState<{
     id: string;
     name: string;
     artist: string;
     coverArt: string;
+    songURL: string;
   } | null>(null);
 
   const [highlightData, setHighlightData] = useState<{
@@ -38,40 +41,63 @@ function RouteComponent() {
     imageUrl: string;
   } | null>(null);
 
-
-  // Update highlightData when dependencies change
   useEffect(() => {
     const updatedHighlightData = {
-      tripId: parseInt(tripId, 10), // Ensure tripId is sent as a number
+      tripId: parseInt(tripId, 10),
       text: content || "",
       title: title || "",
       songTitle: trackData?.name || null,
       artist: trackData?.artist || null,
-      songUrl: trackData ? SPOTIFY_BASE_URL + trackData.id : null,
+      songUrl: trackData?.id ? SPOTIFY_BASE_URL + trackData.id : null,
       songCoverUrl: trackData?.coverArt || null,
-      imageUrl: "https://example.com/highlight-image.jpg", // Replace with actual image URL if applicable
+      imageUrl: "https://example.com/highlight-image.jpg",
     };
     setHighlightData(updatedHighlightData);
     console.log("Updated Highlight Data:", updatedHighlightData);
   }, [content, title, trackData, tripId]);
 
+  
+  const mutation = useMutation({
+    mutationFn: async (highlight: typeof highlightData) => {
+      if (!highlight) throw new Error("Highlight data is missing");
+      const response = await fetch(BACKEND_POST_HIGHLIGHT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(highlight),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to save highlight");
+      }
+      return response.json();
+    },
+    onSuccess: (data) => {
+      console.log("Highlight saved successfully:", data);
+      
+    },
+    onError: (error) => {
+      console.error("Error saving highlight:", error);
+    },
+  });
+
+  
+  const { isLoading } = mutation;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Submitting Highlight Data:", highlightData);
-
-    axios
-      .post(BACKEND_POST_HIGHLIGHT, highlightData)
-      .then((response) => {
-        console.log("Highlight saved successfully:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error saving highlight:", error.response?.data || error.message);
-      });
+    if (highlightData) {
+      mutation.mutate(highlightData); 
+    }
   };
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <div className="btn relative right-1/3" onClick={() => window.history.back()}>
+      <div
+        className="btn relative right-1/3"
+        onClick={() => window.history.back()}
+      >
         Back
       </div>
 
@@ -92,7 +118,14 @@ function RouteComponent() {
               Spotify
             </label>
             <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-            <SpotifyModal trackFetch={setTrackData} />
+            <SpotifyModal
+              trackFetch={(trackDetails) => {
+                setTrackData({
+                  ...trackDetails,
+                  songURL: `https://open.spotify.com/track/${trackDetails.id}`, 
+                });
+              }}
+            />
           </div>
 
           <div className="w-screen p-3 flex flex-col justify-center items-center relative">
@@ -112,8 +145,9 @@ function RouteComponent() {
                 <button
                   type="submit"
                   className="btn btn-success min-h-10 h-10"
+                  disabled={isLoading} 
                 >
-                  Submit
+                  {isLoading ? "Submitting..." : "Submit"}
                 </button>
               </div>
             </div>
