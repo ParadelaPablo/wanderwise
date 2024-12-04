@@ -12,7 +12,6 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
   return (
     <div>
       <div className="w-full relative">
-        {/* Dropdown positioned above the trip */}
         <div className="dropdown dropdown-left absolute top-0 right-0 z-10">
           <div
             tabIndex={0}
@@ -57,7 +56,6 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
           </ul>
         </div>
 
-        {/* Trip button */}
         <button
           className="btn glass p-0 w-80 h-40 relative"
           onClick={() => router.navigate({ to: `/dashboard/trips/${id}` })}
