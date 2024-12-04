@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
-
 interface ToPackItemProps {
   text: string;
   done: boolean;
@@ -26,7 +25,8 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
   const adjustTextAreaHeight = () => {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = "auto";
-      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
+      textAreaRef.current.style.height =
+        textAreaRef.current.scrollHeight + "px";
     }
   };
 
@@ -62,7 +62,9 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
       <div className="collapse collapse-arrow pl-1 pr-1 border border-base-300 bg-base-100 rounded-xl">
         <input type="checkbox" className="peer" />
         <div className="collapse-title text-md font-medium p-1 flex items-center justify-between">
-          <span className={`truncate ${taskText.trim() === "" ? "font-thin" : "font-bold"}`}>
+          <span
+            className={`truncate ${taskText.trim() === "" ? "font-thin" : "font-bold"}`}
+          >
             {taskText.split("\n")[0] || "Title..."}
           </span>
         </div>
@@ -92,10 +94,6 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
             >
               Save
             </button>
-
-
-
-
 
             <div className="dropdown dropdown-top dropdown-end">
               <div
@@ -141,18 +139,6 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
                 </li>
               </ul>
             </div>
-
-
-            
-            
-            <button
-              className="btn btn-xs font-extrabold btn-outline bg-red-500 text-white border-red-500 hover:bg-red-600 hover:border-red-600"
-              onClick={removeItem}
-            >
-              X
-            </button>
-
-
           </div>
         </div>
       </div>

@@ -93,11 +93,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
               Save
             </button>
 
-
-
-
-
-
             <div className="dropdown dropdown-top dropdown-end">
               <div
                 tabIndex={0}
@@ -142,16 +137,6 @@ const TodoItem: React.FC<TodoItemProps> = ({
                 </li>
               </ul>
             </div>
-
-
-
-
-            {/* <button
-              className="btn btn-xs font-extrabold btn-outline bg-red-500 text-white border-red-500 hover:bg-red-600 hover:border-red-600"
-              onClick={removeItem}
-            >
-              X
-            </button> */}
           </div>
         </div>
       </div>
