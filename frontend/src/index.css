@@ -2,22 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   :root {
-    --radius: 0.5rem
-  
+    --radius: 0.5rem,
   }
 }
 
 
-/*
+
 body {
   font-family: "Raleway", serif;
   font-optical-sizing: auto;
   font-weight: <weight>;
   font-style: normal;
-}*/
+}
 
 /*
 body {

@@ -7,7 +7,7 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function RouteComponent() {
-  return (<div><TripGallery/></div>)
+  return (<div className='h-full'><TripGallery/></div>)
 
 }
 

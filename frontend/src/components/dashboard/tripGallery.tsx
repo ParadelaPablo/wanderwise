@@ -62,7 +62,7 @@ const TripGallery = () => {
     deleteMutation.mutate(id);
   };
 
-  if (isLoading) return <LoadingState />; // Reemplaza la línea actual con el componente LoadingState
+  if (isLoading) return <LoadingState />;
 
   if (isError) return <div>Error loading trips: {error.message}</div>;
 
@@ -72,7 +72,10 @@ const TripGallery = () => {
         <h1 className="text-2xl font-bold">
           Hey{user?.firstName ? `, ${user.firstName}` : ""}! 🎉 Welcome back 🚀
         </h1>
-        <div className="mt-10 text-center">
+        <div className="text-1xl text-center px-4">
+          Are you ready to plan your next adventure?
+        </div>
+        <div className="text-center">
           <button
             onClick={() => router.navigate({ to: "/dashboard/create" })}
             className="bg-neutral text-primary px-6 py-3 rounded-full hover:bg-teal-600 shadow-md"
@@ -82,7 +85,7 @@ const TripGallery = () => {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row flex-wrap w-screen items-center justify-center gap-5 mt-8 mb-20 border p-5 rounded-2xl">
+      <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 border p-6" style={{ borderRadius: '1rem' }}>
         {trips.length === 0 && (
           <div className="text-center text-lg font-semibold">
             You have no trips

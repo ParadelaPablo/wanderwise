@@ -20,9 +20,9 @@ public class HighlightsService {
     private final CloudStorage cloudStorage;
 
     public HighlightsService(HighlightsRepository highlightRepository,
-                             SongRepository songRepository,
-                             TripRepository tripRepository,
-                             CloudStorage cloudStorage) {
+            SongRepository songRepository,
+            TripRepository tripRepository,
+            CloudStorage cloudStorage) {
         this.highlightsRepository = highlightRepository;
         this.songRepository = songRepository;
         this.tripRepository = tripRepository;
@@ -35,9 +35,13 @@ public class HighlightsService {
 
     public Highlights createHighlight(HighlightRequest highlightRequest) {
         Song song = null;
+        System.out.println("sohighlightRequest = " + highlightRequest.getSongTitle());
+        System.out.println(" highlightRequest.getSongUrl() = " + highlightRequest.getSongUrl());
 
-        if (highlightRequest.getSongTitle() != null && highlightRequest.getArtist() != null
-                && highlightRequest.getSongUrl() != null && highlightRequest.getSongCoverUrl() != null) {
+        if (highlightRequest.getSongTitle() != null ||
+                highlightRequest.getArtist() != null ||
+                highlightRequest.getSongUrl() != null ||
+                highlightRequest.getSongCoverUrl() != null) {
             song = songRepository.save(Song.builder()
                     .title(highlightRequest.getSongTitle())
                     .artist(highlightRequest.getArtist())
@@ -45,16 +49,17 @@ public class HighlightsService {
                     .coverUrl(highlightRequest.getSongCoverUrl())
                     .build());
         }
-
+        System.out.println("song = " + song);
 
         Trip trip = tripRepository.findById(highlightRequest.getTripId())
                 .orElseThrow(() -> new RuntimeException("Trip not found"));
         String imageUrl = cloudStorage.uploadFile(highlightRequest.getTitle() + ".png", highlightRequest.getImage());
 
-                Highlights highlight = Highlights.builder()
+        Highlights highlight = Highlights.builder()
                 .trip(trip)
                 .text(highlightRequest.getText())
                 .title(highlightRequest.getTitle())
+                .date(highlightRequest.getDate())
                 .image(imageUrl)
                 .song(song)
                 .build();

@@ -54,20 +54,20 @@ export const secondsToTimeString = (totalSeconds: number): string => {
 export const getIcon = (stopType: string) => {
   switch (stopType) {
     case "FIKA":
-      return "../../../public/icons/fika.png";
+      return "/icons/fika.png";
     case "ACTIVITY":
-      return "../../../public/icons/activity.png";
+      return "/icons/activity.png";
     case "FUEL":
-      return "../../../public/icons/fuel.png";
+      return "/icons/fuel.png";
     case "FOOD_AND_DRINK":
-      return "../../../public/icons/restaurant.png";
+      return "/icons/restaurant.png";
     case "SIGHTSEEING":
-      return "../../../public/icons/sightseeing.png";
+      return "icons/sightseeing.png";
     case "REST":
-      return "../../../public/icons/rest.png";
+      return "/icons/rest.png";
     case "OVERNIGHT":
-      return "../../../public/icons/overnight.png";
+      return "/icons/overnight.png";
     default:
-      return "../../../public/icons/red-dot.png";
+      return "/icons/red-dot.png";
   }
 };

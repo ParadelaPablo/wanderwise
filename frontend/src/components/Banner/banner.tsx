@@ -1,0 +1,81 @@
+import React, { useState, useEffect } from "react";
+import screen1 from "../../assets/screen1.png";
+import screen2 from "../../assets/screen2.png";
+import screen3 from "../../assets/screen3.png";
+
+const Banner: React.FC = () => {
+  const images = [screen1, screen2, screen3];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  return (
+    <div className="flex flex-col lg:flex-row items-center w-full p-4 md:min-h-screen">
+      {/* Image Carousel */}
+      <div className="relative w-full max-w-lg md:max-w-2xl h-[350px] md:h-[500px] lg:max-w-xl lg:h-[700px] xl:max-w-2xl xl:h-[800px] 2xl:max-w-1xl 1xl:h-[900px] overflow-hidden rounded-lg mx-auto lg:mx-0 lg:mr-8">
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`Slide ${index + 1}`}
+            className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-1000 ${
+              index === currentIndex ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        ))}
+
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              className={`w-3 h-3 rounded-full ${
+                index === currentIndex ? "bg-white" : "bg-gray-400"
+              }`}
+            ></button>
+          ))}
+        </div>
+      </div>
+
+      {/* Extra Content */}
+      <div className="flex flex-col m-2 items-center lg:items-start w-full md:w-full lg:w-1/3 lg:flex-grow p-4 mt-8 lg:mt-0 lg:ml-8">
+        <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4 text-center lg:text-left">
+          Discover Amazing Destinations
+        </h2>
+        <p className="text-gray-600 text-lg lg:text-xl mb-6 text-center lg:text-left">
+          Explore beautiful locations around the world with ease. Wander Wise
+          helps you plan your perfect journey with curated guides, travel tips,
+          and more.
+        </p>
+
+        {/* Images based on screen size */}
+        <div className="flex flex-col md:flex-row md:justify-center lg:flex-row xl:flex-row items-center md:items-start lg:items-start space-y-4 md:space-y-0 md:space-x-4 lg:space-y-0 lg:space-x-4 mb-6 w-full">
+          <img
+            src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
+            alt="Travel Inspiration 1"
+            className="w-full md:w-1/2 h-48 md:h-64 lg:h-72 object-cover rounded-lg shadow-lg"
+          />
+          <img
+            src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
+            alt="Travel Inspiration 2"
+            className="w-full md:w-1/2 h-48 md:h-64 lg:h-72 object-cover rounded-lg shadow-lg hidden md:block"
+          />
+        </div>
+
+        <p className="text-gray-600 text-lg lg:text-xl text-center lg:text-left">
+          Our app features real-time itinerary updates, collaborative planning
+          with friends, and offline access to your saved plans. Wander Wise is
+          designed to make your travel experience smooth and enjoyable, giving
+          you the freedom to explore without worries.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Banner;

@@ -37,6 +37,7 @@ build/
 .env
 .env.local
 
+
 # Add data folder
 data/
 

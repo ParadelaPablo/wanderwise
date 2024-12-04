@@ -99,25 +99,30 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
     }
   };
 
-  const removeItem = async (id: string) => {
-    const originalItems = [...items];
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
+  const removeItem = (id: string) => {
+    if (id.startsWith("temp-")) {
+      setItems(prevItems => prevItems.filter(item => item.id !== id));
+    } else {
+      const originalItems = [...items];
+      setItems(prevItems => prevItems.filter(item => item.id !== id));
 
-    try {
-      await deleteToPack(tripId, id);
-      toast.success("Item deleted successfully.", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
-    } catch (error) {
-      console.error("Error deleting topack:", error);
-      setItems(originalItems);
-      toast.error("Failed to delete the item. Please try again.", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-      });
+      deleteToPack(tripId, id)
+        .then(() => {
+          toast.success("Item deleted successfully.", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+        })
+        .catch((error) => {
+          console.error("Error deleting topack:", error);
+          setItems(originalItems); 
+          toast.error("Failed to delete the item. Please try again.", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+          });
+        });
     }
   };
 

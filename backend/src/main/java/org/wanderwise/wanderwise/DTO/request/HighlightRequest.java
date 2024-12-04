@@ -20,6 +20,7 @@ public class HighlightRequest {
     @NotNull
     private String title;
 
+    private String date;
     private String songTitle;
     private String artist;
     private String songUrl;
