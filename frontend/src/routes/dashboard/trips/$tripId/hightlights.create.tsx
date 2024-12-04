@@ -138,6 +138,7 @@ function RouteComponent() {
       );
       toast.success("Highlight saved successfully!");
       document.getElementById("newHighlightForm")?.reset();
+      setTrackData(null);
     } catch (error) {
       console.error("Error saving highlight:", error.message);
       toast.error("Error saving highlight: " + error.message);

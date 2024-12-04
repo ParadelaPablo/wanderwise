@@ -41,10 +41,10 @@ public class HighlightsController {
             @RequestParam("text") String text,
             @RequestParam("title") String title,
             @RequestParam("date") String date,
-            @RequestParam(value = "songTitle", required = false) String songTitle,
-            @RequestParam(value = "songArtist", required = false) String songArtist,
-            @RequestParam(value = "songUrl", required = false) String songUrl,
-            @RequestParam(value = "songCoverUrl", required = false) String songCoverUrl,
+            @RequestParam(value = "songTitle", defaultValue = "", required = false) String songTitle,
+            @RequestParam(value = "songArtist", defaultValue = "", required = false) String songArtist,
+            @RequestParam(value = "songUrl", defaultValue = "", required = false) String songUrl,
+            @RequestParam(value = "songCoverUrl", defaultValue = "", required = false) String songCoverUrl,
             @RequestParam(value = "image") MultipartFile image) throws IOException   {
 
 

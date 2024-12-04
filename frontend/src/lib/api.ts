@@ -75,3 +75,20 @@ export async function getTripById(tripId: number) {
     const json = await response.json();
     return json;
 }
+
+export async function deleteHighlight(highlightId: number): Promise<boolean> {
+    const response = await fetch(`${BASE_URL}/highlights/${highlightId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(
+            errorData.message ||
+                `Oops! Our system is taking a little nap, ${response.statusText}`
+        );
+    }
+    return true;
+}
