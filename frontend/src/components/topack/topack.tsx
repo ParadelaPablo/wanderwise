@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface ToPack {
-  id: string | undefined;
+  id: string | number | undefined;
   text: string;
   done: boolean;
 }
@@ -17,7 +17,10 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
   useEffect(() => {
     const fetchToPacks = async () => {
       try {
-        const topacks = await getToPacksByTrip(tripId);
+        const response = await getToPacksByTrip(tripId);
+        
+        const topacks = Array.isArray(response) ? response : [];
+        
         setItems(topacks.map(pack => ({ ...pack, id: pack.id ?? "" })));
       } catch (error) {
         console.error("Error fetching topacks:", error);
@@ -77,7 +80,7 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
   const updateItem = async (updatedItem: ToPack) => {
     try {
       if (updatedItem.id) {
-        const updated = await updateToPack(tripId, updatedItem.id, updatedItem);
+        const updated = await updateToPack(tripId, String(updatedItem.id), { ...updatedItem, id: String(updatedItem.id) });
         setItems(prevItems =>
           prevItems.map(item =>
             item.id === updated.id ? { ...item, text: updated.text, done: updated.done } : item
@@ -99,14 +102,14 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
     }
   };
 
-  const removeItem = (id: string) => {
-    if (id.startsWith("temp-")) {
+  const removeItem = (id: string | number) => {
+    if (typeof id === 'string' && id.startsWith("temp-")) {
       setItems(prevItems => prevItems.filter(item => item.id !== id));
     } else {
       const originalItems = [...items];
       setItems(prevItems => prevItems.filter(item => item.id !== id));
-
-      deleteToPack(tripId, id)
+  
+      deleteToPack(tripId, String(id)) 
         .then(() => {
           toast.success("Item deleted successfully.", {
             position: "top-right",
@@ -116,7 +119,7 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
         })
         .catch((error) => {
           console.error("Error deleting topack:", error);
-          setItems(originalItems); 
+          setItems(originalItems);
           toast.error("Failed to delete the item. Please try again.", {
             position: "top-right",
             autoClose: 3000,
@@ -125,6 +128,7 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
         });
     }
   };
+  
 
   return (
     <div className="w-full p-4">
@@ -143,7 +147,7 @@ const ToPack: React.FC<{ tripId: string }> = ({ tripId }) => {
             <ToPackItems
               text={item.text}
               done={item.done}
-              persistItem={(text) => persistNewItem(item.id ?? "default-id", text)}
+              persistItem={(text) => persistNewItem(String(item.id ?? "default-id"), text)}
               updateItem={(updatedToPack) => updateItem({ ...updatedToPack, id: item.id ?? "default-id" })}
               removeItem={() => removeItem(item.id ?? "default-id")}
               isNew={item.id === newItemIdRef.current}

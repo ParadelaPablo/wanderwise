@@ -20,48 +20,31 @@ public class ToPackController {
 
     @GetMapping
     public ResponseEntity<List<ToPack>> getAllToPacksByTrip(@PathVariable Long tripId) {
-        if (tripId == null || tripId <= 0) {
-            throw new IllegalArgumentException("Invalid tripId provided");
-        }
         List<ToPack> toPacks = toPackService.getToPacksByTripId(tripId);
         return ResponseEntity.ok(toPacks);
     }
 
-
     @GetMapping("/{toPackId}")
-    public ResponseEntity<ToPack> getToPackById(
-            @PathVariable Long tripId,
-            @PathVariable Long toPackId) {
+    public ResponseEntity<ToPack> getToPackById(@PathVariable Long tripId, @PathVariable Long toPackId) {
         ToPack toPack = toPackService.getToPackById(toPackId);
         return ResponseEntity.ok(toPack);
     }
 
     @PostMapping
-    public ResponseEntity<ToPack> createToPack(
-            @PathVariable Long tripId,
-            @RequestBody ToPack toPack) {
-        if (toPack == null) {
-            throw new IllegalArgumentException("ToPack cannot be null");
-        }
+    public ResponseEntity<ToPack> createToPack(@PathVariable Long tripId, @RequestBody ToPack toPack) {
         ToPack newToPack = toPackService.createToPackForTrip(tripId, toPack);
         URI location = URI.create(String.format("/api/trips/%d/topacks/%d", tripId, newToPack.getId()));
         return ResponseEntity.created(location).body(newToPack);
     }
 
-
     @PutMapping("/{toPackId}")
-    public ResponseEntity<ToPack> updateToPack(
-            @PathVariable Long tripId,
-            @PathVariable Long toPackId,
-            @RequestBody ToPack updatedToPack) {
+    public ResponseEntity<ToPack> updateToPack(@PathVariable Long tripId, @PathVariable Long toPackId, @RequestBody ToPack updatedToPack) {
         ToPack toPack = toPackService.updateToPackForTrip(tripId, toPackId, updatedToPack);
         return ResponseEntity.ok(toPack);
     }
 
     @DeleteMapping("/{toPackId}")
-    public ResponseEntity<Void> deleteToPack(
-            @PathVariable Long tripId,
-            @PathVariable Long toPackId) {
+    public ResponseEntity<Void> deleteToPack(@PathVariable Long tripId, @PathVariable Long toPackId) {
         toPackService.deleteToPackById(toPackId);
         return ResponseEntity.noContent().build();
     }

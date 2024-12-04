@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import org.wanderwise.wanderwise.entity.ToDo;
 import org.wanderwise.wanderwise.service.ToDoService;
 
-import java.net.URI;
 import java.util.List;
 @RestController
 @RequestMapping("/api/trips/{tripId}/todos")
@@ -48,7 +47,10 @@ public class ToDoController {
     public ResponseEntity<Void> deleteToDo(
             @PathVariable Long tripId,
             @PathVariable Long toDoId) {
+        toDoService.getToDoByTripIdAndToDoId(tripId, toDoId); // Valida que el ToDo pertenece al Trip
         toDoService.deleteToDoById(toDoId);
         return ResponseEntity.noContent().build();
     }
+
+
 }

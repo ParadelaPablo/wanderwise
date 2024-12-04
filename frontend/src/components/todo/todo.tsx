@@ -18,10 +18,15 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
     const fetchToDos = async () => {
       try {
         const todos = await getToDosByTrip(tripId);
-        setItems(todos.map((todo) => ({ ...todo, id: todo.id ?? "" })));
-      } catch (error) {
-        toast.error("Error fetching todos");
-        console.error("Error fetching todos:", error);
+        setItems(todos.map((todo) => ({ ...todo, id: String(todo.id) }))); 
+      } catch (error: unknown) {
+        if (error instanceof Error && (error as { response?: { status?: number } }).response?.status === 404) {
+          toast.error("Trip not found. Please check the ID.");
+          setItems([]);
+        } else {
+          toast.error("Error fetching todos");
+          console.error("Error fetching todos:", error);
+        }
       }
     };
 
@@ -75,7 +80,12 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
     }
   };
 
-  const removeItem = (id: string) => {
+  const removeItem = (id: string | undefined) => {
+    if (typeof id !== "string") {
+      console.error("Invalid ID type, expected a string:", id);
+      return;
+    }
+
     if (id.startsWith("temp-")) {
       setItems((prevItems) => prevItems.filter((item) => item.id !== id));
     } else {
@@ -87,9 +97,14 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
           toast.success("Item deleted successfully!");
         })
         .catch((error) => {
-          toast.error("Error deleting todo");
-          console.error("Error deleting todo:", error);
-          setItems(originalItems); 
+          if (error.response && error.response.status === 404) {
+            toast.warn("ToDo not found in the database. Removing from the list.");
+            setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+          } else {
+            toast.error("Error deleting todo");
+            console.error("Error deleting todo:", error);
+            setItems(originalItems);
+          }
         });
     }
   };

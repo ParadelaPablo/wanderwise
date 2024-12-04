@@ -1,7 +1,7 @@
 import axios from "axios";
 import { TripForGallery, FullTripRequest } from "./types";
 
-const BASE_URL = import.meta.env.VITE_BASE_BACKEND_URL + "/trips";
+const BASE_URL = import.meta.env.VITE_BASE_BACKEND_URL + "/api/trips";
 
 export const getTrips = async (): Promise<TripForGallery[]> => {
     //throw new Error("Not implemented yet");
@@ -43,13 +43,15 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
         },
         body: JSON.stringify(updatedFullTrip),
     });
+
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
             errorData.message ||
-                `Oops! Our system is taking a little nap, ${response.statusText}`
+            `Oops! Our system is taking a little nap, ${response.statusText}`
         );
     }
+
     const json = await response.json();
     return json;
 }
@@ -61,13 +63,15 @@ export async function getTripById(tripId: number) {
             "Content-Type": "application/json",
         },
     });
+
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
             errorData.message ||
-                `Oops! Our system is taking a little nap, ${response.statusText}`
+            `Oops! Our system is taking a little nap, ${response.statusText}`
         );
     }
+
     const json = await response.json();
     return json;
 }

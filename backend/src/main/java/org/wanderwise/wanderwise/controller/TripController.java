@@ -16,15 +16,14 @@ import org.wanderwise.wanderwise.service.StopService;
 import org.wanderwise.wanderwise.service.TripService;
 
 import java.net.URI;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.time.LocalDateTime;
+
 
 @RestController
 @RequestMapping("/api/trips")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:5173")
 public class TripController {
 
     private TripService tripService;
@@ -61,7 +60,6 @@ public class TripController {
                 .build();
     }
 
-
     private TripResponse mapToResponse(Trip trip) {
         return TripResponse.builder()
                 .id(trip.getId())
@@ -80,7 +78,7 @@ public class TripController {
                 .build();
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<TripResponse>> getAllTrips() {
         List<TripResponse> tripResponses = tripService.getAllTrips().stream()
                 .map(this::mapToResponse)
@@ -88,35 +86,27 @@ public class TripController {
         return ResponseEntity.ok(tripResponses);
     }
 
-
     @PostMapping("/full-trip")
     public ResponseEntity<TripWithDaysAndStopsResponse> createTripWithDaysAndStops(
             @RequestBody TripWithDaysAndStops tripRequest) {
-        System.err.println(tripRequest.getUserId() + " " + tripRequest.getTitle());
         try {
-            // Create trip with nested days and stops
             Trip trip = Trip.builder()
                     .title(tripRequest.getTitle())
                     .userId(tripRequest.getUserId())
                     .build();
 
-            // Persist trip
             Trip savedTrip = tripService.createTrip(trip);
 
-            // Handle days and stops
             List<Day> savedDays = new ArrayList<>();
             for (DayWithStops dayWithStop : tripRequest.getDays()) {
-                // Create day
                 Day day = Day.builder()
                         .trip(savedTrip)
                         .dayOrder(dayWithStop.getDayOrder())
                         .date(dayWithStop.getDate())
                         .build();
 
-
                 Day savedDay = dayService.createDay(savedTrip.getId(), day);
 
-                // Create stops for the day
                 List<Stop> savedStops = new ArrayList<>();
                 for (StopRequest stopRequest : dayWithStop.getStops()) {
                     Stop stop = Stop.builder()
@@ -133,34 +123,27 @@ public class TripController {
 
             savedTrip.setDays(savedDays);
 
-            // Build response
             TripWithDaysAndStopsResponse response = buildTripResponse(savedTrip);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            System.err.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<FullTripResponse> getTripById(@PathVariable Long id) {
         Trip trip = tripService.getTripById(id);
         List<Day> days = dayService.getAllDays(trip.getId());
         List<DayResponse> dayResponse = days.stream().map(day -> {
-            System.out.println("Mapping DayResponse for Day ID: " + day.getId());
             List<StopResponse> stopResponses = day.getStops().stream()
-                    .map(stop -> {
-                        System.out.println("Mapping StopResponse for Stop Name: " + stop.getName());
-                        return new StopResponse(
-                                stop.getId(),
-                                day.getId(),
-                                stop.getStopType().toString(),
-                                stop.getName(),
-                                stop.getCreatedAt(),
-                                stop.getUpdatedAt()
-                        );
-                    }).toList();
+                    .map(stop -> new StopResponse(
+                            stop.getId(),
+                            day.getId(),
+                            stop.getStopType().toString(),
+                            stop.getName(),
+                            stop.getCreatedAt(),
+                            stop.getUpdatedAt()
+                    )).toList();
             return new DayResponse(
                     day.getId(),
                     day.getTrip().getId(),
@@ -170,7 +153,7 @@ public class TripController {
             );
         }).toList();
 
-        FullTripResponse response = new FullTripResponse(trip.getId(),trip.getUserId(), trip.getTitle(), trip.getCreatedAt(), trip.getUpdatedAt(), dayResponse);
+        FullTripResponse response = new FullTripResponse(trip.getId(), trip.getUserId(), trip.getTitle(), trip.getCreatedAt(), trip.getUpdatedAt(), dayResponse);
         return ResponseEntity.ok().body(response);
     }
 
@@ -184,7 +167,6 @@ public class TripController {
 
     @PostMapping
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequest tripRequest) {
-        System.err.println(tripRequest.getUserId() + " " + tripRequest.getTitle());
         Trip trip = tripService.createTrip(mapToEntity(tripRequest));
         URI location = URI.create("/api/trips/" + tripRequest);
         return ResponseEntity.created(location).body(mapToResponse(trip));
@@ -205,5 +187,4 @@ public class TripController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 }

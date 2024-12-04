@@ -66,4 +66,15 @@ public class ToDoService {
         }
         toDoRepository.deleteById(toDoId);
     }
+
+    public boolean existsByTripIdAndToDoId(Long tripId, Long toDoId) {
+        return toDoRepository.existsByIdAndTrip_Id(toDoId, tripId);
+    }
+
+    public ToDo getToDoByTripIdAndToDoId(Long tripId, Long toDoId) {
+        return toDoRepository.findByIdAndTrip_Id(toDoId, tripId)
+                .orElseThrow(() -> new NoSuchElementException("ToDo not found with ID: " + toDoId + " for Trip ID: " + tripId));
+    }
+
+
 }
