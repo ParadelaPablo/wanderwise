@@ -28,11 +28,18 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
     date,
   } = highlightInfo;
 
-  const [deleteButtonContent, setDeleteButtonContent] = useState(<><FaRegTrashAlt /> Delete highglight</>);
-  const [updateButtonContent, setUpdateButtonContent] = useState("Update highlight");
+  const [deleteButtonContent, setDeleteButtonContent] = useState(
+    <>
+      <FaRegTrashAlt /> Delete highglight
+    </>
+  );
+  const [updateButtonContent, setUpdateButtonContent] =
+    useState("Update highlight");
 
   const handleDelete = () => {
-    setDeleteButtonContent(<span className="loading loading-dots loading-lg"></span>);
+    setDeleteButtonContent(
+      <span className="loading loading-dots loading-lg"></span>
+    );
     deleteHighlight(highlightInfo.id)
       .then((res) => {
         if (res) {
@@ -42,10 +49,12 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
       .catch((err) => {
         toast.error(err.message);
       });
-    setDeleteButtonContent(<><FaRegTrashAlt /> Delete highglight</>);
-  }
-
-
+    setDeleteButtonContent(
+      <>
+        <FaRegTrashAlt /> Delete highglight
+      </>
+    );
+  };
 
   const goToSpotify = () => {
     window.open(songUrl, "_blank");
@@ -84,13 +93,18 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow outline outline-1"
             >
-              <li className="hover:bg-red-500 hover:rounded hover:text-white" onClick={handleDelete}>
-                <a className="font-bold border-b border-1">{deleteButtonContent}</a>
-              </li>
               <li
-                className="hover:bg-yellow-400 hover:rounded hover:text-white"
+                className="hover:bg-red-500 hover:rounded hover:text-white"
+                onClick={handleDelete}
               >
-                <a className="font-bold border-b border-1">{updateButtonContent}</a>
+                <a className="font-bold border-b border-1">
+                  {deleteButtonContent}
+                </a>
+              </li>
+              <li className="hover:bg-yellow-400 hover:rounded hover:text-white">
+                <a className="font-bold border-b border-1">
+                  {updateButtonContent}
+                </a>
               </li>
             </ul>
           </div>
@@ -132,10 +146,10 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
 
               <div className="flex-grow min-w-0">
                 <button onClick={goToSpotify}>
-                  <h3 className="font-semibold capitalize  overflow-hidden text-ellipsis whitespace-nowrap">
+                  <h3 className="font-semibold capitalize  overflow-hidden">
                     {songTitle}
                   </h3>
-                  <p className="text-sm text-gray-500  overflow-hidden text-ellipsis whitespace-nowrap">
+                  <p className="text-sm text-gray-500  overflow-hidden ">
                     {songArtist}
                   </p>
                 </button>
