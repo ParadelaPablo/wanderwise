@@ -5,13 +5,13 @@ const BASE_URL = import.meta.env.VITE_BASE_BACKEND_URL + "/trips";
 
 export const getTrips = async (): Promise<TripForGallery[]> => {
     //throw new Error("Not implemented yet");
-    const response = await axios.get(BASE_URL + "/trips");
+    const response = await axios.get(BASE_URL);
     return response.data;
 };
 
 export const deleteTripById = async (id: number): Promise<TripForGallery> => {
     try {
-        const response = await axios.delete(`${BASE_URL}/trips/${id}`);
+        const response = await axios.delete(`${BASE_URL}/${id}`);
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -36,7 +36,7 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
         })),
     };
     console.log(updatedFullTrip);
-    const response = await fetch(`${BASE_URL}/trips/full-trip`, {
+    const response = await fetch(`${BASE_URL}/full-trip`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
 }
 
 export async function getTripById(tripId: number) {
-    const response = await fetch(`${BASE_URL}/trips/${tripId}`, {
+    const response = await fetch(`${BASE_URL}/${tripId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
