@@ -6,9 +6,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteTripById, getTrips } from "@/lib/api";
 import { TripForGallery } from "@/lib/types";
-import { ErrorState } from "../ui-states/error";
 import { LoadingState } from "../../components/ui-states/loading";
-
 
 const useTrips = () => {
   return useQuery({
@@ -68,9 +66,9 @@ const TripGallery = () => {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
-      <div className="text-center mt-5">
+      <div className="text-center mt-5 flex flex-col gap-4">
         <h1 className="text-2xl font-bold">
-          Hey{user?.firstName ? `, ${user.firstName}` : ""}! 🎉 Welcome back 🚀
+          Hey{user?.firstName ? `, ${user.firstName}` : ""}! Welcome back
         </h1>
         <div className="text-1xl text-center px-4">
           Are you ready to plan your next adventure?
@@ -78,14 +76,17 @@ const TripGallery = () => {
         <div className="text-center">
           <button
             onClick={() => router.navigate({ to: "/dashboard/create" })}
-            className="bg-neutral text-primary px-6 py-3 rounded-full hover:bg-teal-600 shadow-md"
+            className="btn btn-primary text-gray-50 mx-5 mb-10 px-6 py-3 rounded-full shadow-md"
           >
             Add New Trip
           </button>
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 border p-6" style={{ borderRadius: '1rem' }}>
+      <div
+        className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 border p-6"
+        style={{ borderRadius: "1rem" }}
+      >
         {trips.length === 0 && (
           <div className="text-center text-lg font-semibold">
             You have no trips
