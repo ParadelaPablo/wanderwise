@@ -27,16 +27,16 @@ public class Trip {
     @Size(min = 3, message = "User ID must have at least 3 characters")
     private String userId;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
     private List<Day> days;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trip", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ToDo> toDos;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trip", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ToPack> toPacks;
 
-    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trip", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Highlights> highlights;
 
     @Column(nullable = false)

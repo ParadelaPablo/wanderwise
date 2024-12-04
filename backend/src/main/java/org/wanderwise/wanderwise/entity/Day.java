@@ -55,7 +55,7 @@ public class Day {
     @Min(1)
     private Integer dayOrder;
 
-    @OneToMany(mappedBy = "day", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "day", fetch = FetchType.LAZY)
     private List<Stop> stops;
 
     @Column(nullable = false)

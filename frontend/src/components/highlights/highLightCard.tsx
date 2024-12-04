@@ -29,7 +29,6 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
   } = highlightInfo;
 
   const [deleteButtonContent, setDeleteButtonContent] = useState(<><FaRegTrashAlt /> Delete highglight</>);
-  const [updateButtonContent, setUpdateButtonContent] = useState("Update highlight");
 
   const handleDelete = () => {
     setDeleteButtonContent(<span className="loading loading-dots loading-lg"></span>);
@@ -90,7 +89,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
               <li
                 className="hover:bg-yellow-400 hover:rounded hover:text-white"
               >
-                <a className="font-bold border-b border-1">{updateButtonContent}</a>
+                <a className="font-bold border-b border-1"><FaRegEdit /> Edit highlight</a>
               </li>
             </ul>
           </div>
