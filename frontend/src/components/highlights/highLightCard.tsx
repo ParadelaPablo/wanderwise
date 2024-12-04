@@ -1,3 +1,5 @@
+import { BsThreeDots } from "react-icons/bs";
+
 interface Highlight {
   id: number;
   text: string;
@@ -31,9 +33,51 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
     <div className="w-80 relative">
       <div className="border rounded-2xl p-4">
         <p className="absolute top-0 m-2 text-gray-400">{date}</p>
-        <button className="bg-red-200 text-white rounded-full p-2 w-5 h-5 flex items-center justify-center text-sm hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 absolute top-2 right-2">
-          x
-        </button>
+
+        {/* <button className="bg-red-200 text-white rounded-full p-2 w-5 h-5 flex items-center justify-center text-sm hover:bg-red-300 focus:outline-none focus:ring-2 focus:ring-red-400 absolute top-2 right-2">
+          <BsThreeDots />
+        </button> */}
+
+
+        <div className="dropdown dropdown-right">
+          <div tabIndex={0} role="button" className="btn m-1 bg-transparent">
+            Click
+          </div>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+          >
+            <li>
+              <a>Item 1</a>
+            </li>
+            <li>
+              <a>Item 2</a>
+            </li>
+          </ul>
+        </div>
+
+
+        {/* <button className="btn btn-circle  min-h-5 h-5 min-w-5 w-5 absolute top-2 right-2">
+          <svg 
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 bg-rose-600 rounded-full text-xs"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+              className="w-2 h-2 text-xs"
+            />
+          </svg>
+        </button>  */}
+
+        {/* <button className="btn btn-error absolute top-2 right-2"
+        >Error</button> */}
+
         <div className="flex flex-col gap-2">
           <div className="flex justify-center mt-8">
             <button className="overflow-hidden h-36 w-full">
