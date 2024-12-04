@@ -16,7 +16,7 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
           <div
             tabIndex={0}
             role="button"
-            className="btn btn-ghost bg-transparent outline-transparent focus:outline-none focus:ring-0 outline-none text-2xl w-16 h-16 flex items-start justify-end"
+            className="btn btn-ghost bg-transparent outline-transparent focus:outline-none focus:ring-0 outline-none text-2xl w-16 min-h-8 h-8 flex items-start justify-end rounded-tr-2xl"
             style={{
               outline: "none",
               boxShadow: "none",
@@ -38,17 +38,17 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
             <li>
               <button
                 type="button"
-                className="btn btn-outline btn-info font-bold border-b border-gray-300 hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors duration-200 ease-in-out"
+                className="btn btn-ghost outline-none btn-info font-bold   hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-colors duration-200 ease-in-out"
               >
                 Edit trip
               </button>
             </li>
-
+            <div className="divider gap-0 m-0 p-0"></div>
             <li>
               <button
                 type="button"
                 onClick={() => onDelete(id)}
-                className="btn btn-outline btn-error font-bold border-b border-gray-300 hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors duration-200 ease-in-out"
+                className="btn btn-ghost outline-none btn-info font-bold  hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors duration-200 ease-in-out"
               >
                 Delete trip
               </button>
