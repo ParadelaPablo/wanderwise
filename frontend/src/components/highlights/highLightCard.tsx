@@ -104,17 +104,17 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
           </details>
 
           {songTitle && (
-            <div className="hover:bg-slate-200 p-4 bg-gray-100 rounded-xl shadow-sm flex items-center justify-between gap-4">
+            <div className="hover:bg-slate-200 p-4 bg-gray-100 rounded-xl shadow-sm flex items-center justify-between gap-2">
               <div className="flex-shrink-0">
                 <img src={songCoverUrl} className="w-16 h-16 rounded-md" />
               </div>
 
               <div className="flex-grow min-w-0">
                 <button onClick={goToSpotify}>
-                  <h3 className="font-semibold capitalize truncate overflow-hidden">
+                  <h3 className="font-semibold capitalize  overflow-hidden text-ellipsis whitespace-nowrap">
                     {songTitle}
                   </h3>
-                  <p className="text-sm text-gray-500 truncate overflow-hidden">
+                  <p className="text-sm text-gray-500  overflow-hidden text-ellipsis whitespace-nowrap">
                     {songArtist}
                   </p>
                 </button>

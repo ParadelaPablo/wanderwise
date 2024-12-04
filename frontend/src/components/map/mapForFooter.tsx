@@ -188,7 +188,7 @@ export const MapForFooter = ({
         </GoogleMap>
       </div>
 
-      <div>
+      <div className="mx-2">
         <TripTimeline tripData={tripData!} />
       </div>
     </div>
