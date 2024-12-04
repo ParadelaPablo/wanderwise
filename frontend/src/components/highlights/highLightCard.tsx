@@ -1,4 +1,5 @@
 import { BsThreeDots } from "react-icons/bs";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 interface Highlight {
   id: number;
@@ -62,11 +63,13 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow outline outline-1"
             >
-              <li>
-                <a className="font-bold border-b border-1">Delete trip</a>
+              <li className="hover:bg-red-500 hover:rounded hover:text-white">
+                <a className="font-bold border-b border-1"><FaRegTrashAlt /> Delete trip</a>
               </li>
-              <li>
-                <a className="font-bold border-b border-1">Update trip</a>
+              <li
+                className="hover:bg-yellow-400 hover:rounded hover:text-white"
+              >
+                <a className="font-bold border-b border-1"><FaRegEdit /> Update trip</a>
               </li>
             </ul>
           </div>

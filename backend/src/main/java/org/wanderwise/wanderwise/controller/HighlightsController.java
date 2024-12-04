@@ -40,6 +40,7 @@ public class HighlightsController {
             @RequestParam("tripId") String tripId,
             @RequestParam("text") String text,
             @RequestParam("title") String title,
+            @RequestParam("date") String date,
             @RequestParam(value = "songTitle", required = false) String songTitle,
             @RequestParam(value = "songArtist", required = false) String songArtist,
             @RequestParam(value = "songUrl", required = false) String songUrl,
@@ -50,6 +51,7 @@ public class HighlightsController {
         HighlightRequest highlightRequest = HighlightRequest.builder()
                 .tripId(Long.parseLong(tripId))
                 .text(text)
+                .date(date)
                 .title(title)
                 .songTitle(songTitle)
                 .artist(songArtist)

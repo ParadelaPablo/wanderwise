@@ -114,6 +114,9 @@ function RouteComponent() {
     }
 
     const formData = new FormData();
+    // send date in yyyy-mm-dd format
+    const formattedDate = date ? format(date, "yyyy-MM-dd") : "";
+    formData.append("date", formattedDate);
     formData.append("tripId", tripId);
     formData.append("text", content);
     formData.append("title", title);
@@ -134,6 +137,7 @@ function RouteComponent() {
         formData
       );
       toast.success("Highlight saved successfully!");
+      document.getElementById("newHighlightForm")?.reset();
     } catch (error) {
       console.error("Error saving highlight:", error.message);
       toast.error("Error saving highlight: " + error.message);
@@ -150,7 +154,7 @@ function RouteComponent() {
         Back
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form id="newHighlightForm" onSubmit={handleSubmit}>
         <div className="flex flex-col justify-center items-center gap-4 mt-10 p-3">
           <Popover>
             <PopoverTrigger asChild>
@@ -250,7 +254,7 @@ function RouteComponent() {
 
         <button
           type="submit"
-          className="btn btn-primary mx-5 mb-10"
+          className="btn btn-primary mx-5 mb-10 text-gray-50"
           disabled={isLoading}
         >
           {loadingButton ? (
