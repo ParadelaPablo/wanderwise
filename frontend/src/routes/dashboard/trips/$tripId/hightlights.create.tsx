@@ -34,7 +34,7 @@ function RouteComponent() {
   const [file, setFile] = useState<File | null>(null);
   const [loadingButton, setLoadingButton] = useState(false);
   const [date, setDate] = useState("");
-  console.log(date);
+
   const [trackData, setTrackData] = useState<{
     id: string;
     name: string;
@@ -67,7 +67,6 @@ function RouteComponent() {
       imageUrl: "https://example.com/highlight-image.jpg",
     };
     setHighlightData(updatedHighlightData);
-    console.log("Updated Highlight Data:", updatedHighlightData);
   }, [content, title, trackData, tripId, date]);
 
   const mutation = useMutation({
@@ -87,9 +86,11 @@ function RouteComponent() {
     },
     onSuccess: (data) => {
       console.log("Highlight saved successfully:", data);
+      toast.success("Highlight saved successfully!");
     },
     onError: (error) => {
       console.error("Error saving highlight:", error);
+      toast.error("Error saving highlight: " + error.message);
     },
   });
 
@@ -112,7 +113,7 @@ function RouteComponent() {
     }
 
     const formData = new FormData();
-    formData.append("tripId", "855");
+    formData.append("tripId", tripId);
     formData.append("text", content);
     formData.append("title", title);
     if (trackData) {
@@ -124,6 +125,9 @@ function RouteComponent() {
     formData.append("image", file);
 
     try {
+      for (const [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
       const response = await axios.post(
         `${BACKEND_POST_HIGHLIGHT}/highlights/new`,
         formData

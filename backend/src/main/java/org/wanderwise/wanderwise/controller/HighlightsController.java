@@ -7,6 +7,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.wanderwise.wanderwise.DTO.request.HighlightRequest;
 import org.wanderwise.wanderwise.DTO.response.HighlightsResponse;
 import org.wanderwise.wanderwise.entity.Highlights;
+import org.wanderwise.wanderwise.entity.Song;
+import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.service.HighlightsService;
 
 import java.io.IOException;
@@ -44,20 +46,20 @@ public class HighlightsController {
             @RequestParam(value = "songCoverUrl", required = false) String songCoverUrl,
             @RequestParam(value = "image") MultipartFile image) throws IOException   {
 
-        System.err.println("tripId: " + tripId);
 
         HighlightRequest highlightRequest = HighlightRequest.builder()
                 .tripId(Long.parseLong(tripId))
                 .text(text)
                 .title(title)
                 .songTitle(songTitle)
+                .artist(songArtist)
                 .songUrl(songUrl)
                 .songCoverUrl(songCoverUrl)
-                .image(image.getBytes()) // Convert MultipartFile to byte[]
+                .image(image.getBytes())
                 .build();
 
-        Highlights createdHighlight = highlightsService.createHighlight(highlightRequest);
-        HighlightsResponse response = mapToHighlightsResponse(createdHighlight);
+        Highlights highlight = highlightsService.createHighlight(highlightRequest);
+
         return ResponseEntity.ok(null);
     }
 
