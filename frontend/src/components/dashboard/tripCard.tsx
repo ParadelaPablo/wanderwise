@@ -1,4 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 type TripCardProps = {
   id: number;
@@ -12,6 +13,8 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
   return (
     <div>
       <div className="w-full relative">
+        
+        
         <div className="dropdown dropdown-left absolute top-0 right-0 z-10">
           <div
             tabIndex={0}
@@ -38,9 +41,9 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
             <li>
               <button
                 type="button"
-                className="btn btn-ghost outline-none btn-info font-bold   hover:bg-blue-500 hover:text-white hover:border-blue-500 transition-colors duration-200 ease-in-out"
+                className="hover:bg-yellow-400 hover:rounded hover:text-white"
               >
-                Edit trip
+                <FaRegEdit />Edit trip
               </button>
             </li>
             <div className="divider gap-0 m-0 p-0"></div>
@@ -48,9 +51,9 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
               <button
                 type="button"
                 onClick={() => onDelete(id)}
-                className="btn btn-ghost outline-none btn-info font-bold  hover:bg-red-500 hover:text-white hover:border-red-500 transition-colors duration-200 ease-in-out"
+                className="hover:bg-red-500 hover:rounded hover:text-white"
               >
-                Delete trip
+                <FaRegTrashAlt /> Delete trip
               </button>
             </li>
           </ul>
