@@ -209,7 +209,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
   return (
     <div className="flex flex-col gap-4 items-center ">
       {mutation.isPending && (
-        <LoadingState />
+        <span className="loading loading-dots loading-lg"></span>
       )}
       {validationErrors.length > 0 && (
         <div className="text-red-500 mt-2">
@@ -319,7 +319,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
               onClick={handleSubmit}
               className={`btn btn-primary mt-4 ${validationErrors.length > 0 ? "btn-disabled" : ""}`}
             >
-              {mutation.isPending ? "Building your trip..." : "DONE 🎉"}
+              {mutation.isPending ? "Building your trip..." : "DONE"}
             </button>
           </div>
         </>

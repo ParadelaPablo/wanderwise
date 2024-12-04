@@ -27,6 +27,4 @@ public class Song {
     @Column(name = "cover_url", nullable = true)
     private String coverUrl;
 
-    @Column(name = "song_self_url", nullable = true)
-    private String songSelfUrl;
 }

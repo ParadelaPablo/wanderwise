@@ -111,7 +111,7 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
 
   return (
     <div className="w-full p-4">
-      <div className="flex items-center justify-between bg-neutral p-4 rounded-lg shadow-md">
+      <div className="flex items-center justify-between bg-neutral p-4 rounded-xl shadow-md">
         <p className="text-xl font-semibold text-neutral-content">To Do</p>
         <button
           className="btn btn-sm btn-base text-base-content"

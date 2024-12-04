@@ -4,7 +4,8 @@ import { TripForGallery, FullTripRequest } from "./types";
 const BASE_URL = import.meta.env.VITE_BASE_BACKEND_URL + "/api/trips";
 
 export const getTrips = async (): Promise<TripForGallery[]> => {
-    const response = await axios.get(BASE_URL + "/all"); 
+    //throw new Error("Not implemented yet");
+    const response = await axios.get(BASE_URL);
     return response.data;
 };
 
@@ -35,7 +36,6 @@ export async function createFullTrip(fullTrip: FullTripRequest) {
         })),
     };
     console.log(updatedFullTrip);
-    
     const response = await fetch(`${BASE_URL}/full-trip`, {
         method: "POST",
         headers: {

@@ -34,37 +34,32 @@ public class HighlightsService {
     }
 
     public Highlights createHighlight(HighlightRequest highlightRequest) {
-        Song song = null;
-        System.out.println("sohighlightRequest = " + highlightRequest.getSongTitle());
-        System.out.println(" highlightRequest.getSongUrl() = " + highlightRequest.getSongUrl());
+        Trip trip = tripRepository.findById(highlightRequest.getTripId())
+                .orElseThrow(() -> new RuntimeException("Trip not found"));
 
-        if (highlightRequest.getSongTitle() != null ||
-                highlightRequest.getArtist() != null ||
-                highlightRequest.getSongUrl() != null ||
-                highlightRequest.getSongCoverUrl() != null) {
-            song = songRepository.save(Song.builder()
+        Song song = null;
+        if (!highlightRequest.getSongTitle().isEmpty()) {
+            song = Song.builder()
                     .title(highlightRequest.getSongTitle())
                     .artist(highlightRequest.getArtist())
                     .songUrl(highlightRequest.getSongUrl())
                     .coverUrl(highlightRequest.getSongCoverUrl())
-                    .build());
+                    .build();
+            song = songRepository.save(song);
         }
-        System.out.println("song = " + song);
 
-        Trip trip = tripRepository.findById(highlightRequest.getTripId())
-                .orElseThrow(() -> new RuntimeException("Trip not found"));
-        String imageUrl = cloudStorage.uploadFile(highlightRequest.getTitle() + ".png", highlightRequest.getImage());
-
-        Highlights highlight = Highlights.builder()
+        Highlights highlights = Highlights.builder()
                 .trip(trip)
+                .date(highlightRequest.getDate())
                 .text(highlightRequest.getText())
                 .title(highlightRequest.getTitle())
-                .date(highlightRequest.getDate())
-                .image(imageUrl)
+                .image(cloudStorage.uploadFile(highlightRequest.getTitle() + "-" + highlightRequest.getTitle() + ".png", highlightRequest.getImage()))
                 .song(song)
                 .build();
-
-        return highlightsRepository.save(highlight);
+        System.err.println("Date: " + highlights.getDate());
+        System.err.println("Song Title: " + highlights.getSong().getTitle());
+        System.err.println("Trip ID: " + highlights.getTrip().getId());     
+        return highlightsRepository.save(highlights);
     }
 
     public void deleteHighlight(Long id) {

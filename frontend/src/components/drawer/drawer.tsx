@@ -15,7 +15,7 @@ export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
   return (
     <div className="drawer text-center mb-4">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
+      <div className="drawer-content flex flex-col items-center justify-center">
         {/* Page content here */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
           Navigate
@@ -27,7 +27,7 @@ export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="menu bg-base-200 text-base-content h-full w-80 p-4 gap-4">
+        <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-4">
           <Stat
             setTitle={setTitle}
             text={"Total time"}

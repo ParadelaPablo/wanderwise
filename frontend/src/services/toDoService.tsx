@@ -29,8 +29,8 @@ return response.data;
 };
 
 export const deleteToDo = async (
-tripId: string,
-toDoId: string
+    tripId: string,
+    toDoId: string
 ): Promise<void> => {
-await axiosInstance.delete(`/${tripId}/todos/${toDoId}`);
+    await axiosInstance.delete(`/${tripId}/todos/${toDoId}`);
 };
