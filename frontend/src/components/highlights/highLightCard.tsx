@@ -66,32 +66,11 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
                 <a className="font-bold border-b border-1">Delete trip</a>
               </li>
               <li>
-                <a  className="font-bold border-b border-1">Update trip</a>
+                <a className="font-bold border-b border-1">Update trip</a>
               </li>
             </ul>
           </div>
         </div>
-
-        {/* <button className="btn btn-circle  min-h-5 h-5 min-w-5 w-5 absolute top-2 right-2">
-          <svg 
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 bg-rose-600 rounded-full text-xs"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-              className="w-2 h-2 text-xs"
-            />
-          </svg>
-        </button>  */}
-
-        {/* <button className="btn btn-error absolute top-2 right-2"
-        >Error</button> */}
 
         <div className="flex flex-col gap-2">
           <div className="flex justify-center">
