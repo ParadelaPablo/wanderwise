@@ -7,19 +7,18 @@ import { LoadingState } from "../ui-states/loading";
 import { ErrorState } from "../ui-states/error";
 
 export const SpotifyModal = ({
-  trackFetch
+  trackFetch,
 }: {
   trackFetch: (trackDetails: {
     id: string;
     name: string;
     artist: string;
     coverArt: string;
-    
   }) => void;
 }) => {
   const [query, setQuery] = useState("");
 
-  const { isLoading, isError, data, error } = useQuery<SpotifyTrack[]>({
+  const { isLoading, isError, data } = useQuery<SpotifyTrack[]>({
     queryKey: ["tracks", query],
     queryFn: () => getSpotifyTracks(query),
     enabled: !!query,
@@ -39,8 +38,6 @@ export const SpotifyModal = ({
       modalCheckbox.checked = false;
     }
   };
-
-
 
   return (
     <div className="modal" role="dialog">

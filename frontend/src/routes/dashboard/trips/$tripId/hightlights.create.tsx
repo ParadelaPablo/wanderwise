@@ -33,7 +33,7 @@ function RouteComponent() {
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loadingButton, setLoadingButton] = useState(false);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState();
   console.log(date);
   const [trackData, setTrackData] = useState<{
     id: string;
@@ -146,11 +146,11 @@ function RouteComponent() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="w-full flex flex-col justify-center items-center gap-2 mt-10 p-3">
+        <div className="flex flex-col justify-center items-center gap-4 mt-10 p-3">
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                variant={"ghost"}
+                variant={"secondary"}
                 className={cn(
                   "w-[240px] justify-start text-left font-normal",
                   !date && "text-muted-foreground"
@@ -169,98 +169,92 @@ function RouteComponent() {
               />
             </PopoverContent>
           </Popover>
-          <div className="flex w-screen gap-x-5">
-            <input
-              type="text"
-              placeholder="Title..."
-              onChange={(e) => setTitle(e.target.value)}
-              className="input input-bordered w-full ml-4"
-              required
-            />
-            <label
-              htmlFor="my_modal_7"
-              className="btn btn-outline btn-success mr-4"
-            >
-              Spotify
-            </label>
-            <input type="checkbox" id="my_modal_7" className="modal-toggle" />
-            <SpotifyModal
-              trackFetch={(trackDetails) => {
-                setTrackData({
-                  ...trackDetails,
-                  songURL: `https://open.spotify.com/track/${trackDetails.id}`,
-                });
-              }}
-            />
-          </div>
-
-          <div className="w-screen p-3 flex flex-col justify-center items-center relative">
-            <div className="relative w-full">
-              <textarea
-                className="textarea textarea-bordered w-full resize-none h-52"
-                placeholder="Enter text..."
-                onChange={(e) => setContent(e.target.value)}
-              ></textarea>
-
+          <div className="input_form">
+            <div className="flex gap-x-5">
               <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="file-input file-input-bordered w-full mt-4"
+                type="text"
+                placeholder="Title..."
+                onChange={(e) => setTitle(e.target.value)}
+                className="input input-bordered w-full ml-4"
+                required
               />
+              <label
+                htmlFor="my_modal_7"
+                className="btn btn-outline mr-4 text-gray-600"
+              >
+                Add song
+              </label>
+              <input type="checkbox" id="my_modal_7" className="modal-toggle" />
+              <SpotifyModal
+                trackFetch={(trackDetails) => {
+                  setTrackData({
+                    ...trackDetails,
+                    songURL: `https://open.spotify.com/track/${trackDetails.id}`,
+                  });
+                }}
+              />
+            </div>
 
-              <div className="absolute bottom-2 right-2 flex gap-2 items-end">
-                <button className="btn btn-outline min-h-10 h-10 w-10 text-2xl">
-                  ♫
-                </button>
-                <button className="btn btn-outline min-h-10 h-10 w-10 text-2xl">
-                  ⌅
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-success min-h-10 h-10"
-                  disabled={isLoading}
-                >
-                  {loadingButton ? (
-                    <span className="loading loading-spinner loading-md"></span>
-                  ) : (
-                    "Save"
-                  )}
-                </button>
+            <div className="p-3 flex flex-col justify-center items-center relative">
+              <div className="relative w-full">
+                <textarea
+                  className="textarea textarea-bordered w-full resize-none h-52"
+                  placeholder="Enter text..."
+                  onChange={(e) => setContent(e.target.value)}
+                ></textarea>
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="file-input file-input-bordered w-full mt-4"
+                />
               </div>
             </div>
           </div>
         </div>
-      </form>
-
-      <div className="card h-32 w-full max-w-md image-full shadow-xl relative">
-        {trackData?.coverArt && (
-          <figure className="w-full h-full">
-            <img
-              className="w-full h-full object-cover"
-              src={trackData.coverArt}
-              alt={trackData.name}
-            />
-          </figure>
-        )}
-        <div className="card-body">
-          <h2 className="card-title">
-            {trackData?.name || "No track selected"}
-          </h2>
-          <p>{trackData?.artist}</p>
-          <p>Highlight Title: {highlightData?.title || "No title yet"}</p>
-          <div className="card-actions justify-end">
+        <div className="flex flex-row items-center p-2 m-5 bg-gray-200 rounded-xl shadow-md">
+          {trackData?.coverArt && (
+            <figure className="flex-shrink-0">
+              <img
+                className="w-16 h-16 object-cover rounded-md"
+                src={trackData.coverArt}
+                alt={trackData.name}
+              />
+            </figure>
+          )}
+          <div className="flex flex-col mx-2 justify-center text-gray-600">
+            <h2 className="text-lg font-semibold truncate">
+              {trackData?.name || "No track selected"}
+            </h2>
+            <p className="text-sm text-gray-400 truncate">
+              {trackData?.artist}
+            </p>
+          </div>
+          <div className="ml-auto flex items-center justify-center">
             <button
               onClick={() =>
                 window.open(SPOTIFY_BASE_URL + trackData?.id, "_blank")
               }
-              className="btn btn-primary"
+              className="btn btn-primary py-2 px-4 text-gray-600 text-xs"
             >
-              Go To Spotify
+              Listen
             </button>
           </div>
         </div>
-      </div>
+
+        <button
+          type="submit"
+          className="btn btn-primary mx-5 mb-10"
+          disabled={isLoading}
+        >
+          {loadingButton ? (
+            <span className="loading loading-spinner loading-md"></span>
+          ) : (
+            "Save"
+          )}
+        </button>
+      </form>
     </div>
   );
 }
