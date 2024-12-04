@@ -319,7 +319,7 @@ const DynamicInputForm = ({ days, setDays, title }: Props) => {
               onClick={handleSubmit}
               className={`btn btn-primary mt-4 ${validationErrors.length > 0 ? "btn-disabled" : ""}`}
             >
-              {mutation.isPending ? "Building your trip..." : "DONE 🎉"}
+              {mutation.isPending ? "Building your trip..." : "DONE"}
             </button>
           </div>
         </>

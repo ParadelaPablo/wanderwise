@@ -16,7 +16,7 @@ export const DaySchema = z.object({
 
 export const FullTripSchema = z.object({
   userId: z.string(),
-  title: z.string().min(2, "Provide a title"),
+  title: z.string().min(2, "Provide a title").max(20, "Title is to long"),
   days: z.array(DaySchema).min(1, "At least one day is required"),
 });
 
