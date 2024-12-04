@@ -6,7 +6,6 @@ import { useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteTripById, getTrips } from "@/lib/api";
 import { TripForGallery } from "@/lib/types";
-import { ErrorState } from "../ui-states/error";
 import { LoadingState } from "../../components/ui-states/loading";
 
 

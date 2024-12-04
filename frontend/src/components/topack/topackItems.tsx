@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
+
 interface ToPackItemProps {
   text: string;
   done: boolean;
@@ -24,7 +25,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
   const adjustTextAreaHeight = () => {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = "auto";
-      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + "px";
     }
   };
 

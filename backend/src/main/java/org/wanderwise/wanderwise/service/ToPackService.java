@@ -40,11 +40,13 @@ public class ToPackService {
             throw new IllegalArgumentException("Text for ToPack cannot be null or empty");
         }
 
-        if (toPack.getDone() == null) {
-            toPack.setDone(false);
+        ToPack savedToPack = toPackRepository.save(toPack);
+
+        if (savedToPack.getId() == null) {
+            throw new RuntimeException("Failed to generate ID for ToPack");
         }
 
-        return toPackRepository.save(toPack);
+        return savedToPack;
     }
 
 

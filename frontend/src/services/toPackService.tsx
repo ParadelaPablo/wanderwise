@@ -6,8 +6,9 @@ interface ToPack {
   done: boolean;
 }
 
+
 export const getToPacksByTrip = async (tripId: string): Promise<ToPack[]> => {
-  const response = await axiosInstance.get(`/${tripId}/trips/topacks`);
+  const response = await axiosInstance.get(`/${tripId}/topacks`);
   return response.data;
 };
 
@@ -15,7 +16,7 @@ export const createToPack = async (
   tripId: string,
   toPack: Partial<ToPack>
 ): Promise<ToPack> => {
-  const response = await axiosInstance.post(`/${tripId}/trips/topacks`, toPack);
+  const response = await axiosInstance.post(`/${tripId}/topacks`, toPack);
   return response.data;
 };
 
@@ -25,7 +26,7 @@ export const updateToPack = async (
   updatedToPack: Partial<ToPack>
 ): Promise<ToPack> => {
   const response = await axiosInstance.put(
-    `/${tripId}/trips/topacks/${toPackId}`,
+    `/${tripId}/topacks/${toPackId}`,
     updatedToPack
   );
   return response.data;
@@ -35,5 +36,5 @@ export const deleteToPack = async (
   tripId: string,
   toPackId: string
 ): Promise<void> => {
-  await axiosInstance.delete(`/${tripId}/trips/topacks/${toPackId}`);
+  await axiosInstance.delete(`/${tripId}/topacks/${toPackId}`);
 };
