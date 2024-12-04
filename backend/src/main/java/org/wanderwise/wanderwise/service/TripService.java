@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.wanderwise.wanderwise.entity.Trip;
 import org.wanderwise.wanderwise.repository.TripRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class TripService {
     public List<Trip> getTripsByUserId(String userId) {
         List<Trip> userTrips = tripRepository.findByUserId(userId);
         if (userTrips.isEmpty()) {
-            throw new IllegalArgumentException("No trips found for user");
+            return new ArrayList<>();
         }
         return userTrips;
     }

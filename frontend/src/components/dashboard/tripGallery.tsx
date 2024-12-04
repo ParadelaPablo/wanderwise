@@ -19,9 +19,11 @@ type MutationContext = {
   previousTrips: TripForGallery[] | undefined;
 };
 const TripGallery = () => {
+
   const router = useRouter();
   const { user } = useUser();
   const { userId } = useAuth();
+  console.log(userId)
   const queryClient = useQueryClient();
   const { data: trips = [], isLoading, isError, error } = useTrips(userId!);
 
