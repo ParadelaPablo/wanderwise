@@ -13,6 +13,8 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
   return (
     <div>
       <div className="w-full relative">
+        
+        
         <div className="dropdown dropdown-left absolute top-0 right-0 z-10">
           <div
             tabIndex={0}
