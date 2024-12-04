@@ -218,7 +218,13 @@ function RouteComponent() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row items-center p-2 m-5 bg-gray-200 rounded-xl shadow-md">
+
+        <button
+          onClick={() =>
+            window.open(SPOTIFY_BASE_URL + trackData?.id, "_blank")
+          }
+          className="flex flex-row items-center max-w-80 p-2 m-5 bg-gray-200 rounded-xl shadow-md"
+        >
           {trackData?.coverArt && (
             <figure className="flex-shrink-0">
               <img
@@ -228,7 +234,7 @@ function RouteComponent() {
               />
             </figure>
           )}
-          <div className="flex flex-col mx-2 justify-center text-gray-600">
+          <div className="flex flex-col mx-2 justify-center text-gray-600  overflow-hidden text-ellipsis whitespace-nowrap">
             <h2 className="text-lg font-semibold truncate">
               {trackData?.name || "No track selected"}
             </h2>
@@ -236,17 +242,8 @@ function RouteComponent() {
               {trackData?.artist}
             </p>
           </div>
-          <div className="ml-auto flex items-center justify-center">
-            <button
-              onClick={() =>
-                window.open(SPOTIFY_BASE_URL + trackData?.id, "_blank")
-              }
-              className="btn btn-primary py-2 px-4 text-gray-600 text-xs"
-            >
-              Listen
-            </button>
-          </div>
-        </div>
+          <div className="ml-auto flex items-center justify-center"></div>
+        </button>
 
         <button
           type="submit"
