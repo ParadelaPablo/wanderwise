@@ -131,11 +131,9 @@ function RouteComponent() {
     formData.append("image", file);
 
     try {
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
+      console.log(BACKEND_POST_HIGHLIGHT);
       const response = await axios.post(
-        `${BACKEND_POST_HIGHLIGHT}/highlights/new`,
+        `${BACKEND_POST_HIGHLIGHT}/api/highlights/new`,
         formData
       );
       toast.success("Highlight saved successfully!");
