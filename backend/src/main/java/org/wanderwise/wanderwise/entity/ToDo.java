@@ -13,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ToDo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,3 +30,4 @@ public class ToDo {
     @Column(nullable = false)
     private Boolean done;
 }
+
