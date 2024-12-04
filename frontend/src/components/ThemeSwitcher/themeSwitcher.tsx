@@ -19,7 +19,7 @@ document.documentElement.setAttribute("data-theme", savedTheme);
 return (
 <button
     onClick={toggleTheme}
-    className="btn btn-sm bg-gray-800 text-white hover:bg-gray-700 flex items-center gap-2 px-4 py-2 rounded-xl shadow-md transition-all"
+    className="btn btn-sm flex items-center gap-2 px-4 py-2 rounded-xl transition-all"
 >
     {theme === "emerald" ? (
     <>

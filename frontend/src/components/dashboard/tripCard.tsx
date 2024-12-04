@@ -33,7 +33,7 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
           </div>
           <ul
             tabIndex={0}
-            className="dropdown-content menu bg-base-100 rounded-xl z-20 w-52 p-2 shadow outline outline-1"
+            className="dropdown-content menu bg-base-100 rounded-2xl z-20 w-52 p-2 shadow outline outline-1"
           >
             <li>
               <button
@@ -57,15 +57,15 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
         </div>
 
         <button
-          className="btn glass p-0 w-80 h-40 relative"
+          className="btn glass p-0 w-80 h-40 relative rounded-2xl overflow-hidden"
           onClick={() => router.navigate({ to: `/dashboard/trips/${id}` })}
         >
           <img
-            className="w-full h-full rounded-xl object-cover"
+            className="w-full h-full object-cover"
             src="https://t3.ftcdn.net/jpg/03/04/88/18/360_F_304881889_yJ1S3butl9gVs0kMptYTU2N1EVmEJbz8.jpg"
             alt=""
           />
-          <p className="absolute top-0 left-0 w-full min-h-9 flex gap-2 bg-base-100/80 text-base-content px-4 py-2 rounded-t-xl shadow-md shadow-black/20 dark:shadow-gray-800">
+          <p className="absolute top-0 left-0 w-full min-h-9 flex gap-2 bg-base-100/80 text-base-content px-4 py-2 shadow-md shadow-black/20 dark:shadow-gray-800">
             {title}
           </p>
         </button>
