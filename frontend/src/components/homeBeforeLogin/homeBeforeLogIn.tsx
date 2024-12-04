@@ -1,4 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
+import Logo from "../../assets/logofinalmaybe.png";
 
 const HomeBeforeLogin: React.FC = () => {
 const router = useRouter();
@@ -9,6 +10,13 @@ return (
     <h1 className="text-3xl font-extrabold mb-4 text-gray-800 md:text-4xl lg:text-5xl xl:text-6xl">
         Wander Wise
     </h1>
+
+    <img
+        src={Logo}
+        alt="Wander Wise Logo"
+        className="mx-auto my-6 w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-40 xl:h-40"
+    />
+
     <h2 className="m-2 font-bold mt-9 md:text-2xl lg:text-3xl xl:text-4xl">
         Plan your perfect journey effortlessly.
     </h2>

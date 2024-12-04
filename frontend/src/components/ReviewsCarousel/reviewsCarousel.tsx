@@ -1,30 +1,30 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import Alek from "../../assets/alek.jpg";
+import Sara from "../../assets/sara.jpg";
+import Damir from "../../assets/Damir.png";
+import Marcus from "../../assets/Marcus.png";
 
 const ReviewsCarousel: React.FC = () => {
 const reviews = [
 {
-    name: "John Doe",
-    image:
-    "https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp",
+    name: "Aleksandar Miloeski",
+    image: Alek,
     text: "This app made my road trip planning so much easier. I could easily map out my stops and explore places I wouldn't have discovered otherwise. Totally recommended!",
 },
 {
-    name: "Jane Smith",
-    image:
-    "https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp",
+    name: "Sara Winter",
+    image: Sara,
     text: "A fantastic tool for planning your perfect journey! The app is very intuitive, and it helped me find hidden gems along my route that made my trip unforgettable.",
 },
 {
-    name: "Emily Johnson",
-    image:
-    "https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp",
+    name: "Damir Sisic",
+    image: Damir,
     text: "I love the clean interface and the simplicity of the app. It makes planning road trips fun, and the recommendations for stops are spot-on!",
 },
 {
-    name: "Michael Brown",
-    image:
-    "https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp",
+    name: "Marcus Rådell",
+    image: Marcus,
     text: "I used this app for my recent road trip, and it was such a game changer! From picking spots to stay to finding the best routes, everything was covered.",
 },
 ];

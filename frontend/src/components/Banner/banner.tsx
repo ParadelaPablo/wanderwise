@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import screen1 from "../../assets/screen1.png";
 import screen2 from "../../assets/screen2.png";
 import screen3 from "../../assets/screen3.png";
+import detalle1 from "../../assets/iconos.png";
+import detalle2 from "../../assets/Mapa 1.png";
+
 
 const Banner: React.FC = () => {
 const images = [screen1, screen2, screen3];
@@ -53,12 +56,12 @@ return (
 
     <div className="flex flex-col md:flex-row md:justify-center lg:flex-row xl:flex-row items-center md:items-start lg:items-start space-y-4 md:space-y-0 md:space-x-4 lg:space-y-0 lg:space-x-4 mb-6 w-full">
         <img
-        src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
+        src={detalle1}
         alt="Travel Inspiration 1"
         className="w-full md:w-1/2 h-48 md:h-64 lg:h-72 object-cover rounded-lg shadow-lg"
         />
         <img
-        src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
+        src={detalle2}
         alt="Travel Inspiration 2"
         className="w-full md:w-1/2 h-48 md:h-64 lg:h-72 object-cover rounded-lg shadow-lg hidden md:block"
         />
