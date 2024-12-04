@@ -94,12 +94,15 @@ export async function getTripById(tripId: number) {
  * @returns boolean : true if the highlight was deleted successfully
  */
 export async function deleteHighlight(highlightId: number): Promise<boolean> {
-    const response = await fetch(`${BASE_URL}/highlights/${highlightId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
+    const response = await fetch(
+        `http://localhost:8080/api/highlights/${highlightId}`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }
+    );
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
