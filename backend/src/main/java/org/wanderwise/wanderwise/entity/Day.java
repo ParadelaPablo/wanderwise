@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,8 +56,8 @@ public class Day {
     @Min(1)
     private Integer dayOrder;
 
-    @OneToMany(mappedBy = "day", fetch = FetchType.LAZY)
-    private List<Stop> stops;
+    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Stop> stops = new ArrayList<>();
 
     @Column(nullable = false)
     private String date;
@@ -70,3 +71,4 @@ public class Day {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 }
+
