@@ -56,8 +56,7 @@ public class HighlightsService {
                 .image(cloudStorage.uploadFile(highlightRequest.getTitle() + "-" + highlightRequest.getTitle() + ".png", highlightRequest.getImage()))
                 .song(song)
                 .build();
-        System.err.println("Date: " + highlights.getDate());
-        System.err.println("Song Title: " + highlights.getSong().getTitle());
+        System.err.println("Date: " + highlights.getDate());    
         System.err.println("Trip ID: " + highlights.getTrip().getId());     
         return highlightsRepository.save(highlights);
     }

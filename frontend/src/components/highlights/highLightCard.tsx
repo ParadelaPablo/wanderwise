@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { deleteHighlight } from "@/lib/api";
+import { toast } from "react-toastify";
 
 interface Highlight {
   id: number;
@@ -24,7 +27,25 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
     songTitle,
     date,
   } = highlightInfo;
-  console.log(highlightInfo);
+
+  const [deleteButtonContent, setDeleteButtonContent] = useState(<><FaRegTrashAlt /> Delete highglight</>);
+  const [updateButtonContent, setUpdateButtonContent] = useState("Update highlight");
+
+  const handleDelete = () => {
+    setDeleteButtonContent(<span className="loading loading-dots loading-lg"></span>);
+    deleteHighlight(highlightInfo.id)
+      .then((res) => {
+        if (res) {
+          toast.success("Highlight deleted successfully");
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+    setDeleteButtonContent(<><FaRegTrashAlt /> Delete highglight</>);
+  }
+
+
 
   const goToSpotify = () => {
     window.open(songUrl, "_blank");
@@ -63,13 +84,13 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow outline outline-1"
             >
-              <li className="hover:bg-red-500 hover:rounded hover:text-white">
-                <a className="font-bold border-b border-1"><FaRegTrashAlt /> Delete trip</a>
+              <li className="hover:bg-red-500 hover:rounded hover:text-white" onClick={handleDelete}>
+                <a className="font-bold border-b border-1">{deleteButtonContent}</a>
               </li>
               <li
                 className="hover:bg-yellow-400 hover:rounded hover:text-white"
               >
-                <a className="font-bold border-b border-1"><FaRegEdit /> Update trip</a>
+                <a className="font-bold border-b border-1">{updateButtonContent}</a>
               </li>
             </ul>
           </div>
