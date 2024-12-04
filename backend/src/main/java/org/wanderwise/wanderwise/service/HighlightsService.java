@@ -62,6 +62,7 @@ public class HighlightsService {
     }
 
     public void deleteHighlight(Long id) {
+        System.err.println("deleteHighlight() in service with ID: " + id);
         highlightsRepository.deleteById(id);
     }
 

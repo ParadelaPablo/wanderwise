@@ -67,6 +67,7 @@ public class HighlightsController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHighlight(@PathVariable Long id) {
+        System.err.println("Highglight to be delete with ID: " + id);
         highlightsService.deleteHighlight(id);
         return ResponseEntity.noContent().build();
     }

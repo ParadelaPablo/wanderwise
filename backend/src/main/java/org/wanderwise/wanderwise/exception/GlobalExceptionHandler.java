@@ -31,6 +31,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<String> handleNullPointerException(NullPointerException e) {
+        e.printStackTrace();
+        System.err.println(e.getMessage());
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
