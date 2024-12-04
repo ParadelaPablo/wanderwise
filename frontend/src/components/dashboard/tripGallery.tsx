@@ -18,7 +18,7 @@ const useTrips = (userId: string) => {
 type MutationContext = {
   previousTrips: TripForGallery[] | undefined;
 };
-const TripGallery = () => {
+const TripGallery: React.FC = () => {
   const router = useRouter();
   const { user } = useUser();
   const { userId } = useAuth();
@@ -63,8 +63,6 @@ const TripGallery = () => {
 
   if (isLoading) return <LoadingState />;
 
-  if (isError) return <div>Error loading trips: {error.message}</div>;
-
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
       <div>
@@ -84,12 +82,17 @@ const TripGallery = () => {
             </button>
           </div>
         </div>
-
+  
         <div
           className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 border p-6"
           style={{ borderRadius: "1rem" }}
         >
-          {trips.length === 0 && (
+          {isError && (
+            <div className="text-center text-lg font-semibold text-red-600">
+              Error loading trips: {error.message}. Please try again.
+            </div>
+          )}
+          {trips.length === 0 && !isError && (
             <div className="text-center text-lg font-semibold">
               You have no trips
             </div>
@@ -105,10 +108,10 @@ const TripGallery = () => {
             ))}
         </div>
       </div>
-
+  
       <ButtonCircle />
     </div>
   );
-};
+}
 
 export default TripGallery;
