@@ -1,6 +1,6 @@
 import { SpotifyModal } from "@/components/highlights/spotifyModal";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -14,6 +14,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import axios from "axios";
+
 const SPOTIFY_BASE_URL = "https://open.spotify.com/track/";
 const BACKEND_POST_HIGHLIGHT = import.meta.env.VITE_BASE_BACKEND_URL;
 
@@ -28,7 +29,7 @@ function RouteComponent() {
     from: "/dashboard/trips/$tripId/hightlights/create",
     select: (params) => params.tripId,
   });
-
+  const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
@@ -86,6 +87,7 @@ function RouteComponent() {
       return response.json();
     },
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["highlights"] });
       console.log("Highlight saved successfully:", data);
       toast.success("Highlight saved successfully!");
     },

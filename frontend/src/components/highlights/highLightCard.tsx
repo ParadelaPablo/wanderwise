@@ -1,4 +1,4 @@
-import { BsThreeDots } from "react-icons/bs";
+
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 interface Highlight {
