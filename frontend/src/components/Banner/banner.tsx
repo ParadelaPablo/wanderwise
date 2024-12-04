@@ -5,7 +5,6 @@ import screen3 from "../../assets/screen3.png";
 import detalle1 from "../../assets/iconos.png";
 import detalle2 from "../../assets/Mapa 1.png";
 
-
 const Banner: React.FC = () => {
 const images = [screen1, screen2, screen3];
 const [currentIndex, setCurrentIndex] = useState(0);
@@ -44,8 +43,8 @@ return (
     </div>
     </div>
 
-    <div className="flex flex-col m-2 items-center lg:items-start w-full md:w-full lg:w-1/3 lg:flex-grow p-4 mt-8 lg:mt-0 lg:ml-8">
-    <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4 text-center lg:text-left">
+    <div className="flex flex-col items-center w-full md:w-full lg:w-1/3 lg:flex-grow p-4 mt-8 lg:mt-0">
+    <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-4 text-center">
         Discover Amazing Destinations
     </h2>
     <p className="text-gray-600 text-lg lg:text-xl mb-6 text-center lg:text-left">
@@ -54,20 +53,20 @@ return (
         and more.
     </p>
 
-    <div className="flex flex-col md:flex-row md:justify-center lg:flex-row xl:flex-row items-center md:items-start lg:items-start space-y-4 md:space-y-0 md:space-x-4 lg:space-y-0 lg:space-x-4 mb-6 w-full">
+    <div className="flex items-center justify-center gap-20 w-full mt-6">
         <img
         src={detalle1}
         alt="Travel Inspiration 1"
-        className="w-full md:w-1/2 h-48 md:h-64 lg:h-72 object-cover rounded-lg shadow-lg"
+        className="w-[300px] h-[300px] object-cover rounded-lg shadow-lg hidden md:block"
         />
         <img
         src={detalle2}
         alt="Travel Inspiration 2"
-        className="w-full md:w-1/2 h-48 md:h-64 lg:h-72 object-cover rounded-lg shadow-lg hidden md:block"
+        className="w-[300px] h-[300px] object-cover rounded-lg shadow-lg hidden 2xl:block"
         />
     </div>
 
-    <p className="text-gray-600 text-lg lg:text-xl text-center lg:text-left">
+    <p className="text-gray-600 text-lg lg:text-xl text-center lg:text-left mt-6">
         Our app features real-time itinerary updates, collaborative planning
         with friends, and offline access to your saved plans. Wander Wise is
         designed to make your travel experience smooth and enjoyable, giving

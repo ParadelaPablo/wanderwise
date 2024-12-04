@@ -23,7 +23,7 @@ public class ToDo {
     @JsonIgnore
     private Trip trip;
 
-    @Column(nullable = false, length = 200)
+    @Column(nullable = false, length = 1000)
     @NotBlank(message = "The toDo field cannot be empty")
     private String text;
 
