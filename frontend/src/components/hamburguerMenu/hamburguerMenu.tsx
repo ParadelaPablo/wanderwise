@@ -24,6 +24,10 @@ setIsMenuOpen(false);
 router.navigate({ to: path });
 };
 
+const logSomething = () =>{
+    console.log("Something here")
+}
+
 return (
 <div className="navbar bg-base-100 flex justify-between items-center px-4">
     <div className="navbar-start">
@@ -84,7 +88,7 @@ return (
 
     <div className="navbar-end flex items-center gap-4">
         <ThemeSwitcher />
-        <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
+        <img typeof="button" onClick={logSomething} src={logo} alt="Logo" className="h-8 w-8 object-contain" />
     </div>
 
     </div>
