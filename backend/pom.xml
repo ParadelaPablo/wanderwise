@@ -16,7 +16,7 @@
 	<description>Wander Wise is a trip planner for your next road trip</description>
 
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
