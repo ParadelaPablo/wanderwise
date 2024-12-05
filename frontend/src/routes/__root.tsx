@@ -2,7 +2,6 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import { Navbar } from "../components/navbar/navbar";
 import HamburguerMenu from "../components/hamburguerMenu/hamburguerMenu";
-import HomeBeforeLogin from "@/components/homeBeforeLogin/homeBeforeLogIn";
 
 
 export const Route = createRootRoute({
@@ -10,7 +9,6 @@ export const Route = createRootRoute({
     <div className="h-screen">
       <SignedOut>
         <Navbar />
-        <HomeBeforeLogin />
       </SignedOut>
       <SignedIn>
         <HamburguerMenu />

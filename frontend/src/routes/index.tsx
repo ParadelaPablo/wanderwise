@@ -4,6 +4,8 @@ import Banner from "../components/Banner/banner";
 import ReviewsCarousel from "../components/ReviewsCarousel/reviewsCarousel";
 import FootersHomePage from "../components/FootersHomePage/footersHomePage";
 import Stores from "../components/Stores/stores";
+import HomeBeforeLogin from "@/components/homeBeforeLogin/homeBeforeLogIn";
+
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -19,6 +21,7 @@ function Index() {
 
   return (
     <div className="w-full h-screen">
+      <HomeBeforeLogin />
       <Banner />
       <ReviewsCarousel />
       <Stores />
