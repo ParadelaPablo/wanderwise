@@ -68,7 +68,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
           </span>
         </div>
         <div className="collapse-content p-2">
-          <label className="label cursor-pointer">
+          <div className="container flex flex-row items-center  justify-start">
             <input
               type="checkbox"
               checked={isChecked}
@@ -76,7 +76,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
               className="checkbox checkbox-primary"
             />
             <span className="ml-2 font-semibold">Mark as done</span>
-          </label>
+          </div>
           <textarea
             ref={textAreaRef}
             value={taskText}
