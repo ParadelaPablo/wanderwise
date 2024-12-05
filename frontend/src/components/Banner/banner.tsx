@@ -57,12 +57,12 @@ return (
         <img
         src={detalle1}
         alt="Travel Inspiration 1"
-        className="w-[300px] h-[300px] object-cover rounded-lg shadow-lg hidden md:block"
+        className="w-[300px] h-[300px] object-cover rounded-lg shadow-xl hidden md:block"
         />
         <img
         src={detalle2}
         alt="Travel Inspiration 2"
-        className="w-[300px] h-[300px] object-cover rounded-lg shadow-lg hidden 2xl:block"
+        className="w-[300px] h-[300px] object-cover rounded-lg shadow-xl hidden 2xl:block"
         />
     </div>
 
