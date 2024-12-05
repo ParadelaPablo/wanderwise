@@ -18,7 +18,7 @@ const Highlights = ({ tripId }: { tripId: string }) => {
         Add notes
       </button>
       <div className="flex flex-row flex-wrap justify-center items-center gap-y-20 mt-10">
-      <HighlightGallery tripId2={tripId} />
+        <HighlightGallery tripId2={tripId} />
       </div>
     </div>
   );

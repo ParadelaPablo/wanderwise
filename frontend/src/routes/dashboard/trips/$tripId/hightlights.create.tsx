@@ -14,6 +14,9 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+
+
 
 const SPOTIFY_BASE_URL = "https://open.spotify.com/track/";
 const BACKEND_POST_HIGHLIGHT = import.meta.env.VITE_BASE_BACKEND_URL;
@@ -29,11 +32,15 @@ function RouteComponent() {
     from: "/dashboard/trips/$tripId/hightlights/create",
     select: (params) => params.tripId,
   });
+
+
+
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [loadingButton, setLoadingButton] = useState(false);
+  const { refetch } = useQuery({ queryKey: ["highlights"] });
 
   const [date, setDate] = useState();
 
@@ -55,6 +62,8 @@ function RouteComponent() {
     songUrl: string | null;
     songCoverUrl: string | null;
   } | null>(null);
+
+
 
   useEffect(() => {
     const updatedHighlightData = {
@@ -87,7 +96,8 @@ function RouteComponent() {
       return response.json();
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["highlights"] });
+      refetch();
+
       console.log("Highlight saved successfully:", data);
       toast.success("Highlight saved successfully!");
     },
@@ -131,7 +141,6 @@ function RouteComponent() {
     formData.append("image", file);
 
     try {
-      console.log(BACKEND_POST_HIGHLIGHT);
       const response = await axios.post(
         `${BACKEND_POST_HIGHLIGHT}/api/highlights/new`,
         formData
@@ -144,6 +153,7 @@ function RouteComponent() {
       toast.error("Error saving highlight: " + error.message);
     }
     setLoadingButton(false);
+
   };
 
   return (
