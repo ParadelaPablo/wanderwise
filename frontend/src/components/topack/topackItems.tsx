@@ -1,5 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import { z } from "zod";
+
+const schema = z.object({
+  title: z.string().min(1, "Title is required").max(40, "Title is too long"),
+  taskText: z.string().min(1, "Text is required").max(1000, "Text is too long"),
+});
 
 interface ToPackItemProps {
   text: string;
@@ -18,8 +24,21 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
   removeItem,
   isNew = false,
 }) => {
+
   const [taskText, setTaskText] = useState(text);
   const [isChecked, setIsChecked] = useState(done);
+  const [errors, setErrors] = useState<{ title?: string; taskText?: string }>(
+    {}
+  );
+  const [title, setTitle] = useState("");
+
+  useEffect(() => {
+    const parts = text.split("\n", 2);
+    setTitle(parts[0] || "");
+    setTaskText(parts[1] || "");
+  }, [text]);
+
+
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const adjustTextAreaHeight = () => {
@@ -44,10 +63,26 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
     adjustTextAreaHeight();
   };
 
-  const handleSave = () => {
-    if (taskText.trim().length > 0) {
-      persistItem(taskText.trim());
+
+   const handleSave = () => {
+    try {
+      schema.parse({ title, taskText });
+      const fullText = `${title} \n ${taskText}`;
+      console.log(fullText);
+
+      persistItem(fullText.trim());
+      setErrors({});
+
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: { title?: string; taskText?: string } = {};
+        error.errors.forEach((err) => {
+          if (err.path[0] === "title") newErrors.title = err.message;
+          if (err.path[0] === "taskText") newErrors.taskText = err.message;
+        });
+        setErrors(newErrors);
+      }
     }
   };
 
@@ -63,12 +98,12 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
         <input type="checkbox" className="peer" />
         <div className="collapse-title text-md font-medium p-1 flex items-center justify-between">
           <span
-            className={`truncate ${taskText.trim() === "" ? "font-thin" : "font-bold"}`}
+            className={`truncate ${title === "" ? "font-thin" : "font-bold"}`}
           >
-            {taskText.split("\n")[0] || "Title..."}
+            {title || "Title..."}
           </span>
         </div>
-        <div className="collapse-content p-2">
+        <div className="collapse-content p-2 flex flex-col gap-4">
           <label className="label cursor-pointer">
             <input
               type="checkbox"
@@ -78,7 +113,17 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
             />
             <span className="ml-2 font-semibold">Mark as done</span>
           </label>
-
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="input input-bordered w-full max-w-xs text-sm"
+            placeholder="Title..."
+            maxLength={40}
+          />
+          {errors.title && (
+            <p className="text-red-500 text-xs">{errors.title}</p>
+          )}
           <textarea
             ref={textAreaRef}
             value={taskText}
@@ -124,7 +169,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
                     className="hover:bg-yellow-400 hover:rounded hover:text-white"
                   >
                     <FaRegEdit />
-                    Edit trip
+                    Edit
                   </button>
                 </li>
                 <div className="divider gap-0 m-0 p-0"></div>
@@ -134,7 +179,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
                     onClick={removeItem}
                     className="hover:bg-red-500 hover:rounded hover:text-white"
                   >
-                    <FaRegTrashAlt /> Delete trip
+                    <FaRegTrashAlt /> Delete
                   </button>
                 </li>
               </ul>
