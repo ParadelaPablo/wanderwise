@@ -3,7 +3,7 @@ import screen1 from "../../assets/landingPage/mobile/screen1.png";
 import screen2 from "../../assets/landingPage/mobile/screen2.png";
 import screen3 from "../../assets/landingPage/mobile/screen3.png";
 import detalle1 from "../../assets/landingPage/appshots/high3.png";
-import detalle2 from "../../assets/landingPage/appshots/high4.png";
+import detalle2 from "../../assets/landingPage/appshots/icons3.png";
 
 const Banner: React.FC = () => {
 const images = [screen1, screen2, screen3];
