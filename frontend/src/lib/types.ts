@@ -35,7 +35,6 @@ export interface FullTripRequest {
   days: Day[];
 }
 
-
 export type { Day, Stop, TripRequest, Trip };
 
 export type SpotifyTrack = {
@@ -87,6 +86,30 @@ export type TripData = {
 };
 
 export interface TripForGallery {
-  id: string; 
+  id: string;
   title: string;
+}
+
+export interface Highlight {
+  id: number;
+  text: string;
+  title: string;
+  imageUrl?: string;
+  songUrl?: string;
+  songArtist?: string;
+  songCoverUrl?: string;
+  songTitle?: string;
+  date?: string;
+}
+
+export interface HighlightToPost {
+  tripId: string;
+  text: string;
+  title: string;
+  date?: string;
+  songTitle?: string;
+  artist?: string;
+  songUrl?: string;
+  songCoverUrl?: string;
+  image: File;
 }

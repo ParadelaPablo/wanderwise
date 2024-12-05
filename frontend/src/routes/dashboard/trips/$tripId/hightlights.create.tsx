@@ -1,7 +1,7 @@
 import { SpotifyModal } from "@/components/highlights/spotifyModal";
 import { createFileRoute, useParams } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -13,10 +13,10 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { postHighLight } from "@/lib/api";
 
 const SPOTIFY_BASE_URL = "https://open.spotify.com/track/";
-const BACKEND_POST_HIGHLIGHT = import.meta.env.VITE_BASE_BACKEND_URL;
+//const BACKEND_POST_HIGHLIGHT = import.meta.env.VITE_BASE_BACKEND_URL;
 
 export const Route = createFileRoute(
   "/dashboard/trips/$tripId/hightlights/create"
@@ -45,59 +45,19 @@ function RouteComponent() {
     songURL: string;
   } | null>(null);
 
-  const [highlightData, setHighlightData] = useState<{
-    tripId: string;
-    text: string;
-    title: string;
-    date: string;
-    songTitle: string | null;
-    artist: string | null;
-    songUrl: string | null;
-    songCoverUrl: string | null;
-  } | null>(null);
-
-  useEffect(() => {
-    const updatedHighlightData = {
-      tripId: parseInt(tripId, 10),
-      text: content || "",
-      title: title || "",
-      date: date,
-      songTitle: trackData?.name || null,
-      artist: trackData?.artist || null,
-      songUrl: trackData?.id ? SPOTIFY_BASE_URL + trackData.id : null,
-      songCoverUrl: trackData?.coverArt || null,
-      imageUrl: "https://example.com/highlight-image.jpg",
-    };
-    setHighlightData(updatedHighlightData);
-  }, [content, title, trackData, tripId, date]);
-
-  const mutation = useMutation({
-    mutationFn: async (highlight: typeof highlightData) => {
-      if (!highlight) throw new Error("Highlight data is missing");
-      const response = await fetch(BACKEND_POST_HIGHLIGHT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(highlight),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to save highlight");
-      }
-      return response.json();
-    },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["highlights"] });
-      console.log("Highlight saved successfully:", data);
-      toast.success("Highlight saved successfully!");
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: postHighLight,
+    onMutate: async () => {
+      console.log("onMutate");
     },
     onError: (error) => {
-      console.error("Error saving highlight:", error);
-      toast.error("Error saving highlight: " + error.message);
+      console.log("onError", error);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["highlights_data"] });
+      toast.success("Highlight saved successfully!");
     },
   });
-
-  const { isLoading } = mutation;
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -106,6 +66,7 @@ function RouteComponent() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log("hi");
     setLoadingButton(true);
     e.preventDefault();
 
@@ -115,37 +76,27 @@ function RouteComponent() {
       return;
     }
 
-    const formData = new FormData();
     // send date in yyyy-mm-dd format
     const formattedDate = date ? format(date, "yyyy-MM-dd") : "";
-    formData.append("date", formattedDate);
-    formData.append("tripId", tripId);
-    formData.append("text", content);
-    formData.append("title", title);
-    if (trackData) {
-      formData.append("songTitle", trackData.name);
-      formData.append("songArtist", trackData.artist);
-      formData.append("songUrl", SPOTIFY_BASE_URL + trackData.id);
-      formData.append("songCoverUrl", trackData.coverArt);
-    }
-    formData.append("image", file);
+    const highlightData = {
+      tripId: tripId!,
+      text: content,
+      title,
+      date: formattedDate,
+      songTitle: trackData?.name || null,
+      artist: trackData?.artist || null,
+      songUrl: trackData ? `${SPOTIFY_BASE_URL}${trackData.id}` : null,
+      songCoverUrl: trackData?.coverArt || null,
+      image: file,
+    };
 
-    try {
-      console.log(BACKEND_POST_HIGHLIGHT);
-      const response = await axios.post(
-        `${BACKEND_POST_HIGHLIGHT}/api/highlights/new`,
-        formData
-      );
-      toast.success("Highlight saved successfully!");
-      document.getElementById("newHighlightForm")?.reset();
-      setTrackData(null);
-    } catch (error) {
-      console.error("Error saving highlight:", error.message);
-      toast.error("Error saving highlight: " + error.message);
-    }
+    mutate(highlightData);
     setLoadingButton(false);
   };
 
+  if (isError) {
+    return <p>{error.message}</p>;
+  }
   return (
     <div className="flex flex-col justify-center items-center">
       <div
@@ -155,7 +106,7 @@ function RouteComponent() {
         Back
       </div>
 
-      <form id="newHighlightForm" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-col justify-center items-center gap-4 mt-10 p-3">
           <Popover>
             <PopoverTrigger asChild>
@@ -251,9 +202,12 @@ function RouteComponent() {
         </button>
 
         <button
+          onClick={() => {
+            console.log("hi");
+          }}
           type="submit"
           className="btn btn-primary mx-5 mb-10 text-gray-50"
-          disabled={isLoading}
+          disabled={isPending}
         >
           {loadingButton ? (
             <span className="loading loading-spinner loading-md"></span>

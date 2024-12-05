@@ -1,16 +1,9 @@
 import { useState } from "react";
-import { BsThreeDots } from "react-icons/bs";
-import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
+import {  FaRegTrashAlt } from "react-icons/fa";
 import { deleteHighlight } from "@/lib/api";
 import { toast } from "react-toastify";
-
-interface Highlight {
-  id: number;
-  text: string;
-  title: string;
-  imageUrl?: string;
-  songUrl: string;
-}
+import { Highlight } from "@/lib/types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface HighlightCardProps {
   highlightInfo: Highlight;
@@ -28,6 +21,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
     date,
   } = highlightInfo;
 
+  const queryClient = useQueryClient();
   const [deleteButtonContent, setDeleteButtonContent] = useState(
     <>
       <FaRegTrashAlt /> Delete highglight
@@ -36,25 +30,27 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
   const [updateButtonContent, setUpdateButtonContent] =
     useState("Update highlight");
 
-  const handleDelete = () => {
-    setDeleteButtonContent(
-      <span className="loading loading-dots loading-lg"></span>
-    );
-    deleteHighlight(highlightInfo.id)
-      .then((res) => {
-        if (res) {
-          toast.success("Highlight deleted successfully");
-        }
-      })
-      .catch((err) => {
-        toast.error(err.message);
-      });
-    setDeleteButtonContent(
-      <>
-        <FaRegTrashAlt /> Delete highglight
-      </>
-    );
-  };
+    const mutation = useMutation({
+      mutationFn: deleteHighlight,  
+      onMutate: () => {
+        // Show the loading state when deletion starts
+        toast.info('Deleting highlight...');
+      },
+      onError: (error: Error) => {
+        // Handle errors
+        toast.error(`Error deleting highlight: ${error.message}`);
+      },
+      onSuccess: () => {
+        // Invalidate and refetch relevant queries after deletion
+        queryClient.invalidateQueries({queryKey:['highlights_data']}); 
+        toast.success('Highlight deleted successfully');
+      },
+    });
+  
+    const handleDelete = () => {
+      // Call the mutation
+      mutation.mutate(highlightInfo.id);
+    };
 
   const goToSpotify = () => {
     window.open(songUrl, "_blank");
