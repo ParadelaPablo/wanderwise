@@ -6,7 +6,7 @@ interface Props {
 }
 export const Stat = ({ text, info, title, setTitle }: Props) => {
   return (
-    <div className="stats shadow mt-4">
+    <div className="stats shadow mt-16">
       <div className="stat flex flex-col gap-2">
         <input
           required

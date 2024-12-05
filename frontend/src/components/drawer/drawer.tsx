@@ -14,7 +14,7 @@ export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
 
   return (
     <div className="drawer text-center mb-4">
-      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      <input id="my-drawer" type="checkbox" className="drawer-toggle mt-10" />
       <div className="drawer-content flex flex-col items-center justify-center">
         {/* Page content here */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">

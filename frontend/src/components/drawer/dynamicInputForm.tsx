@@ -12,7 +12,6 @@ import { createFullTrip } from "@/lib/api";
 import { Autocomplete } from "@react-google-maps/api";
 import { getStopTypeIcon } from "@/lib/icons";
 import { useNavigate } from "@tanstack/react-router";
-import { LoadingState } from "../ui-states/loading";
 import { FullTripSchema } from "@/lib/schema";
 
 
