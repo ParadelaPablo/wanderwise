@@ -1,7 +1,7 @@
 import React from "react";
 import { SignedIn, UserButton } from "@clerk/clerk-react";
 import { Link } from "@tanstack/react-router";
-import logo from "../../assets/logofinalmaybe.png";
+import logo from "../../assets/landingPage/logo/logofinalmaybe.png";
 
 
 export const Navbar = () => {

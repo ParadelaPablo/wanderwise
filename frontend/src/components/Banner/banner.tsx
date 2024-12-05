@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import screen1 from "../../assets/screen1.png";
-import screen2 from "../../assets/screen2.png";
-import screen3 from "../../assets/screen3.png";
-import detalle1 from "../../assets/icons3.png";
-import detalle2 from "../../assets/high4.png";
+import screen1 from "../../assets/landingPage/mobile/screen1.png";
+import screen2 from "../../assets/landingPage/mobile/screen2.png";
+import screen3 from "../../assets/landingPage/mobile/screen3.png";
+import detalle1 from "../../assets/landingPage/appshots/high3.png";
+import detalle2 from "../../assets/landingPage/appshots/high4.png";
 
 const Banner: React.FC = () => {
 const images = [screen1, screen2, screen3];
