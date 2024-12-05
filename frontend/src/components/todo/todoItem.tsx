@@ -102,7 +102,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
           </span>
         </div>
         <div className="collapse-content p-2">
-          <div className="container flex flex-row items-center  justify-start">
+          <div className="container flex flex-row items-center  justify-start mb-2">
             <input
               type="checkbox"
               checked={isChecked}

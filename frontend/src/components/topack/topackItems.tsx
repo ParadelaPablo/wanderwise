@@ -64,7 +64,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
   };
 
 
-   const handleSave = () => {
+  const handleSave = () => {
     try {
       schema.parse({ title, taskText });
       const fullText = `${title} \n ${taskText}`;
@@ -104,7 +104,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
           </span>
         </div>
         <div className="collapse-content p-2 flex flex-col gap-4">
-          <label className="label cursor-pointer">
+          <div className="flex flex-row items-center justify-start mb-2">
             <input
               type="checkbox"
               checked={isChecked}
@@ -112,7 +112,7 @@ const ToPackItems: React.FC<ToPackItemProps> = ({
               className="checkbox checkbox-primary"
             />
             <span className="ml-2 font-semibold">Mark as done</span>
-          </label>
+          </div>
           <input
             type="text"
             value={title}
