@@ -17,11 +17,15 @@ export const Providers = ({ children }: ProvidersProps) => {
   return (
     <ClerkProvider publishableKey={PUBLISHABLE_KEY} signInForceRedirectUrl="/dashboard">
       <QueryClientProvider client={queryClient}>
-        {process.env.NODE_ENV === "development" && (
-          <ReactQueryDevtools initialIsOpen={false} />
-        )}
+
         {children}
       </QueryClientProvider>
     </ClerkProvider>
   );
 };
+
+// {
+//   process.env.NODE_ENV === "development" && (
+//     <ReactQueryDevtools initialIsOpen={false} />
+//   )
+// }

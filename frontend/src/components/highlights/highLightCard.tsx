@@ -33,8 +33,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
       <FaRegTrashAlt /> Delete highglight
     </>
   );
-  const [updateButtonContent, setUpdateButtonContent] =
-    useState("Update highlight");
+
 
   const handleDelete = () => {
     setDeleteButtonContent(
@@ -55,6 +54,8 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
       </>
     );
   };
+
+
 
   const goToSpotify = () => {
     window.open(songUrl, "_blank");
@@ -103,7 +104,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
               </li>
               <li className="hover:bg-yellow-400 hover:rounded hover:text-white">
                 <a className="font-bold border-b border-1">
-                  {updateButtonContent}
+                  <FaRegEdit /> Edit highlight
                 </a>
               </li>
             </ul>
@@ -129,7 +130,7 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
             </button>
           </div>
 
-          <details className="collapse bg-gray-100">
+          <details className="collapse bg-gray-100 pb-3">
             <summary className="collapse-title text-md text-gray-600 font-medium">
               {title}
             </summary>

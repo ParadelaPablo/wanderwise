@@ -47,6 +47,7 @@ public class HighlightsController {
             @RequestParam(value = "songCoverUrl", defaultValue = "", required = false) String songCoverUrl,
             @RequestParam(value = "image") MultipartFile image) throws IOException   {
 
+        System.err.println("Highlight to be created with tripId: " + tripId);
 
         HighlightRequest highlightRequest = HighlightRequest.builder()
                 .tripId(Long.parseLong(tripId))
