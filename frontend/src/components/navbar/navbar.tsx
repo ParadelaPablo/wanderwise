@@ -23,7 +23,7 @@ export const Navbar = () => {
           to="/"
           className="text-md font-extrabold flex items-center hover:text-amber-500 dark:text-white"
         >
-          Wander Wise
+          WanderWise
         </Link>
         <img src={logo} alt="Logo" className="h-8 w-8 object-contain" />
       </div>

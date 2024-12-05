@@ -8,7 +8,7 @@ return (
 <main className="flex flex-col items-center justify-center bg-white mt-16 md:mt-24 lg:mt-32 xl:mt-40">
     <div className="bg-white rounded-lg p-8 max-w-md text-center md:max-w-lg lg:max-w-2xl xl:max-w-7xl">
     <h1 className="text-3xl font-extrabold mb-4 text-gray-800 md:text-4xl lg:text-5xl xl:text-6xl">
-        Wander Wise
+        WanderWise
     </h1>
 
     <img

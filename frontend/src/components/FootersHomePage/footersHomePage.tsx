@@ -5,7 +5,7 @@ return (
 <footer className="bg-gray-800 text-white p-4 text-center">
     <div className="max-w-screen-lg mx-auto flex flex-col items-center gap-8 md:flex-row md:justify-around md:items-start">
     <div className="text-center md:text-left md:w-1/3">
-        <h2 className="text-white font-bold mb-3">Wander Wise</h2>
+        <h2 className="text-white font-bold mb-3">WanderWise</h2>
         <p className="text-gray-400 text-sm hover:text-white transition-colors">
         Plan your perfect journey effortlessly.
         </p>
@@ -36,7 +36,7 @@ return (
     <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="mx-2">
         <i className="fab fa-facebook hover:text-white transition-colors"></i>
     </a>
-    &copy; 2024 Wander Wise. All Rights Reserved.
+    &copy; 2024 WanderWise. All Rights Reserved.
     <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="mx-2">
         <i className="fab fa-instagram hover:text-white transition-colors"></i>
     </a>
