@@ -5,8 +5,8 @@ import HighlightCard from "./highLightCard";
 const BACKEND_GET_HIGHLIGHT = "http://localhost:8080/api/highlights/trip/";
 
 interface HighlightGalleryProps {
-    tripId2: string; // Define tripId2 explicitly
-  }
+  tripId2: string; // Define tripId2 explicitly
+}
 
 interface Highlight {
   id: number;
@@ -16,15 +16,15 @@ interface Highlight {
   songUrl?: string;
 }
 
-const HighlightGallery: React.FC<HighlightGalleryProps> = ({tripId2}) => {
+const HighlightGallery: React.FC<HighlightGalleryProps> = ({ tripId2 }) => {
 
-    const fetchHighlights = async (): Promise<Highlight[]> => {
-        console.log("Fetching highlights...");
-        const response = await axios.get(BACKEND_GET_HIGHLIGHT + Number(tripId2));
-        console.log("Response received:", response.data);
-        return response.data;
-    };
-  
+  const fetchHighlights = async (tripId: number): Promise<Highlight[]> => {
+    console.log("Fetching highlights...");
+    const response = await axios.get(BACKEND_GET_HIGHLIGHT + tripId);
+    console.log("Response received:", response.data);
+    return response.data;
+  };
+
 
   const {
     data: highlights,
@@ -32,10 +32,10 @@ const HighlightGallery: React.FC<HighlightGalleryProps> = ({tripId2}) => {
     isError,
     error,
   } = useQuery<Highlight[]>({
-    queryKey: ["highlights"], 
-    queryFn: fetchHighlights, 
-    staleTime: 1000 * 60 * 5, 
-    refetchOnWindowFocus: true, 
+    queryKey: ["highlights", tripId2],
+    queryFn: () => fetchHighlights(Number(tripId2)),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
   });
 
   if (isLoading) {
@@ -55,7 +55,7 @@ const HighlightGallery: React.FC<HighlightGalleryProps> = ({tripId2}) => {
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
         {highlights && highlights.length > 0 ? (
           highlights.map((highlight) => (
-            <HighlightCard key={highlight.id} highlightInfo={highlight}  />
+            <HighlightCard key={highlight.id} highlightInfo={highlight} />
           ))
         ) : (
           <p className="text-gray-500">No highlights available</p>

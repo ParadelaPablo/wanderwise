@@ -25,7 +25,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
   isNew = false,
 }) => {
 
-  
+
   const [taskText, setTaskText] = useState(text);
   const [isChecked, setIsChecked] = useState(done);
   const [errors, setErrors] = useState<{ title?: string; taskText?: string }>(
@@ -101,8 +101,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
             {title || "Title..."}
           </span>
         </div>
-        <div className="collapse-content p-2 flex flex-col gap-4">
-          <label className="label cursor-pointer">
+        <div className="collapse-content p-2">
+          <div className="container flex flex-row items-center  justify-start">
             <input
               type="checkbox"
               checked={isChecked}
@@ -110,7 +110,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
               className="checkbox checkbox-primary"
             />
             <span className="ml-2 font-semibold">Mark as done</span>
-          </label>
+          </div>
           <input
             type="text"
             value={title}

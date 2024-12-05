@@ -18,7 +18,7 @@ const Todo: React.FC<{ tripId: string }> = ({ tripId }) => {
     const fetchToDos = async () => {
       try {
         const todos = await getToDosByTrip(tripId);
-        setItems(todos.map((todo) => ({ ...todo, id: String(todo.id) }))); 
+        setItems(todos.map((todo) => ({ ...todo, id: String(todo.id) })));
       } catch (error: unknown) {
         if (error instanceof Error && (error as { response?: { status?: number } }).response?.status === 404) {
           toast.error("Trip not found. Please check the ID.");

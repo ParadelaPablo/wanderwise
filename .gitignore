@@ -2,3 +2,4 @@
 frontend/.env.development
 frontend/.env.development
 backend/src/main/resources/cloudstorage.json
+frontend/.env.development
