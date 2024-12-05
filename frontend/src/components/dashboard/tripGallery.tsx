@@ -6,6 +6,7 @@ import { useAuth, useUser } from "@clerk/clerk-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteTripById, getTripsForUser } from "@/lib/api";
 import { TripForGallery } from "@/lib/types";
+
 import { LoadingState } from "../../components/ui-states/loading";
 
 const useTrips = (userId: string) => {
@@ -14,6 +15,7 @@ const useTrips = (userId: string) => {
     queryFn: () => getTripsForUser(userId),
   });
 };
+
 
 type MutationContext = {
   previousTrips: TripForGallery[] | undefined;
@@ -105,6 +107,7 @@ const TripGallery: React.FC = () => {
                 id={Number(trip.id)}
                 title={trip.title}
                 onDelete={handleDelete}
+                imagePath={trip.imagePath}
               />
             ))}
         </div>

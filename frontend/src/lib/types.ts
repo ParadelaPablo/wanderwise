@@ -86,7 +86,12 @@ export type TripData = {
   days: DayResponse[];
 };
 
-export interface TripForGallery {
-  id: string; 
+export type TripForGallery = {
+
+  id: string;
+
   title: string;
-}
+
+  imagePath: string;
+
+};
