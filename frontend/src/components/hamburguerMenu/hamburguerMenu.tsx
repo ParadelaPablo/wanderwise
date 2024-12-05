@@ -25,7 +25,7 @@ const HamburguerMenu: React.FC = () => {
   };
 
   return (
-    <div className="navbar bg-base-100 flex justify-between items-center px-4">
+    <div className="navbar sticky top-0 bg-base-100 z-10 flex justify-between items-center px-4">
       <div className="navbar-start">
         <div className="dropdown">
           <div
