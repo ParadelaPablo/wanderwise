@@ -1,5 +1,5 @@
 import { createRootRoute, Outlet } from "@tanstack/react-router";
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, useAuth } from "@clerk/clerk-react";
 import { Navbar } from "../components/navbar/navbar";
 import HamburguerMenu from "../components/hamburguerMenu/hamburguerMenu";
 import HomeBeforeLogin from "@/components/homeBeforeLogin/homeBeforeLogIn";

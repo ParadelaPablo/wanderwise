@@ -17,6 +17,7 @@ function Index() {
     navigate({ to: `/dashboard` });
   }
 
+ 
   return (
     <div className="w-full h-screen">
       <Banner />
