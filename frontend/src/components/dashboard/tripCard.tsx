@@ -5,12 +5,18 @@ type TripCardProps = {
   id: number;
   title: string;
   onDelete: (id: number) => void;
+  imagePath: string;
 };
 
 const myStringArray: string[] = [
-  "https://next-images.123rf.com/index/_next/image/?url=https://assets-cdn.123rf.com/index/static/assets/top-section-bg.jpeg&w=3840&q=75",
-  "https://fps.cdnpk.net/images/home/subhome-ai.webp?w=649&h=649",
-  "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg",
+  "src/assets/tripscards/Ruta1.jpg",
+  "src/assets/tripscards/Ruta2.jpg",
+  "src/assets/tripscards/Ruta3.jpg",
+  "src/assets/tripscards/Ruta4.jpg",
+  "src/assets/tripscards/Ruta5.jpg",
+  "src/assets/tripscards/Ruta6.jpg",
+  "src/assets/tripscards/Ruta7.jpg",
+  "src/assets/tripscards/Ruta8.jpg",
 ];
 
 const getRandomString = (): string => {
@@ -18,7 +24,7 @@ const getRandomString = (): string => {
   return myStringArray[randomIndex];
 };
 
-const TripCard = ({ id, title, onDelete }: TripCardProps) => {
+const TripCard = ({ id, title, onDelete}: TripCardProps) => {
   const router = useRouter();
 
   return (
