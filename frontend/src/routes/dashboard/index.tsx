@@ -7,11 +7,7 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function RouteComponent() {
-  const { isSignedIn } = useAuth();
-  const navigate = useNavigate();
-  if (!isSignedIn) {
-    navigate({ to: "/signin" });
-  }
+  
 
   return (
     <div className="h-full">
