@@ -24,6 +24,8 @@ const TodoItem: React.FC<TodoItemProps> = ({
   removeItem,
   isNew = false,
 }) => {
+
+  
   const [taskText, setTaskText] = useState(text);
   const [isChecked, setIsChecked] = useState(done);
   const [errors, setErrors] = useState<{ title?: string; taskText?: string }>(

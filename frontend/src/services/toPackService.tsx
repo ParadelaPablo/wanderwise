@@ -6,13 +6,8 @@ interface ToPack {
   done: boolean;
 }
 
-
 export const getToPacksByTrip = async (tripId: string): Promise<ToPack[]> => {
   const response = await axiosInstance.get(`/${tripId}/topacks`);
-
-
-  console.log(response.data);
-
   return response.data;
 };
 

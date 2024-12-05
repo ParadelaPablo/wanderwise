@@ -96,9 +96,7 @@ export const MapForFooter = ({
 
       // check if there's more than one leg to avoid accessing undefined
       if (legs.length > 0) {
-        console.log(legs[0]); // Start location leg
-        console.log(legs[legs.length - 1]); // End location leg (if there's more than one)
-
+        
         // Add the start point custom marker for the start location
         new google.maps.Marker({
           position: legs[0].start_location,
