@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.wanderwise.wanderwise.DTO.request.HighlightRequest;
+import org.wanderwise.wanderwise.DTO.request.TripWithDaysAndStops;
 import org.wanderwise.wanderwise.DTO.response.HighlightsResponse;
 import org.wanderwise.wanderwise.entity.Highlights;
 import org.wanderwise.wanderwise.entity.Song;
@@ -37,31 +38,15 @@ public class HighlightsController {
 
     @PostMapping("/new")
     public ResponseEntity<HighlightsResponse> createHighlight(
-            @RequestParam("tripId") String tripId,
-            @RequestParam("text") String text,
-            @RequestParam("title") String title,
-            @RequestParam("date") String date,
-            @RequestParam(value = "songTitle", defaultValue = "", required = false) String songTitle,
-            @RequestParam(value = "songArtist", defaultValue = "", required = false) String songArtist,
-            @RequestParam(value = "songUrl", defaultValue = "", required = false) String songUrl,
-            @RequestParam(value = "songCoverUrl", defaultValue = "", required = false) String songCoverUrl,
-            @RequestParam(value = "image") MultipartFile image) throws IOException   {
-
-
-        HighlightRequest highlightRequest = HighlightRequest.builder()
-                .tripId(Long.parseLong(tripId))
-                .text(text)
-                .date(date)
-                .title(title)
-                .songTitle(songTitle)
-                .artist(songArtist)
-                .songUrl(songUrl)
-                .songCoverUrl(songCoverUrl)
-                .image(image.getBytes())
-                .build();
-
+            @RequestBody HighlightRequest highlightRequest) {
         Highlights highlight = highlightsService.createHighlight(highlightRequest);
-
+//new HighlightsResponse(highlight.getId(),
+//                highlight.getText(), highlight.getTitle(), highlight.getDate(),
+//                highlight.getSong().getTitle() != null? highlight.getSong().getTitle(): null ,
+//                highlight.getSong().getArtist() != null ? highlight.getSong().getArtist() : null,
+//                highlight.getSong().getSongUrl() != null ?    highlight.getSong().getSongUrl() : null,
+//                highlight.getSong().getCoverUrl()!= null ? highlight.getSong().getCoverUrl() : null,
+//                highlight.getImage())
         return ResponseEntity.ok(null);
     }
 
