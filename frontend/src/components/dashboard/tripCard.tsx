@@ -5,16 +5,31 @@ type TripCardProps = {
   id: number;
   title: string;
   onDelete: (id: number) => void;
+  imagePath: string;
 };
 
-const TripCard = ({ id, title, onDelete }: TripCardProps) => {
+const myStringArray: string[] = [
+  "src/assets/tripscards/Ruta1.jpg",
+  "src/assets/tripscards/Ruta2.jpg",
+  "src/assets/tripscards/Ruta3.jpg",
+  "src/assets/tripscards/Ruta4.jpg",
+  "src/assets/tripscards/Ruta5.jpg",
+  "src/assets/tripscards/Ruta6.jpg",
+  "src/assets/tripscards/Ruta7.jpg",
+  "src/assets/tripscards/Ruta8.jpg",
+];
+
+const getRandomString = (): string => {
+  const randomIndex = Math.floor(Math.random() * myStringArray.length);
+  return myStringArray[randomIndex];
+};
+
+const TripCard = ({ id, title, onDelete}: TripCardProps) => {
   const router = useRouter();
 
   return (
     <div>
       <div className="w-full relative">
-        
-        
         <div className="dropdown dropdown-left absolute top-0 right-0 z-10">
           <div
             tabIndex={0}
@@ -43,7 +58,8 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
                 type="button"
                 className="hover:bg-yellow-400 hover:rounded hover:text-white"
               >
-                <FaRegEdit />Edit trip
+                <FaRegEdit />
+                Edit trip
               </button>
             </li>
             <div className="divider gap-0 m-0 p-0"></div>
@@ -65,7 +81,7 @@ const TripCard = ({ id, title, onDelete }: TripCardProps) => {
         >
           <img
             className="w-full h-full object-cover"
-            src="https://t3.ftcdn.net/jpg/03/04/88/18/360_F_304881889_yJ1S3butl9gVs0kMptYTU2N1EVmEJbz8.jpg"
+            src={getRandomString()}
             alt=""
           />
           <p className="absolute top-0 left-0 w-full min-h-9 flex gap-2 bg-base-100/80 text-base-content px-4 py-2 shadow-md shadow-black/20 dark:shadow-gray-800">

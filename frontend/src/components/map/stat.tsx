@@ -13,8 +13,8 @@ export const Stat = ({ text, info, title, setTitle }: Props) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           type="text"
-          placeholder="My trip"
-          className="input w-full max-w-xs text-center border-none"
+          placeholder="Enter trip title..."
+          className="input w-full max-w-xs text-center border-none shadow-md"
         />
 
         <div className="stat-title">{text}</div>
