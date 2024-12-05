@@ -1,9 +1,9 @@
 const Contact: React.FC = () => {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center p-6">
+    <div className=" flex flex-col justify-center items-center p-6">
       <main className="text-center mb-4">
-        <h2 className="text-2xl font-bold mb-2">Contact Us</h2>
-        <p className="text-base mb-6">
+        <h2 className="text-2xl font-bold mb-2 mt-10">Contact Us</h2>
+        <p className="text-base mb-6 mt-10">
           Have any questions? We'd love to hear from you! Fill out the form
           below or reach us at{" "}
           <a
@@ -15,7 +15,7 @@ const Contact: React.FC = () => {
           .
         </p>
 
-        <form className="max-w-md w-full p-4 rounded-md shadow-md mx-auto flex flex-col gap-4">
+        <form className="max-w-md w-full mt-20 p-4 rounded-md shadow-2xl mx-auto flex flex-col gap-4">
           <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
