@@ -1,9 +1,9 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
-import Alek from "../../assets/alek.jpg";
-import Sara from "../../assets/sara.jpg";
-import Damir from "../../assets/Damir.png";
-import Marcus from "../../assets/Marcus.png";
+import Alek from "../../assets/landingPage/reviews/alek.jpg";
+import Sara from "../../assets/landingPage/reviews/sara.jpg";
+import Damir from "../../assets/landingPage/reviews/Damir.png";
+import Marcus from "../../assets/landingPage/reviews/Marcus.png";
 
 const ReviewsCarousel: React.FC = () => {
 const reviews = [

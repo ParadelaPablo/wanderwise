@@ -1,6 +1,6 @@
 import React from "react";
-import appStore from "../../assets/priceAppStore.png";
-import googlePlay from "../../assets/pricePlayStore.png";
+import appStore from "../../assets/landingPage/stores/priceAppStore.png";
+import googlePlay from "../../assets/landingPage/stores/pricePlayStore.png";
 
 const Stores: React.FC = () => {
 return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { useRouter } from "@tanstack/react-router";
-import logo from "../../assets/logofinalmaybe.png";
+import logo from "../../assets/landingPage/logo/logofinalmaybe.png";
 import ThemeSwitcher from "../ThemeSwitcher/themeSwitcher";
 
 const HamburguerMenu: React.FC = () => {

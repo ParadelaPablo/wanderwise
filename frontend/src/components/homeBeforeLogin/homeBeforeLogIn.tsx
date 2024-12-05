@@ -1,5 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
-import Logo from "../../assets/logofinalmaybe.png";
+import Logo from "../../assets/landingPage/logo/logofinalmaybe.png";
 
 const HomeBeforeLogin: React.FC = () => {
 const router = useRouter();
