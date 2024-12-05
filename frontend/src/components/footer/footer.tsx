@@ -14,7 +14,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
 
   return (
     <footer className="fixed bottom-0 w-full shadow-lg ">
-      <ul className="menu menu-horizontal bg-base-200 w-full justify-between ">
+      <ul className="menu menu-horizontal bg-base-200 w-full justify-between h-15">
         <li className="shadow-sm rounded-2xl ">
           <a
             type="button"
@@ -23,7 +23,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-8 w-8 "
+              className="size-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -49,7 +49,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              className="size-8"
+              className="size-6"
             >
               <path
                 stroke-linecap="round"
@@ -71,7 +71,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              className="size-8"
+              className="size-6"
             >
               <path
                 stroke-linecap="round"
@@ -84,7 +84,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
         </li>
         <li className="shadow-sm rounded-2xl">
           <a
-            className={`flex flex-col w-20 rounded-2xl p-1 m-1 ${activeComponent === "Highlights" ? "text-blue-500" : ""}`}
+            className={`flex flex-col w-20 rounded-2xl size-md p-1 m-1 ${activeComponent === "Highlights" ? "text-blue-500" : ""}`}
             onClick={() => handleClick("Highlights")}
           >
             <svg
@@ -93,7 +93,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              className="size-8"
+              className="size-6"
             >
               <path
                 stroke-linecap="round"

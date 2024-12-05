@@ -68,10 +68,10 @@ const TripGallery: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen relative">
-      <div>
+      <div className="sticky top-0 justify-center">
         <div className="text-center mt-5 flex flex-col gap-4">
           <h1 className="text-2xl font-bold">
-            Hey{user?.firstName ? `, ${user.firstName}` : ""}! Welcome back
+            Hey{user?.firstName ? `, ${user.firstName}` : ""}! Welcome
           </h1>
           <div className="text-1xl text-center px-4">
             Are you ready to plan your next adventure?
