@@ -18,7 +18,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
         <li className="shadow-sm rounded-2xl ">
           <a
             type="button"
-            className={`flex flex-col w-20 rounded-2xl p-1 m-1 ${activeComponent === "Map" ? "text-green-600" : ""}`}
+            className={`flex flex-col w-20 rounded-2xl p-1 m-1 ${activeComponent === "Map" ? "text-blue-500" : ""}`}
             onClick={() => handleClick("Map")}
           >
             <svg
@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
         </li>
         <li className="shadow-sm rounded-2xl">
           <a
-            className={`flex flex-col w-20 rounded-2xl p-1 m-1  ${activeComponent === "Todo" ? "text-green-600" : ""}`}
+            className={`flex flex-col w-20 rounded-2xl p-1 m-1  ${activeComponent === "Todo" ? "text-blue-500" : ""}`}
             onClick={() => handleClick("Todo")}
           >
             <svg
@@ -62,7 +62,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
         </li>
         <li className="shadow-sm rounded-2xl">
           <a
-            className={`flex flex-col w-20 rounded-2xl p-1 m-1 ${activeComponent === "ToPack" ? "text-green-600" : ""}`}
+            className={`flex flex-col w-20 rounded-2xl p-1 m-1 ${activeComponent === "ToPack" ? "text-blue-500" : ""}`}
             onClick={() => handleClick("ToPack")}
           >
             <svg
@@ -84,7 +84,7 @@ const Footer: React.FC<FooterProps> = ({ setVisibleComponent }) => {
         </li>
         <li className="shadow-sm rounded-2xl">
           <a
-            className={`flex flex-col w-20 rounded-2xl p-1 m-1 ${activeComponent === "Highlights" ? "text-green-600" : ""}`}
+            className={`flex flex-col w-20 rounded-2xl p-1 m-1 ${activeComponent === "Highlights" ? "text-blue-500" : ""}`}
             onClick={() => handleClick("Highlights")}
           >
             <svg
