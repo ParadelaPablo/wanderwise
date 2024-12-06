@@ -38,7 +38,7 @@ public class HighlightsService {
                 .orElseThrow(() -> new RuntimeException("Trip not found"));
 
         Song song = null;
-        if (!highlightRequest.getSongTitle().isEmpty()) {
+        if (highlightRequest.getSongTitle() != null && !highlightRequest.getSongTitle().isEmpty()) {
             song = Song.builder()
                     .title(highlightRequest.getSongTitle())
                     .artist(highlightRequest.getArtist())

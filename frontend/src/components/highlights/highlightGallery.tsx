@@ -1,41 +1,25 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import HighlightCard from "./highLightCard";
-
-const BACKEND_GET_HIGHLIGHT = "http://localhost:8080/api/highlights/trip/";
+import { Highlight } from "@/lib/types";
+import { fetchHighlights } from "@/lib/api";
 
 interface HighlightGalleryProps {
   tripId2: string; // Define tripId2 explicitly
 }
 
-interface Highlight {
-  id: number;
-  text: string;
-  title: string;
-  imageUrl?: string;
-  songUrl?: string;
-}
-
 const HighlightGallery: React.FC<HighlightGalleryProps> = ({ tripId2 }) => {
-
-  const fetchHighlights = async (tripId: number): Promise<Highlight[]> => {
-    console.log("Fetching highlights...");
-    const response = await axios.get(BACKEND_GET_HIGHLIGHT + tripId);
-    console.log("Response received:", response.data);
-    return response.data;
-  };
-
-
   const {
     data: highlights,
     isLoading,
     isError,
     error,
   } = useQuery<Highlight[]>({
-    queryKey: ["highlights", tripId2],
-    queryFn: () => fetchHighlights(Number(tripId2)),
-    staleTime: 1000 * 60 * 5,
-    refetchOnWindowFocus: true,
+    queryKey: ["highlights_data"],
+    queryFn: () => {
+      return fetchHighlights(Number(tripId2));
+    },
+    // staleTime: 1000 * 60 * 5,
+    // refetchOnWindowFocus: true,
   });
 
   if (isLoading) {
