@@ -18,7 +18,7 @@ export const Drawer = ({ days, setDays, totalTravelTime }: DrawerProps) => {
       <div className="drawer-content flex flex-col items-center justify-center">
         {/* Page content here */}
         <label htmlFor="my-drawer" className="btn btn-primary drawer-button">
-          Navigate
+          Add a trip
         </label>
       </div>
       <div className="drawer-side">
