@@ -11,7 +11,7 @@ export const DaySchema = z.object({
         name: z.string().min(1),
       })
     )
-    .min(1, "At least one stop is required"),
+    .min(2, "At least two stops are required"),
 });
 
 export const FullTripSchema = z.object({

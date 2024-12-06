@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  FaRegTrashAlt } from "react-icons/fa";
+import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 import { deleteHighlight } from "@/lib/api";
 import { toast } from "react-toastify";
 import { Highlight } from "@/lib/types";
@@ -30,27 +30,27 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
   const [updateButtonContent, setUpdateButtonContent] =
     useState("Update highlight");
 
-    const mutation = useMutation({
-      mutationFn: deleteHighlight,  
-      onMutate: () => {
-        // Show the loading state when deletion starts
-        toast.info('Deleting highlight...');
-      },
-      onError: (error: Error) => {
-        // Handle errors
-        toast.error(`Error deleting highlight: ${error.message}`);
-      },
-      onSuccess: () => {
-        // Invalidate and refetch relevant queries after deletion
-        queryClient.invalidateQueries({queryKey:['highlights_data']}); 
-        toast.success('Highlight deleted successfully');
-      },
-    });
-  
-    const handleDelete = () => {
-      // Call the mutation
-      mutation.mutate(highlightInfo.id);
-    };
+  const mutation = useMutation({
+    mutationFn: deleteHighlight,
+    onMutate: () => {
+      // Show the loading state when deletion starts
+      toast.info("Deleting highlight...");
+    },
+    onError: (error: Error) => {
+      // Handle errors
+      toast.error(`Error deleting highlight: ${error.message}`);
+    },
+    onSuccess: () => {
+      // Invalidate and refetch relevant queries after deletion
+      queryClient.invalidateQueries({ queryKey: ["highlights_data"] });
+      toast.success("Highlight deleted successfully");
+    },
+  });
+
+  const handleDelete = () => {
+    // Call the mutation
+    mutation.mutate(highlightInfo.id);
+  };
 
   const goToSpotify = () => {
     window.open(songUrl, "_blank");
@@ -93,14 +93,16 @@ const HighlightCard: React.FC<HighlightCardProps> = ({ highlightInfo }) => {
                 className="hover:bg-red-500 hover:rounded hover:text-white"
                 onClick={handleDelete}
               >
-                <a className="font-bold border-b border-1">
-                  {deleteButtonContent}
-                </a>
+                <a className=" border-b border-1">{deleteButtonContent}</a>
               </li>
               <li className="hover:bg-yellow-400 hover:rounded hover:text-white">
-                <a className="font-bold border-b border-1">
-                  {updateButtonContent}
-                </a>
+                <button
+                  type="button"
+                  className="hover:bg-yellow-400 hover:rounded hover:text-white"
+                >
+                  <FaRegEdit />
+                  Edit highlight
+                </button>
               </li>
             </ul>
           </div>
