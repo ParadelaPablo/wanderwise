@@ -1,4 +1,5 @@
 import { useRouter } from "@tanstack/react-router";
+import { useState } from "react";
 import { FaRegEdit, FaRegTrashAlt } from "react-icons/fa";
 
 type TripCardProps = {
@@ -26,7 +27,7 @@ const getRandomString = (): string => {
 
 const TripCard = ({ id, title, onDelete}: TripCardProps) => {
   const router = useRouter();
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   return (
     <div>
       <div className="w-full relative">
@@ -80,9 +81,13 @@ const TripCard = ({ id, title, onDelete}: TripCardProps) => {
           onClick={() => router.navigate({ to: `/dashboard/trips/${id}` })}
         >
           <img
-            className="w-full h-full object-cover"
+              className={`w-full h-full object-cover transition-opacity duration-500 ${
+                imageLoaded ? "opacity-100" : "opacity-0"
+              }`}
+              onLoad={() => setImageLoaded(true)}
             src={getRandomString()}
             alt=""
+            style={{ animation: "fadeIn 1s ease-in-out" }}
           />
           <p className="absolute top-0 left-0 w-full min-h-9 flex gap-2 bg-base-100/80 text-base-content px-4 py-2 shadow-md shadow-black/20 dark:shadow-gray-800">
             {title}
