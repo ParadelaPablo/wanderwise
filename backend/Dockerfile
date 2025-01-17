@@ -5,23 +5,9 @@ FROM maven:3.9.4-eclipse-temurin-17
 WORKDIR /app
 
 
+COPY ./backend/pom.xml .
+COPY ./backend/src ./src
 
-COPY pom.xml .
-
-
-
-COPY src src
-
-# Accept build arguments for PostgreSQL environment variables
-ARG DB_URL
-ARG DB_USERNAME
-ARG DB_PASSWORD
-
-
-# Set PostgreSQL environment variables
-ENV DB_URL=${DB_URL}
-ENV DB_USERNAME=${DB_USERNAME}
-ENV DB_PASSWORD=${DB_PASSWORD}
 
 # Building a package
 RUN mvn clean package
