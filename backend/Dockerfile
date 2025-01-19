@@ -11,7 +11,7 @@ RUN mvn dependency:go-offline -B
 # Copia el código fuente al contenedor
 COPY src ./src
 
-# Construye el proyecto, generando el archivo JAR sin ejecutar pruebas
+# Construye el proyecto
 RUN mvn clean package -DskipTests
 
 # Usa una imagen más ligera para ejecutar el JAR
@@ -20,8 +20,8 @@ FROM eclipse-temurin:17-jre-alpine
 # Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia el archivo de configuración .env
-COPY .env /app/.env
+# Copia el archivo de configuración .env desde el backend
+COPY backend/.env /app/.env
 
 # Copia el archivo JAR desde la etapa anterior
 COPY --from=build /app/target/wanderwise-0.0.1-SNAPSHOT.jar app.jar
