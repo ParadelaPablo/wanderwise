@@ -21,7 +21,7 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 # Copia el archivo de configuración .env desde el backend
-COPY ./.env /app/.env
+COPY backend/.env /app/.env
 
 # Copia el archivo JAR desde la etapa anterior
 COPY --from=build /app/target/wanderwise-0.0.1-SNAPSHOT.jar app.jar
