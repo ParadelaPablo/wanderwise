@@ -1,21 +1,33 @@
-# Use a base image with Java installed
-FROM maven:3.9.4-eclipse-temurin-17
+# Usa una imagen base de Maven para compilar el proyecto
+FROM maven:3.9.4-eclipse-temurin-17 as build
 
-# Set the working directory in the container
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
+# Copia el archivo pom.xml y descarga las dependencias
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-COPY ./backend/pom.xml .
-COPY ./backend/src ./src
+# Copia el código fuente al contenedor
+COPY src ./src
 
+# Construye el proyecto
+RUN mvn clean package -DskipTests
 
-# Building a package
-RUN mvn clean package
+# Usa una imagen más ligera para ejecutar el JAR
+FROM eclipse-temurin:17-jre-alpine
 
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /app
 
+# Copia el archivo de configuración .env
+COPY .env /app/.env
 
-# Expose the port on which the application will run
+# Copia el archivo JAR desde la etapa anterior
+COPY --from=build /app/target/wanderwise-0.0.1-SNAPSHOT.jar app.jar
+
+# Expone el puerto de la aplicación
 EXPOSE 8080
 
-# Run the application   
-ENTRYPOINT ["java", "-jar", "./target/wanderwise-0.0.1-SNAPSHOT.jar"]
+# Define el comando de inicio de la aplicación
+ENTRYPOINT ["java", "-jar", "app.jar"]
