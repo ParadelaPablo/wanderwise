@@ -11,7 +11,7 @@ RUN mvn dependency:go-offline -B
 # Copia el código fuente al contenedor
 COPY src ./src
 
-# Construye el proyecto
+# Construye el proyecto, generando el archivo JAR sin ejecutar pruebas
 RUN mvn clean package -DskipTests
 
 # Usa una imagen más ligera para ejecutar el JAR
